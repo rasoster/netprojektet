@@ -17,6 +17,7 @@ namespace netprojektet.Models.ViewModels
 
     [Required(ErrorMessage = "Vänligen Bekräfta Lösenordet.")]
     [DataType(DataType.Password)]
+    [Compare("Password")]
     [Display(Name = "Bekrafta losenordet")]
     public string ConfirmPassword { get; set; }
 }

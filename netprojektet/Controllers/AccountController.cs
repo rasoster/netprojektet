@@ -26,6 +26,7 @@ namespace netprojektet.Controllers
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
@@ -33,8 +34,8 @@ namespace netprojektet.Controllers
             {
                 Anvandare anvandare = new Anvandare();
                 anvandare.UserName = registerViewModel.UserName;
-               
 
+               
                 var result = await userManager.CreateAsync(anvandare,registerViewModel.Password);
 
                 if (result.Succeeded)

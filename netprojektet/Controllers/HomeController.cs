@@ -15,7 +15,7 @@ namespace netprojektet.Controllers
             linkedoutDbContext = DbContext;
         }
 
-        [Authorize]
+        //[Authorize] lägger till så att man måste logga in innan homepagen syns
         public IActionResult Index()
         {
             List<Profile> profileList = linkedoutDbContext.Profiles.ToList();
