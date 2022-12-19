@@ -2,6 +2,7 @@
 using netprojektet.Models;
 using System.Diagnostics;
 using netprojektet.Models.DataLayer;
+using Microsoft.AspNetCore.Authorization;
 
 namespace netprojektet.Controllers
 {
@@ -14,6 +15,7 @@ namespace netprojektet.Controllers
             linkedoutDbContext = DbContext;
         }
 
+        [Authorize]
         public IActionResult Index()
         {
             List<Profile> profileList = linkedoutDbContext.Profiles.ToList();

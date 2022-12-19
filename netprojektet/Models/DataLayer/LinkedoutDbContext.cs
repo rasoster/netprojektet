@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace netprojektet.Models.DataLayer;
 
-public partial class LinkedoutDbContext : DbContext
+public partial class LinkedoutDbContext : IdentityDbContext<Anvandare>
 {
     public LinkedoutDbContext()
     {
@@ -36,6 +39,7 @@ public partial class LinkedoutDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Competence>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("PK__competen__3214EC27203929FD");
