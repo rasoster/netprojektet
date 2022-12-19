@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using netprojektet.Models.DataLayer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Proxies;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,10 +10,11 @@ builder.Services.AddControllersWithViews();
 IConfiguration configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", true, true)
     .Build();
-builder.Services.AddDbContext<LinkedoutDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("LinkedoutDBContext")));
+builder.Services.AddDbContext<LinkedoutDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("LinkedoutDBContext")));
 builder.Services.AddIdentity<Anvandare,IdentityRole>()
     .AddEntityFrameworkStores<LinkedoutDbContext>();
 var app = builder.Build();
+
 
 
 // Configure the HTTP request pipeline.

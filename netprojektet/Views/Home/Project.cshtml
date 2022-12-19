@@ -1,0 +1,30 @@
+﻿@model List<netprojektet.Models.DataLayer.Project>
+
+    
+<div class="text-center">
+    <div>
+        <table class="table">
+            @{
+                <caption>Projekt i urval</caption>
+                
+                <tr>
+                    <th>Skapare</th>
+                    <th>Titel</th>
+                    <th>Beskrivning</th>
+                </tr>
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.Creator.FirstName @item.Creator.LastName</td>
+                        <td>@item.Title</td>
+                        <td>@item.Description</td>
+                        
+                    </tr>
+                }
+
+            }
+
+        </table>
+
+    </div>
+</div>

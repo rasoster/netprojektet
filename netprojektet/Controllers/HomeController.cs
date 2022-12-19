@@ -24,15 +24,21 @@ namespace netprojektet.Controllers
             return View(profileList);
         }
 
-        public IActionResult Privacy()
+        public IActionResult Project()
         {
-            return View();
+            List<Project> projectList= linkedoutDbContext.Projects.ToList();
+            return View(projectList);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public IActionResult Projects()
+        {
+            List<Project> projectlist = linkedoutDbContext.Projects.ToList();
+            return View(projectlist);
         }
     }
 }
