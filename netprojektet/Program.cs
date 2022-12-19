@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using netprojektet.Models.DataLayer;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,7 +10,8 @@ IConfiguration configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", true, true)
     .Build();
 builder.Services.AddDbContext<LinkedoutDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("LinkedoutDBContext")));
-
+builder.Services.AddIdentity<Anvandare,IdentityRole>()
+    .AddEntityFrameworkStores<LinkedoutDbContext>();
 var app = builder.Build();
 
 
@@ -27,6 +29,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",
