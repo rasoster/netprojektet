@@ -1,14 +1,25 @@
 ﻿@model List<netprojektet.Models.DataLayer.Profile>
 
+
+<header>
+
+    <h1>LinkedUT</h1>
+
+</header>
+<input type="text" />
+<button type="button">Sök profiler</button>
+
+
+
 <div class="text-center">
-    <h1>test</h1>
     <div>
         <table class="table">
             @{
-                <caption>Böcker</caption>
+                <caption>Profiler i urval</caption>
+                
                 <tr>
-                    <th>Namn</th>
-                    <th>beskrivning</th>
+                    <th>Förnamn</th>
+                    <th>Efternamn</th>
                 </tr>
                 foreach (var item in Model)
                 {
