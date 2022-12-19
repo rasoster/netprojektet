@@ -33,8 +33,6 @@ public partial class LinkedoutDbContext : DbContext
 
     public virtual DbSet<User> Users { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        => optionsBuilder.UseSqlServer("data source=LAPTOP-938D6QQ7\\root;TrustServerCertificate=true;Initial catalog=LinkedoutDB;Integrated security=true");
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
