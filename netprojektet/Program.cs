@@ -1,9 +1,17 @@
+using Microsoft.EntityFrameworkCore;
+using netprojektet.Models.DataLayer;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+IConfiguration configuration = new ConfigurationBuilder()
+    .AddJsonFile("appsettings.json", true, true)
+    .Build();
+builder.Services.AddDbContext<LinkedoutDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("LinkedoutDBContext")));
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

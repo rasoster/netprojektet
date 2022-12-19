@@ -1,21 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using netprojektet.Models;
 using System.Diagnostics;
+using netprojektet.Models.DataLayer;
 
 namespace netprojektet.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private LinkedoutDbContext linkedoutDbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(LinkedoutDbContext DbContext)
         {
-            _logger = logger;
+            linkedoutDbContext = DbContext;
         }
 
         public IActionResult Index()
         {
-            return View();
+            List<Profile> profileList = linkedoutDbContext.Profiles.ToList();
+            
+
+            return View(profileList);
         }
 
         public IActionResult Privacy()
