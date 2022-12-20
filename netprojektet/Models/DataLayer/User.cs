@@ -1,9 +1,17 @@
-﻿using Microsoft.AspNetCore.Identity;
-namespace netprojektet.Models.DataLayer
+﻿using System;
+using System.Collections.Generic;
 
+namespace netprojektet.Models.DataLayer;
+
+public partial class User
 {
-    public class User:IdentityUser
-    {
-        public virtual Profile profile { get; set; }
-    }
+    public int Id { get; set; }
+
+    public string? Username { get; set; }
+
+    public string? Password { get; set; }
+
+    public int? ProfileId { get; set; }
+
+    public virtual Profile? Profile { get; set; }
 }

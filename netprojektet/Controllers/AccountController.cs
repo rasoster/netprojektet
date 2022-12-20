@@ -3,20 +3,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using netprojektet.Models.DataLayer;
 using netprojektet.Models.ViewModels;
-using System.Security.Claims;
 
 namespace netprojektet.Controllers
 {
     public class AccountController : Controller
     {
-        private UserManager<User> userManager;
-        private SignInManager<User> signInManager;
-        private LinkedoutDbContext _dbContext;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, LinkedoutDbContext dbContext)
+        private UserManager<Anvandare> userManager;
+        private SignInManager<Anvandare> signInManager;
+
+        public AccountController(UserManager<Anvandare> userManager, SignInManager<Anvandare> signInManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
-            _dbContext = dbContext;
         }
         [HttpGet]
         public IActionResult LogIn()
@@ -35,7 +33,7 @@ namespace netprojektet.Controllers
         {
             if(ModelState.IsValid)
             {
-                User anvandare = new User();
+                Anvandare anvandare = new Anvandare();
                 anvandare.UserName = registerViewModel.UserName;
 
                
@@ -44,7 +42,7 @@ namespace netprojektet.Controllers
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(anvandare, isPersistent: true);
-                    return RedirectToAction("RegisterProfile");
+                    return RedirectToAction("Index", "Home");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -77,20 +75,5 @@ namespace netprojektet.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-        [HttpGet]
-        public IActionResult RegisterProfile()
-        {
-            return View(new Profile());
-        }
-        [HttpPost]
-        public IActionResult AddProfile(Profile profile)
-        {
-
-            profile.UserName = HttpContext.User.Identity.Name;
-            _dbContext.Profiles.Add(profile);
-            _dbContext.SaveChanges();
-            return RedirectToAction("Index", "Home");
-        }
-        
     }
 }
