@@ -1,4 +1,4 @@
-﻿@model List<netprojektet.Models.DataLayer.Profile>
+﻿@model netprojektet.Models.ViewModels.ProfileProjectViewModel
 
 
 <header>
@@ -21,7 +21,7 @@
                     <th>Förnamn</th>
                     <th>Efternamn</th>
                 </tr>
-                foreach (var item in Model)
+                foreach (var item in Model.profiles)
                 {
                     <tr>
                         <td>@item.FirstName</td>
@@ -33,32 +33,12 @@
             }
 
         </table>
+        <div>
+           @{
+               <p>@Model.project.Description</p>
+           } 
+</div>
+           
 
     </div>
 </div>
-@{
-
-    if (!User.Identity.IsAuthenticated)
-    {
-@using (Html.BeginForm("LogIn", "Account", FormMethod.Get))
-{
-   
-    <!-- form fields go here -->
-            <button type="submit">Logga in</button>
-       
-       
-    }
-    }
-
- else
-        {
-@using (Html.BeginForm("LogOut", "Account", FormMethod.Post))
-{
-
-    <!-- form fields go here -->
-    <button type="submit">Logga Ut</button>
-
-
-}
-        }
-}

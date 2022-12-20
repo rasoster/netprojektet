@@ -3,6 +3,7 @@ using netprojektet.Models;
 using System.Diagnostics;
 using netprojektet.Models.DataLayer;
 using Microsoft.AspNetCore.Authorization;
+using netprojektet.Models.ViewModels;
 
 namespace netprojektet.Controllers
 {
@@ -18,18 +19,21 @@ namespace netprojektet.Controllers
         
         public IActionResult Index()
         {
-
-
+            var model = new ProfileProjectViewModel();
+            
             List<Profile> profileListFull = linkedoutDbContext.Profiles.ToList();
             List<Profile> profileListLimited = linkedoutDbContext.Profiles.Where(e => e.Private == false).ToList();
-
+            Project projekt = linkedoutDbContext.Projects.OrderByDescending(e => e.Id).FirstOrDefault();
+            
+            model.project = projekt;
             if (User.Identity.IsAuthenticated)
             {
-                return View(profileListFull);
+                model.profiles = profileListFull;
             }
             else { 
-            return View(profileListLimited);
+            model.profiles = profileListLimited;
             }
+            return View(model);
         }
         
 
