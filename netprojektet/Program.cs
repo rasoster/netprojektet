@@ -11,7 +11,7 @@ IConfiguration configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", true, true)
     .Build();
 builder.Services.AddDbContext<LinkedoutDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("LinkedoutDBContext")));
-builder.Services.AddIdentity<Anvandare,IdentityRole>()
+builder.Services.AddIdentity<User,IdentityRole>()
     .AddEntityFrameworkStores<LinkedoutDbContext>();
 var app = builder.Build();
 
