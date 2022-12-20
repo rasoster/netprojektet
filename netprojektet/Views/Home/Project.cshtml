@@ -5,12 +5,15 @@
     <div>
         <table class="table">
             @{
-                <caption>Projekt i urval</caption>
                 
                 <tr>
                     <th>Skapare</th>
                     <th>Titel</th>
                     <th>Beskrivning</th>
+                    <th>Antal deltagare</th>
+                    <th></th>
+                    
+
                 </tr>
                 foreach (var item in Model)
                 {
@@ -18,6 +21,9 @@
                         <td>@item.Creator.FirstName @item.Creator.LastName</td>
                         <td>@item.Title</td>
                         <td>@item.Description</td>
+                        <td>ca 3</td>
+                        <td><button asp-action = "GåMed"> Gå med i projekt </button></td>
+                        
                         
                     </tr>
                 }
@@ -25,6 +31,7 @@
             }
 
         </table>
+
 
     </div>
 </div>

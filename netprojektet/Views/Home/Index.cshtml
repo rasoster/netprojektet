@@ -15,7 +15,7 @@
     <div>
         <table class="table">
             @{
-                <caption>Profiler i urval</caption>
+                <h2>Profiler i urval</h2>
                 
                 <tr>
                     <th>Förnamn</th>
@@ -34,10 +34,18 @@
 
         </table>
         <div>
-           @{
-               <p>@Model.project.Description</p>
-           } 
-</div>
+                <h4>Det senaste tillagda projekt</h4>
+            @{
+                if (Model.project == null)
+                {
+                    <P>Det finns inga projekt att visa </P>               
+                }
+			    else{<p>@Model.project.Title</p>}
+            
+            }
+        </div>
+
+        <a asp-action = "Project" >Se alla projekt</a>
            
 
     </div>
