@@ -36,3 +36,29 @@
 
     </div>
 </div>
+@{
+
+    if (!User.Identity.IsAuthenticated)
+    {
+@using (Html.BeginForm("LogIn", "Account", FormMethod.Get))
+{
+   
+    <!-- form fields go here -->
+            <button type="submit">Logga in</button>
+       
+       
+    }
+    }
+
+ else
+        {
+@using (Html.BeginForm("LogOut", "Account", FormMethod.Post))
+{
+
+    <!-- form fields go here -->
+    <button type="submit">Logga Ut</button>
+
+
+}
+        }
+}

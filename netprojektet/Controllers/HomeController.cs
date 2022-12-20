@@ -15,14 +15,23 @@ namespace netprojektet.Controllers
             linkedoutDbContext = DbContext;
         }
 
-        //[Authorize] lägger till så att man måste logga in innan homepagen syns
+        
         public IActionResult Index()
         {
-            List<Profile> profileList = linkedoutDbContext.Profiles.ToList();
-            
 
-            return View(profileList);
+
+            List<Profile> profileListFull = linkedoutDbContext.Profiles.ToList();
+            List<Profile> profileListLimited = linkedoutDbContext.Profiles.Where(e => e.Private == false).ToList();
+
+            if (User.Identity.IsAuthenticated)
+            {
+                return View(profileListFull);
+            }
+            else { 
+            return View(profileListLimited);
+            }
         }
+        
 
         public IActionResult Project()
         {
