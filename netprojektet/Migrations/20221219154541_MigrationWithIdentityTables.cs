@@ -103,11 +103,18 @@ namespace netprojektet.Migrations
                     Visitors = table.Column<int>(type: "int", nullable: true),
                     Email = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
                     PicUrl = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
-                    Private = table.Column<bool>(type: "bit", nullable: true)
+                    Private = table.Column<bool>(type: "bit", nullable: true),
+                    UserID = table.Column<string>(type: "nvarchar(450)",maxLength:450,nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK__Profile__3214EC27AD0E7C31", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_profile_User",
+                        column: x => x.UserID,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(

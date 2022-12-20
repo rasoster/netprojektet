@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using netprojektet.Models.DataLayer;
 
@@ -11,9 +12,11 @@ using netprojektet.Models.DataLayer;
 namespace netprojektet.Migrations
 {
     [DbContext(typeof(LinkedoutDbContext))]
-    partial class LinkedoutDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221220132841_MigrationWithProjektProfileTables")]
+    partial class MigrationWithProjektProfileTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -462,24 +465,6 @@ namespace netprojektet.Migrations
                     b.ToTable("profile_has_experience", (string)null);
                 });
 
-            modelBuilder.Entity("netprojektet.Models.DataLayer.ProfileinProject", b =>
-                {
-                    b.Property<int>("Profileid")
-                        .HasColumnType("int")
-                        .HasColumnName("profileid");
-
-                    b.Property<int>("Projectid")
-                        .HasColumnType("int")
-                        .HasColumnName("ProjectID");
-
-                    b.HasKey("Profileid", "Projectid")
-                        .HasName("PK__profile_ProjectID");
-
-                    b.HasIndex("Projectid");
-
-                    b.ToTable("profile_in_Project", (string)null);
-                });
-
             modelBuilder.Entity("netprojektet.Models.DataLayer.Project", b =>
                 {
                     b.Property<int>("Id")
@@ -668,25 +653,6 @@ namespace netprojektet.Migrations
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("netprojektet.Models.DataLayer.ProfileinProject", b =>
-                {
-                    b.HasOne("netprojektet.Models.DataLayer.Profile", "Profile")
-                        .WithMany("ProfileinProjects")
-                        .HasForeignKey("Profileid")
-                        .IsRequired()
-                        .HasConstraintName("fk_profilessss_id");
-
-                    b.HasOne("netprojektet.Models.DataLayer.Project", "Project")
-                        .WithMany("ProfileinProjects")
-                        .HasForeignKey("Projectid")
-                        .IsRequired()
-                        .HasConstraintName("fk_project_id");
-
-                    b.Navigation("Profile");
-
-                    b.Navigation("Project");
-                });
-
             modelBuilder.Entity("netprojektet.Models.DataLayer.Project", b =>
                 {
                     b.HasOne("netprojektet.Models.DataLayer.Profile", "Creator")
@@ -726,16 +692,9 @@ namespace netprojektet.Migrations
 
                     b.Navigation("ProfileHasExperiences");
 
-                    b.Navigation("ProfileinProjects");
-
                     b.Navigation("ProjectsNavigation");
 
                     b.Navigation("Users");
-                });
-
-            modelBuilder.Entity("netprojektet.Models.DataLayer.Project", b =>
-                {
-                    b.Navigation("ProfileinProjects");
                 });
 #pragma warning restore 612, 618
         }

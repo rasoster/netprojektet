@@ -164,6 +164,26 @@ public partial class LinkedoutDbContext : IdentityDbContext<Anvandare>
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_profilessss_id");
         });
+        modelBuilder.Entity<ProfileinProject>(entity =>
+        {
+            entity.HasKey(e => new { e.Profileid, e.Projectid }).HasName("PK__profile_ProjectID");
+
+            entity.ToTable("profile_in_Project");
+
+            entity.Property(e => e.Profileid).HasColumnName("profileid");
+            entity.Property(e => e.Projectid).HasColumnName("ProjectID");
+            
+
+            entity.HasOne(d => d.Project).WithMany(p => p.ProfileinProjects)
+                .HasForeignKey(d => d.Projectid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_project_id");
+
+            entity.HasOne(d => d.Profile).WithMany(p => p.ProfileinProjects)
+                .HasForeignKey(d => d.Profileid)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("fk_profilessss_id");
+        });
 
         modelBuilder.Entity<ProfileHasExperience>(entity =>
         {
@@ -209,7 +229,7 @@ public partial class LinkedoutDbContext : IdentityDbContext<Anvandare>
                 .OnDelete(DeleteBehavior.ClientSetNull)
                 .HasConstraintName("fk_creator_id");
 
-            entity.HasMany(d => d.Profiles).WithMany(p => p.Projects)
+            entity.HasMany(d => d.profiles).WithMany(p => p.Projects)
                 .UsingEntity<Dictionary<string, object>>(
                     "ProfileInProject",
                     r => r.HasOne<Profile>().WithMany()

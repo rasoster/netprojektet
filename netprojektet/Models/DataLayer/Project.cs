@@ -15,5 +15,7 @@ public partial class Project
 
     public virtual Profile Creator { get; set; } = null!;
 
-    public virtual ICollection<Profile> Profiles { get; } = new List<Profile>();
+    public virtual ICollection<Profile> profiles{ get; } = new List<Profile>();
+    public virtual ICollection<ProfileinProject> ProfileinProjects { get; } = new List<ProfileinProject>();
+
 }
