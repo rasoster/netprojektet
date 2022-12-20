@@ -19,9 +19,11 @@ public partial class Profile
 
     public bool? Private { get; set; }
 
+    public string UserID { get; set; }
     public virtual ICollection<Message> Messages { get; } = new List<Message>();
 
     public virtual ICollection<ProfileHasEducation> ProfileHasEducations { get; } = new List<ProfileHasEducation>();
+    public virtual ICollection<ProfileinProject> ProfileinProjects { get; } = new List<ProfileinProject>();
 
     public virtual ICollection<ProfileHasExperience> ProfileHasExperiences { get; } = new List<ProfileHasExperience>();
 
