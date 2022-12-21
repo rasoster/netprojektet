@@ -31,6 +31,7 @@ public partial class LinkedoutDbContext : IdentityDbContext<Anvandare>
     public virtual DbSet<ProfileHasEducation> ProfileHasEducations { get; set; }
 
     public virtual DbSet<ProfileHasExperience> ProfileHasExperiences { get; set; }
+    public virtual DbSet<ProfileinProject> ProfileinProjects { get; set; }
 
     public virtual DbSet<Project> Projects { get; set; }
 

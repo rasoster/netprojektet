@@ -25,7 +25,7 @@ namespace netprojektet.Controllers
             List<Profile> profileListLimited = linkedoutDbContext.Profiles.Where(e => e.Private == false).ToList();
             Project projekt = linkedoutDbContext.Projects.OrderByDescending(e => e.Id).FirstOrDefault();
             
-            model.project = projekt;
+            model.senasteProject = projekt;
             if (User.Identity.IsAuthenticated)
             {
                 model.profiles = profileListFull;
@@ -44,8 +44,14 @@ namespace netprojektet.Controllers
 
         public IActionResult Project()
         {
-            List<Project> projectList= linkedoutDbContext.Projects.ToList();
-            return View(projectList);
+            var model = new ProfileProjectViewModel();
+
+            model.project = linkedoutDbContext.Projects.ToList();
+            model.profiles = linkedoutDbContext.Profiles.ToList();
+            model.profileInProject = linkedoutDbContext.ProfileinProjects.ToList();
+
+            return View(model);
+            
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

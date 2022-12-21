@@ -1,3 +1,4 @@
+use LinkedoutDB
 delete from profile_has_competence;
 delete from profile_has_education;
 delete from profile_has_experience;

@@ -36,11 +36,11 @@
         <div>
                 <h4>Det senaste tillagda projekt</h4>
             @{
-                if (Model.project == null)
+                if (Model.senasteProject == null)
                 {
                     <P>Det finns inga projekt att visa </P>               
                 }
-			    else{<p>@Model.project.Title</p>}
+			    else{<p>@Model.senasteProject.Title</p>}
             
             }
         </div>
