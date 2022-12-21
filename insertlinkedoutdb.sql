@@ -9,6 +9,18 @@ delete from profile;
 delete from competence;
 delete from education;
 delete from experience;
+delete from AspNetUsers;
+DBCC CHECKIDENT ('Profile', RESEED, 0);
+DBCC CHECKIDENT ('competence', RESEED, 0);
+DBCC CHECKIDENT ('education', RESEED, 0);
+DBCC CHECKIDENT ('experience', RESEED, 0);
+DBCC CHECKIDENT ('message', RESEED, 0);
+DBCC CHECKIDENT ('Project', RESEED, 0);
+insert into AspNetUsers values
+('8a91112b-4526-4644-be48-06b841dd1c77','Rasmus123','RASMUS123',null,null,0,'AQAAAAIAAYagAAAAEDIS6XnOeFUB/157fpHHwC+W9ZNDl+/aVAd7iIsX2Ac+LgjPZ37gzDHAqD3zcNaKoQ==','P4DOHSK2CDSM6PROG7YHYOW2RD7IGMVQ','b20aa105-6b31-4eb8-83c9-fc975427ff24',null,0,0,null,1,0),
+('ce947255-d180-4c7b-a554-8d061c5270fa','Becca123','BECCA123',NULL,NULL,0,'AQAAAAIAAYagAAAAEJZ2rdP8Hddn6JMoKbj6E/wK66ft+1OgMwAwn5Pw5k6Nvy0NJyrXnXzN33eyoiEb/A==','HCNQCTGBXI2BUBZOM55PFXTXCCX3QZP2','2de4d326-f6bf-451b-a56d-da73da2ef03e',NULL,0,0,NULL,1,0),
+('e03711f2-70fc-4e92-985e-582875a1c0f7','Erik123','ERIK123',NULL,NULL,0,'AQAAAAIAAYagAAAAEK2564zph7NGrhLmKUxXM2/F0Yjg0PqmqWmOdqUpsS3/cuw7c1T/a8TU7qcUZo5niA==','AEFGKLINQGXSD25PZVA6S7RUTKIRW65U','de48d6e6-fd4e-4d31-940d-759698a804a3',NULL,0,0,NULL,1,0),
+('c18a65ca-04cb-44cc-aece-e887355c4c24','Filip123','FILIP123',NULL,NULL,0,'AQAAAAIAAYagAAAAECJ1OcvmT03p8ONDU78nY1A9nN515m9BpH/GMPj+hnEcwZB84foMHzJKDJPJH0oQIw==','GS2U2M6EYDE4LDIXLT3I4RC4C3ZK4GWD','9baee366-8da4-4ad4-8153-809270e01bdf',NULL,0,0,NULL,1,0)
 
 insert into experience values 
 ('Spotify', 'Utveckalde spotify wrapped'),
@@ -26,19 +38,15 @@ insert into competence values
 ('HTML', 'Ser mig själv som frontend')
 
 insert into [Profile] values 
-('Erik', 'Askerblom', 750, 'erik.askerblom@hotmail.com', null, 0),
-('Filip', 'Erlingmark', 4, 'fillefotboll@gmail.com', null, 1),
-('Rebecca', 'Molnstrand', 100, 'molnet@cloud.com', null, 1)
+('Erik', 'Askerblom', 750, 'erik.askerblom@hotmail.com', null, 0,'Erik123'),
+('Filip', 'Erlingmark', 4, 'fillefotboll@gmail.com', null, 1,'Filip123'),
+('Rebecca', 'Molnstrand', 100, 'molnet@cloud.com', null, 1,'Becca123'),
+('Rasmus','Österberg',500,'Ras.osterberg@gmail.com',null,1,'Rasmus123')
 
 insert into message values
 ('Urgent', 'Jag måste komma i kontakt med dig, återkom nu.', '2022-12-19',0, 1),
 ('Test', 'Hej. Jag testar min nya mailfunktion.', '2021-05-12',1,2),
 ('Nytt betyg inraporterat i Ladok.', 'U tyvärr', '2022-12-15', 1,3)
-
-insert into users values
-('erikask', 'hej123',1),
-('lenny', 'fotbollenhej', 2),
-('rere10','handbroms',3)
 
 insert into project values
 ('Byggde nya västlänken', 'Rimfrost', 2),

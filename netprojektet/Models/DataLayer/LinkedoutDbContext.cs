@@ -120,7 +120,9 @@ public partial class LinkedoutDbContext : IdentityDbContext<Anvandare>
             entity.Property(e => e.FirstName).HasMaxLength(200);
             entity.Property(e => e.LastName).HasMaxLength(200);
             entity.Property(e => e.PicUrl).HasMaxLength(200);
+            entity.Property(e => e.UserName).HasMaxLength(450);
 
+            entity.HasOne(e => e.user).WithOne(a => a.Profile).HasPrincipalKey<Profile>(a => a.UserName);
             entity.HasMany(d => d.Competences).WithMany(p => p.Profiles)
                 .UsingEntity<Dictionary<string, object>>(
                     "ProfileHasCompetence",
@@ -132,6 +134,7 @@ public partial class LinkedoutDbContext : IdentityDbContext<Anvandare>
                         .HasForeignKey("Profileid")
                         .OnDelete(DeleteBehavior.ClientSetNull)
                         .HasConstraintName("fk_profilesss_id"),
+                    
                     j =>
                     {
                         j.HasKey("Profileid", "Competenceid").HasName("PK__profile___809453B2A4295BDF");
@@ -258,9 +261,7 @@ public partial class LinkedoutDbContext : IdentityDbContext<Anvandare>
             entity.Property(e => e.ProfileId).HasColumnName("profileID");
             entity.Property(e => e.Username).HasMaxLength(200);
 
-            entity.HasOne(d => d.Profile).WithMany(p => p.Users)
-                .HasForeignKey(d => d.ProfileId)
-                .HasConstraintName("fk_profile_id");
+            
         });
 
         OnModelCreatingPartial(modelBuilder);

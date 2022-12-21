@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using netprojektet.Models.DataLayer;
 
@@ -11,9 +12,11 @@ using netprojektet.Models.DataLayer;
 namespace netprojektet.Migrations
 {
     [DbContext(typeof(LinkedoutDbContext))]
-    partial class LinkedoutDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221221073600_wkey")]
+    partial class wkey
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -397,11 +400,6 @@ namespace netprojektet.Migrations
                     b.Property<bool?>("Private")
                         .HasColumnType("bit");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasMaxLength(450)
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<int?>("Visitors")
                         .HasColumnType("int");
 
@@ -528,19 +526,12 @@ namespace netprojektet.Migrations
                         .HasColumnType("int")
                         .HasColumnName("profileID");
 
-                    b.Property<string>("ProfileUserName")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<string>("Username")
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("Id")
                         .HasName("PK__users__3214EC2775F0E23F");
-
-                    b.HasIndex("ProfileUserName")
-                        .IsUnique()
-                        .HasFilter("[ProfileUserName] IS NOT NULL");
 
                     b.ToTable("users", (string)null);
                 });
@@ -704,16 +695,6 @@ namespace netprojektet.Migrations
                     b.Navigation("Creator");
                 });
 
-            modelBuilder.Entity("netprojektet.Models.DataLayer.User", b =>
-                {
-                    b.HasOne("netprojektet.Models.DataLayer.Profile", "Profile")
-                        .WithOne("user")
-                        .HasForeignKey("netprojektet.Models.DataLayer.User", "ProfileUserName")
-                        .HasPrincipalKey("netprojektet.Models.DataLayer.Profile", "UserName");
-
-                    b.Navigation("Profile");
-                });
-
             modelBuilder.Entity("netprojektet.Models.DataLayer.Education", b =>
                 {
                     b.Navigation("ProfileHasEducations");
@@ -735,9 +716,6 @@ namespace netprojektet.Migrations
                     b.Navigation("ProfileinProjects");
 
                     b.Navigation("ProjectsNavigation");
-
-                    b.Navigation("user")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("netprojektet.Models.DataLayer.Project", b =>
