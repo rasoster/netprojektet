@@ -38,7 +38,8 @@ namespace netprojektet.Controllers
         
         public IActionResult Profile()
         {
-            return View();
+            Profile myProfile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == HttpContext.User.Identity.Name);
+            return View(myProfile);
         }
 
         public IActionResult Project()
