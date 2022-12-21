@@ -1,0 +1,83 @@
+﻿@model netprojektet.Models.ViewModels.ProfileProjectViewModel
+
+    
+<div class="text-center">
+    <div>
+        <table class="table">
+            @{
+                
+                <tr>
+                    <th>Skapare</th>
+                    <th>Titel</th>
+                    <th>Beskrivning</th>
+                    <th>Deltagare</th>
+                    <th></th>
+                    
+
+                </tr>
+                foreach (var item in Model.project)
+                {
+
+                    List<netprojektet.Models.DataLayer.ProfileinProject> members = Model.profileInProject.Where(e => e.Projectid == item.Id).ToList();
+
+                    string namn ="";
+                    foreach(var member in members)
+                    {
+                        if (User.Identity.IsAuthenticated)
+                        {
+                            namn += member.Profile.FirstName;
+                            namn += " ";
+                        }
+                        else
+                        {
+                            if(member.Profile.Private == true)
+                            {
+
+                            }
+                            else
+                            {
+                                namn += member.Profile.FirstName;
+                                namn += " ";
+                            }
+                        }
+
+                    }
+
+                    int userID = (from p in members
+                                  where p.Profile.UserName == User.Identity.Name
+                                  select p.Profileid).FirstOrDefault();
+
+
+                    var inProject = (from p in Model.profileInProject
+                                     where p.Profileid == userID && p.Projectid == item.Id
+                                     select p).FirstOrDefault();
+
+
+                    <tr>
+                        <td>@item.Creator.FirstName @item.Creator.LastName</td>
+                        <td>@item.Title</td>
+                        <td>@item.Description</td>
+						<td>@namn</td>
+                        @{    
+                        if(User.Identity.IsAuthenticated)
+                        {
+                        if(inProject == null)
+                        {
+                        <td><button asp-action = "GåMed" asp-root-projectID = "@item.Id" asp-root-userID = "@userID"> Gå med i projekt </button></td>
+                        }
+                        else
+                        {
+                            <td><button asp-action = "GåUr"> Gå ur detta projekt</button></td>
+                        }
+                        }
+                        }
+                    </tr>
+                }
+
+            }
+
+        </table>
+
+
+    </div>
+</div>

@@ -44,13 +44,8 @@ namespace netprojektet.Controllers
 
         public IActionResult Project()
         {
-            var model = new ProfileProjectViewModel();
 
-            model.project = linkedoutDbContext.Projects.ToList();
-            model.profiles = linkedoutDbContext.Profiles.ToList();
-            model.profileInProject = linkedoutDbContext.ProfileinProjects.ToList();
-
-            return View(model);
+            return RedirectToAction("Project", "Project");
             
         }
 
