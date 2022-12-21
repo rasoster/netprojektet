@@ -10,11 +10,13 @@ namespace netprojektet.Controllers
     {
         private UserManager<Anvandare> userManager;
         private SignInManager<Anvandare> signInManager;
+        private LinkedoutDbContext _dbContext;
 
-        public AccountController(UserManager<Anvandare> userManager, SignInManager<Anvandare> signInManager)
+        public AccountController(UserManager<Anvandare> userManager, SignInManager<Anvandare> signInManager, LinkedoutDbContext dbContext)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            _dbContext = dbContext;
         }
         [HttpGet]
         public IActionResult LogIn()
@@ -42,7 +44,7 @@ namespace netprojektet.Controllers
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(anvandare, isPersistent: true);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("RegisterProfile");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -74,6 +76,23 @@ namespace netprojektet.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+        [HttpGet]
+        public IActionResult RegisterProfile()
+        {
+            return View(new Profile());
+        }
+        [HttpPost]
+        public IActionResult RegisterProfile(Profile newProfile)
+        {
+
+                newProfile.UserName = HttpContext.User.Identity.Name;
+                newProfile.Visitors = 0;
+                _dbContext.Add(newProfile);
+                _dbContext.SaveChanges();
+                return RedirectToAction("Profile", "Home");
+                
+        
         }
     }
 }

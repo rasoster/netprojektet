@@ -1,0 +1,43 @@
+﻿@model netprojektet.Models.DataLayer.Profile
+<form asp-action="RegisterProfile" method="post">
+
+    <table class="table table-light">
+        <tr>
+            <td>
+                <label>FirstName</label>
+                <input asp-for="FirstName" type="text" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>LastName</label>
+                <input asp-for="LastName" type="text" />
+            </td>
+        </tr>
+         <tr>
+            <td>
+                <label>Email</label>
+                <input asp-for="Email" type="text" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>PicUrl</label>
+                <input asp-for="PicUrl" type="text" />
+            </td>
+        </tr>
+         <tr>
+            <td>
+                <label>Privat profil?</label>
+                <input type="checkbox" name="Private" value="true" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                
+                <input type="submit" value="Spara" class="btn-primary" />
+            </td>
+        </tr>
+    </table>
+
+</form>
