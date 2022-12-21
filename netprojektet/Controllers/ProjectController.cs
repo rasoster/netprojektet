@@ -38,16 +38,28 @@ namespace netprojektet.Controllers
 
             profileinProject.Projectid = projectID;
             profileinProject.Profileid = profileinProject.Profile.Id;
-            _linkedoutDbContext.Add(profileinProject);
+            _linkedoutDbContext.ProfileinProjects.Add(profileinProject);
             _linkedoutDbContext.SaveChanges(); 
             
 
             return RedirectToAction("Project");
         }
 
-        public IActionResult GåUr()
+        public IActionResult GåUr(int project)
         {
-            return View();
+            int profileID = (from p in _linkedoutDbContext.Profiles
+                             where p.UserName == User.Identity.Name
+                             select p.Id).FirstOrDefault();
+
+
+            ProfileinProject profileinP = (from p in _linkedoutDbContext.ProfileinProjects
+                                           where p.Profileid == profileID && p.Projectid == project
+                                           select p).FirstOrDefault();
+
+            _linkedoutDbContext.ProfileinProjects.Remove(profileinP);
+            _linkedoutDbContext.SaveChanges();
+
+            return RedirectToAction("Project");
         }
     }
 }

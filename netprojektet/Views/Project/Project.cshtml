@@ -73,7 +73,13 @@
                                 }
                                 else
                                 {
-                                    <td><button asp-action = "GåUr"> Gå ur detta projekt</button></td>
+                                     <td>
+                    
+                                        <form asp-action="GåUr" asp-route-project="@inProject.Projectid">
+
+                                            <button type ="submit"> Gå ur projektet </button>
+                                        </form>
+                                    </td>
                                 }
                             }
                         }
