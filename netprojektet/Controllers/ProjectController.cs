@@ -27,11 +27,17 @@ namespace netprojektet.Controllers
 
         }
 
-        public IActionResult GåMed(int projectID, int UserID) 
+        public IActionResult GåMed(int projectID)
         {
             ProfileinProject profileinProject = new ProfileinProject();
+            profileinProject.Project = _linkedoutDbContext.Projects.Find(projectID);
+            
+            profileinProject.Profile = (from p in _linkedoutDbContext.Profiles
+                                        where p.UserName == User.Identity.Name         
+                                        select p).FirstOrDefault(); 
+
             profileinProject.Projectid = projectID;
-            profileinProject.Profileid = UserID;
+            profileinProject.Profileid = profileinProject.Profile.Id;
             _linkedoutDbContext.Add(profileinProject);
             _linkedoutDbContext.SaveChanges(); 
             

@@ -58,18 +58,24 @@
                         <td>@item.Title</td>
                         <td>@item.Description</td>
 						<td>@namn</td>
-                        @{    
-                        if(User.Identity.IsAuthenticated)
-                        {
-                        if(inProject == null)
-                        {
-                        <td><button asp-action = "GåMed" asp-root-projectID = "@item.Id" asp-root-userID = "@userID"> Gå med i projekt </button></td>
-                        }
-                        else
-                        {
-                            <td><button asp-action = "GåUr"> Gå ur detta projekt</button></td>
-                        }
-                        }
+                        @{
+                            if(User.Identity.IsAuthenticated)
+                            {
+                                if (inProject == null)
+
+                                {
+                                    <td>
+                                        <form asp-action="GåMed" asp-route-projectID="@item.Id">
+
+                                            <button type ="submit"> Gå med i projekt </button>
+                                        </form>
+                                    </td>
+                                }
+                                else
+                                {
+                                    <td><button asp-action = "GåUr"> Gå ur detta projekt</button></td>
+                                }
+                            }
                         }
                     </tr>
                 }
