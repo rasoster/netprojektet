@@ -35,19 +35,8 @@ namespace netprojektet.Controllers
             }
             return View(model);
         }
+       
         
-        public IActionResult Profile()
-        {
-            Profile myProfile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == HttpContext.User.Identity.Name);
-            return View(myProfile);
-        }
-
-        public IActionResult Project()
-        {
-
-            return RedirectToAction("Project", "Project");
-            
-        }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()

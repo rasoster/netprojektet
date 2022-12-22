@@ -44,7 +44,7 @@ namespace netprojektet.Controllers
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(anvandare, isPersistent: true);
-                    return RedirectToAction("RegisterProfile");
+                    return RedirectToAction("RegisterProfile","Profile");
                 }
                 foreach (var error in result.Errors)
                 {
@@ -77,22 +77,6 @@ namespace netprojektet.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
-        [HttpGet]
-        public IActionResult RegisterProfile()
-        {
-            return View(new Profile());
-        }
-        [HttpPost]
-        public IActionResult RegisterProfile(Profile newProfile)
-        {
-
-                newProfile.UserName = HttpContext.User.Identity.Name;
-                newProfile.Visitors = 0;
-                _dbContext.Add(newProfile);
-                _dbContext.SaveChanges();
-                return RedirectToAction("Profile", "Home");
-                
         
-        }
     }
 }

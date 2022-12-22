@@ -1,0 +1,20 @@
+﻿@model netprojektet.Models.DataLayer.Profile
+
+<div>
+    @{
+        <h1>@Model.FirstName</h1>
+        <h1>@Model.LastName</h1>
+        <h1>@Model.Email</h1>
+        if (@Model.Private == true)
+        {
+            <h1>Din Profil är privat</h1>
+        }
+        else
+        {
+            <h1>Din Profil är offentlig</h1>
+        }
+        <img src="/Content/Images/AnmProfile.png" alt="Profile Picture">
+        <a asp-controller="Profile" asp-action="UpdateProfile" asp-route-profileID="@Model.Id">Redigera profil</a>
+    }
+</div>
+
