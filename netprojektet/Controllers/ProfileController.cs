@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using netprojektet.Models.DataLayer;
+using netprojektet.Models.ViewModels;
 
 namespace netprojektet.Controllers
 {
@@ -16,14 +17,27 @@ namespace netprojektet.Controllers
         [HttpGet]
         public IActionResult Profile(int profileID)
         {
-            Profile myProfile = linkedoutDbContext.Profiles.Find(profileID);
+            ProfileViewModel profileViewModel = new ProfileViewModel();
+            
             if (profileID == -1) 
             { 
-                myProfile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
+                profileViewModel.profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
                 
             }
-            
-            return View(myProfile);
+            else
+            {
+                profileViewModel.profile = linkedoutDbContext.Profiles.Find(profileID);
+            }
+            profileViewModel.profileHasEducation = linkedoutDbContext.ProfileHasEducations.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
+            profileViewModel.profileHasExperience = linkedoutDbContext.ProfileHasExperiences.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
+            profileViewModel.profileinProject = linkedoutDbContext.ProfileinProjects.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
+            profileViewModel.project = linkedoutDbContext.Projects.ToList();
+            profileViewModel.Experience = linkedoutDbContext.Projects.ToList();
+            profileViewModel.Education = linkedoutDbContext.Projects.ToList();
+
+
+
+            return View(profileViewModel);
 
         }
         [HttpGet]
@@ -53,9 +67,11 @@ namespace netprojektet.Controllers
         [HttpPost]
         public IActionResult UpdateProfile(Profile uppdatedProfile)
         {
+            uppdatedProfile.UserName = User.Identity.Name;
             linkedoutDbContext.Profiles.Update(uppdatedProfile);
             linkedoutDbContext.SaveChanges();
             return RedirectToAction("Profile");
+            
 
         }
     }

@@ -7,11 +7,11 @@ namespace netprojektet.Controllers
 {
     public class ProjectController : Controller
     {
-        private LinkedoutDbContext _linkedoutDbContext;
+        private LinkedoutDbContext linkedoutDbContext;
 
         public ProjectController(LinkedoutDbContext linkedoutDbContext)
         {
-            _linkedoutDbContext = linkedoutDbContext;
+            this.linkedoutDbContext = linkedoutDbContext;
         }
 
 
@@ -20,9 +20,9 @@ namespace netprojektet.Controllers
 
             var model = new ProfileProjectViewModel();
 
-            model.project = _linkedoutDbContext.Projects.ToList();
-            model.profiles = _linkedoutDbContext.Profiles.ToList();
-            model.profileInProject = _linkedoutDbContext.ProfileinProjects.ToList();
+            model.project = linkedoutDbContext.Projects.ToList();
+            model.profiles = linkedoutDbContext.Profiles.ToList();
+            model.profileInProject = linkedoutDbContext.ProfileinProjects.ToList();
             return View(model);
 
         }
@@ -30,16 +30,16 @@ namespace netprojektet.Controllers
         public IActionResult GåMed(int projectID)
         {
             ProfileinProject profileinProject = new ProfileinProject();
-            profileinProject.Project = _linkedoutDbContext.Projects.Find(projectID);
+            profileinProject.Project = linkedoutDbContext.Projects.Find(projectID);
             
-            profileinProject.Profile = (from p in _linkedoutDbContext.Profiles
+            profileinProject.Profile = (from p in linkedoutDbContext.Profiles
                                         where p.UserName == User.Identity.Name         
                                         select p).FirstOrDefault(); 
 
             profileinProject.Projectid = projectID;
             profileinProject.Profileid = profileinProject.Profile.Id;
-            _linkedoutDbContext.ProfileinProjects.Add(profileinProject);
-            _linkedoutDbContext.SaveChanges(); 
+            linkedoutDbContext.ProfileinProjects.Add(profileinProject);
+            linkedoutDbContext.SaveChanges(); 
             
 
             return RedirectToAction("Project");
@@ -47,18 +47,51 @@ namespace netprojektet.Controllers
 
         public IActionResult GåUr(int project)
         {
-            int profileID = (from p in _linkedoutDbContext.Profiles
+            int profileID = (from p in linkedoutDbContext.Profiles
                              where p.UserName == User.Identity.Name
                              select p.Id).FirstOrDefault();
 
 
-            ProfileinProject profileinP = (from p in _linkedoutDbContext.ProfileinProjects
+            ProfileinProject profileinP = (from p in linkedoutDbContext.ProfileinProjects
                                            where p.Profileid == profileID && p.Projectid == project
                                            select p).FirstOrDefault();
 
-            _linkedoutDbContext.ProfileinProjects.Remove(profileinP);
-            _linkedoutDbContext.SaveChanges();
+            linkedoutDbContext.ProfileinProjects.Remove(profileinP);
+            linkedoutDbContext.SaveChanges();
 
+            return RedirectToAction("Project");
+        }
+        [HttpGet]
+        public IActionResult addProject()
+        {
+            return View(new Project());
+        }
+        [HttpPost]
+        public IActionResult AddProject(Project newProject)
+        {
+            Profile creator = linkedoutDbContext.Profiles.Where(e => e.UserName == User.Identity.Name).First();
+
+            newProject.Creator = creator;
+            newProject.CreatorId = creator.Id;
+            
+            linkedoutDbContext.Add(newProject);
+            linkedoutDbContext.SaveChanges();
+            return RedirectToAction("Project");
+
+
+        }
+        [HttpGet]
+        public IActionResult UpdateProject(int projectID)
+        {
+            Project projektToUpdate = linkedoutDbContext.Projects.Find(projectID);
+
+            return View(projektToUpdate);
+        }
+        [HttpPost]
+        public IActionResult UpdateProject(Project updatedProject)
+        {
+            linkedoutDbContext.Update(updatedProject);
+            linkedoutDbContext.SaveChanges();
             return RedirectToAction("Project");
         }
     }

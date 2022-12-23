@@ -1,0 +1,24 @@
+﻿@model netprojektet.Models.DataLayer.Project
+<form asp-action="AddProject" method="post">
+
+    <table class="table table-light">
+        <tr>
+            <td>
+                <label>Titel</label>
+                <input asp-for="Title" type="text" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Beskrivning</label>
+                <input asp-for="Description" type="text" />
+            </td>
+        <tr>
+            <td>
+                
+                <input type="submit" value="Spara" class="btn-primary" />
+            </td>
+        </tr>
+    </table>
+
+</form>

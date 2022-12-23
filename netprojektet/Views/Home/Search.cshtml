@@ -1,0 +1,35 @@
+﻿@model List<netprojektet.Models.DataLayer.Profile>
+@{
+    <form asp-action="Search" method="post">
+    <input type="text" name="Query" placeholder="Skriv namn här"/>
+    <button type="submit">Sök</button>
+    </form>
+    if(Model.Count == 0)
+    {
+        <h1>Inga resultat</h1>
+    }
+    else{
+    <table class="table">
+        @{
+            <h2>Profiler i urval</h2>
+
+            <tr>
+                <th>Förnamn</th>
+                <th>Efternamn</th>
+            </tr>
+            foreach (var item in Model)
+            {
+                <tr>
+                   <td>
+                            <a asp-controller="Profile" asp-action="Profile" asp-route-profileID="@item.Id">@item.FirstName</a>
+                        </td>
+                    <td>@item.LastName</td>
+
+                </tr>
+            }
+
+        }
+
+    </table>
+    }
+}
