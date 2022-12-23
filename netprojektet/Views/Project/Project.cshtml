@@ -82,13 +82,24 @@
                                     </td>
                                 }
                             }
+
                         }
+                     
+                            @{
+                                if(@item.Creator.UserName == User.Identity.Name)
+                                {
+                                <td><a asp-action="UpdateProject" asp-route-projectID="@item.Id">Redigera projekt</a> </td>
+                                }
+                            }
                     </tr>
                 }
 
             }
 
         </table>
+        <form asp-action="addProject" method="get">
+            <button type="submit">Skapa nytt projekt</button>
+        </form>
 
 
     </div>

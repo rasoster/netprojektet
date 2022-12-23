@@ -6,9 +6,10 @@
     <h1>LinkedUT</h1>
 
 </header>
-<input type="text" />
-<button type="button">Sök profiler</button>
-
+<form asp-action="Search" method="post">
+    <input type="text" name="Query" placeholder="Skriv namn här"/>
+    <button type="submit">Sök</button>
+</form>
 
 
 <div class="text-center">
@@ -24,7 +25,10 @@
                 foreach (var item in Model.profiles)
                 {
                     <tr>
-                        <td>@item.FirstName</td>
+                        <td>
+                            <a asp-controller="Profile" asp-action="Profile" asp-route-profileID="@item.Id">@item.FirstName</a>
+                        </td>
+
                         <td>@item.LastName</td>
                         
                     </tr>
@@ -45,7 +49,7 @@
             }
         </div>
 
-        <a asp-action = "Project" >Se alla projekt</a>
+        <a asp-controller="Project" asp-action = "Project" >Se alla projekt</a>
            
 
     </div>
