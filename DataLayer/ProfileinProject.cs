@@ -1,4 +1,4 @@
-﻿namespace netprojektet.Models.DataLayer
+﻿namespace Models
 {
     public class ProfileinProject
     {

@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
-using netprojektet.Models.DataLayer;
+using Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Proxies;
+using DataAccessLayer;
+
 
 var builder = WebApplication.CreateBuilder(args);
 

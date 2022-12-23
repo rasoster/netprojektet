@@ -1,8 +1,8 @@
 ﻿using Azure.Core.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using netprojektet.Models.DataLayer;
-using netprojektet.Models.ViewModels;
+using Models;
+using DataAccessLayer;
 
 namespace netprojektet.Controllers
 {

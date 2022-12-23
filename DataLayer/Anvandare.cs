@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
-namespace netprojektet.Models.DataLayer
+namespace Models
 
 {
     public class Anvandare:IdentityUser

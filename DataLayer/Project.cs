@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace netprojektet.Models.DataLayer;
+namespace Models;
 
 public partial class Project
 {

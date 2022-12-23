@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using netprojektet.Models.DataLayer;
-using netprojektet.Models.ViewModels;
+using Models;
 using System.Linq.Expressions;
+using DataAccessLayer;
 
 namespace netprojektet.Controllers
 {

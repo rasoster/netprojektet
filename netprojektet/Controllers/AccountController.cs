@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using netprojektet.Models.DataLayer;
-using netprojektet.Models.ViewModels;
+using DataAccessLayer;
+using Models;
 
 namespace netprojektet.Controllers
 {

@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using netprojektet.Models;
+using Models;
 using System.Diagnostics;
-using netprojektet.Models.DataLayer;
 using Microsoft.AspNetCore.Authorization;
-using netprojektet.Models.ViewModels;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Collections.Generic;
 using System.ComponentModel;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using DataAccessLayer;
 
 namespace netprojektet.Controllers
 {

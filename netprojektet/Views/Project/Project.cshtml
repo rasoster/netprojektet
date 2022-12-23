@@ -1,4 +1,4 @@
-﻿@model netprojektet.Models.ViewModels.ProfileProjectViewModel
+﻿@model Models.ProfileProjectViewModel
 
     
 <div class="text-center">
@@ -18,7 +18,7 @@
                 foreach (var item in Model.project)
                 {
 
-                    List<netprojektet.Models.DataLayer.ProfileinProject> members = Model.profileInProject.Where(e => e.Projectid == item.Id).ToList();
+                    List<ProfileinProject> members = Model.profileInProject.Where(e => e.Projectid == item.Id).ToList();
 
                     string namn ="";
                     foreach(var member in members)

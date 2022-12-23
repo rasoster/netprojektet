@@ -1,4 +1,4 @@
-namespace netprojektet.Models
+namespace Models
 {
     public class ErrorViewModel
     {

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace netprojektet.Models.DataLayer;
+namespace Models;
 
-public partial class Competence
+public partial class Education
 {
     public int Id { get; set; }
 
@@ -11,5 +11,5 @@ public partial class Competence
 
     public string? Description { get; set; }
 
-    public virtual ICollection<Profile> Profiles { get; } = new List<Profile>();
+    public virtual ICollection<ProfileHasEducation> ProfileHasEducations { get; } = new List<ProfileHasEducation>();
 }

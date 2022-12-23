@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace netprojektet.Models.DataLayer;
+namespace Models;
 
 public partial class Profile
 {

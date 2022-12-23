@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Models;
 
-namespace netprojektet.Models.DataLayer;
+namespace DataAccessLayer
+{ 
 
 public partial class LinkedoutDbContext : IdentityDbContext<Anvandare>
 {
@@ -269,4 +271,6 @@ public partial class LinkedoutDbContext : IdentityDbContext<Anvandare>
     }
 
     partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+}
+
 }

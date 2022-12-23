@@ -1,5 +1,7 @@
-﻿using netprojektet.Models.DataLayer;
-namespace netprojektet.Models.ViewModels
+﻿using Models;
+
+
+namespace Models
 {
     public class ProfileViewModel
     {
