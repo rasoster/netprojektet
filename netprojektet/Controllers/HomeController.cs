@@ -7,6 +7,7 @@ using netprojektet.Models.ViewModels;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Collections.Generic;
 using System.ComponentModel;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace netprojektet.Controllers
 {
@@ -43,26 +44,65 @@ namespace netprojektet.Controllers
         public IActionResult Search()
         {
             string searchQuery = Request.Form["Query"].ToString();
-           
+            var searchQuerys = searchQuery.Split(" ");
+            List<Profile> results = new List<Profile>();
+            List<Profile> profiles = new List<Profile>();
 
-            var profiles = linkedoutDbContext.Profiles
-                      .Where(p => p.FirstName.Contains(searchQuery) || p.LastName.Contains(searchQuery))
-                      .ToList();
+            if(searchQuery == null)
+            {
+                return View();
+            }
+            if(searchQuerys.Length == 1) {
+                
+                profiles = linkedoutDbContext.Profiles.Where(p => p.FirstName.Contains(searchQuery) || p.LastName.Contains(searchQuery)).ToList();
             
+            }
+            if(searchQuerys.Length == 2)
+            {
 
-            //  (from p in linkedoutDbContext.Profiles
-            //where searchTerms.Any(t => p.FirstName.StartsWith(t))
-            //select p).ToList();
+                foreach (var query in searchQuerys)
+                {
 
-            return View(profiles);
-            
+                    List<Profile> queryResults = linkedoutDbContext.Profiles.Where(p => p.FirstName.Contains(searchQuerys[0]) && p.LastName.Contains(searchQuerys[1])
+                                                    || p.LastName.Contains(searchQuerys[0]) && p.FirstName.Contains(searchQuerys[1])).ToList();
+
+                    foreach(Profile queryProfile in queryResults)
+                    {
+                        profiles.Add(queryProfile);
+                    }
+
+                }
+
+            }
+            else
+            {
+                foreach (var query in searchQuerys)
+                {
 
 
+                    List<Profile> queryResults = linkedoutDbContext.Profiles
+                             .Where(p => p.FirstName.Contains(query) || p.LastName.Contains(query)).ToList();
 
+                    foreach (Profile queryProfile in queryResults)
+                    {
+                        profiles.Add(queryProfile);
+                    }
 
+                }
 
+            }
+            foreach (Profile profile in profiles)
+            {
+                if (results.Contains(profile))
+                {
 
-
+                }
+                else
+                {
+                    results.Add(profile);
+                }
+            }
+            return View(results);
         }
 
 
