@@ -12,7 +12,7 @@ builder.Services.AddControllersWithViews();
 IConfiguration configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json", true, true)
     .Build();
-builder.Services.AddDbContext<LinkedoutDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("LinkedoutDBContext")));
+builder.Services.AddDbContext<LinkedoutDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("LinkedoutDBContext"),b => b.MigrationsAssembly("netprojektet")));
 builder.Services.AddIdentity<Anvandare,IdentityRole>()
     .AddEntityFrameworkStores<LinkedoutDbContext>();
 var app = builder.Build();
