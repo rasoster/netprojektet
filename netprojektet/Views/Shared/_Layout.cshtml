@@ -32,9 +32,13 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Project" Method="Get">Projekt</a>
                         </li>
+                        @if(User.Identity.IsAuthenticated)
+                        {
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Message" asp-action="Message">Inkorg</a>
                         </li>
+                        }
+                        
                         @{
 
                             if (!User.Identity.IsAuthenticated)
