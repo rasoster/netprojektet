@@ -25,5 +25,14 @@ namespace netprojektet.Controllers
             return View(messages);
 
         }
+        public IActionResult SaveRead(int id, Boolean Seen)
+        {
+            Message message = _DbContext.Messages.Find(id);
+            message.Seen = Seen;
+            _DbContext.Messages.Update(message);
+            _DbContext.SaveChanges();
+            
+            return RedirectToAction("Message");
+        }
     }
 }
