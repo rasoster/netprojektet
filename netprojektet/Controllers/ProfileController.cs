@@ -67,10 +67,15 @@ namespace netprojektet.Controllers
         [HttpPost]
         public IActionResult UpdateProfile(Profile uppdatedProfile)
         {
-            uppdatedProfile.UserName = User.Identity.Name;
-            linkedoutDbContext.Profiles.Update(uppdatedProfile);
+            Profile profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
+            profile.FirstName = uppdatedProfile.FirstName;
+            profile.LastName = uppdatedProfile.LastName;
+            profile.Email = uppdatedProfile.Email;
+            profile.Private = uppdatedProfile.Private;
+            profile.PicUrl = uppdatedProfile.PicUrl;
+            linkedoutDbContext.Profiles.Update(profile);
             linkedoutDbContext.SaveChanges();
-            return RedirectToAction("Profile");
+            return RedirectToAction("Profile",new {profileID = profile.Id});
             
 
         }
