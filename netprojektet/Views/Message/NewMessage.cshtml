@@ -1,0 +1,55 @@
+﻿@model Models.Message
+<form asp-action="SendMessage">
+
+    <table class="table table-light">
+        <tr>
+            <td>
+                <label>Titel</label>
+                <input asp-for="Title" type="text" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Innehåll</label>
+                <input asp-for="Content" type="text" />
+            </td>
+        
+        
+            @{
+                if(User.Identity.IsAuthenticated)
+                {
+                  <tr> 
+                    <td>
+
+                <label> Avsändare </label>
+                <input asp-for="SenderName" type="text" readonly/>
+                    </td>
+                   </tr> 
+                }
+                else
+                {
+                <tr>
+            <td>
+
+                <label> Avsändare </label>
+                <input asp-for="SenderName" type="text"/>
+            </td>
+        </tr>
+                }
+        }
+
+        <tr>
+            <td>
+
+                <input type="submit" value="Skicka" class="btn-primary" />
+            </td>
+        </tr>
+    </table>
+
+    <input asp-for="Times" hidden/>
+    <input asp-for="Seen" hidden/>
+    <input asp-for="Reciever" hidden />
+    <input asp-for="RecieverNavigation" hidden />
+
+
+</form>

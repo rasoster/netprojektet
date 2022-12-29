@@ -22,14 +22,37 @@
                 
                
                     <tr>
+
                     <td>@item.SenderName</td>
                     <td>@item.Title</td>
                     <td>@item.Content</td>
                    
                         <td>
-                            <form asp-action="SaveRead" asp-route-id="@item.Id" asp-route-Seen="@item.Seen">
-                                <input type="checkbox" onclick="MakeRead(this)" checked="@item.Seen"/>
-                            </form>
+                            @{
+                                
+                                    if (item.Seen == false)
+
+                                    {
+                                    
+                                        <form asp-action="MessageSeen" asp-route-itemid="@item.Id">
+
+                                            <button type="submit"> Markera som läst </button>
+                                        </form>
+                                    
+                                    }
+                                    else
+                                    {
+                                    
+
+                                    <form asp-action="MessageUnSeen" asp-route-itemid="@item.Id">
+
+                                            <button type="submit"> Markera som oläst </button>
+                                        </form>
+                                    
+                                    }
+                                
+
+                            }
                         </td>
                     
                     

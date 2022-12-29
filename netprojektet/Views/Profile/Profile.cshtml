@@ -90,6 +90,13 @@
 
 
             </table>
-    }
+	}
+    
+    <form asp-controller="Message" asp-action="NewMessage" asp-route-profileid="@Model.profile.Id">
+
+		<button type="submit"> Skicka meddelande </button>
+	</form>
+
 </div>
+
 

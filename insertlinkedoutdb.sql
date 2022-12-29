@@ -45,9 +45,9 @@ insert into [Profile] values
 ('Rasmus','Österberg',500,'Ras.osterberg@gmail.com',null,1,'Rasmus123')
 
 insert into message values
-('Urgent', 'Jag måste komma i kontakt med dig, återkom nu.', '2022-12-19',0, 1),
-('Test', 'Hej. Jag testar min nya mailfunktion.', '2021-05-12',1,2),
-('Nytt betyg inraporterat i Ladok.', 'U tyvärr', '2022-12-15', 1,3)
+('Urgent', 'Jag måste komma i kontakt med dig, återkom nu.', '2022-12-19',0, 1, 'Rasmus'),
+('Test', 'Hej. Jag testar min nya mailfunktion.', '2021-05-12',1,2, 'Ask'),
+('Nytt betyg inraporterat i Ladok.', 'U tyvärr', '2022-12-15', 1,3,'Håkans')
 
 insert into project values
 ('Byggde nya västlänken', 'Rimfrost', 2),
