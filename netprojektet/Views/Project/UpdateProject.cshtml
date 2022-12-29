@@ -1,8 +1,13 @@
-﻿@model Models.Project
+﻿@model Project
 <form asp-action="UpdateProject" method="post">
 
     <table class="table table-light">
-       
+       <tr>
+           <td>
+               <label>ID</label>
+               <input asp-for="Id" readonly />
+           </td>
+       </tr>
         <tr>
             <td>
                 <label>Titel</label>

@@ -90,7 +90,10 @@ namespace netprojektet.Controllers
         [HttpPost]
         public IActionResult UpdateProject(Project updatedProject)
         {
-            linkedoutDbContext.Update(updatedProject);
+            Project theProject = linkedoutDbContext.Projects.FirstOrDefault(p => p.Id == updatedProject.Id);
+            theProject.Title = updatedProject.Title;
+            theProject.Description = updatedProject.Description;
+            linkedoutDbContext.Update(theProject);
             linkedoutDbContext.SaveChanges();
             return RedirectToAction("Project");
         }
