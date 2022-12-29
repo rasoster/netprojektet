@@ -18,4 +18,6 @@ public partial class Message
     public int? Reciever { get; set; }
 
     public virtual Profile? RecieverNavigation { get; set; }
+
+    public string SenderName { get; set; }
 }

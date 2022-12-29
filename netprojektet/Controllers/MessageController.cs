@@ -16,9 +16,13 @@ namespace netprojektet.Controllers
         }
         public IActionResult Message()
         {
-
-
-            return View("Message");
+            
+            int profileid = (from p in _DbContext.Profiles
+                           where p.UserName == User.Identity.Name
+                           select p.Id).FirstOrDefault();
+            
+            List<Message> messages = _DbContext.Messages.Where(m => m.Reciever == profileid).ToList();
+            return View(messages);
 
         }
     }

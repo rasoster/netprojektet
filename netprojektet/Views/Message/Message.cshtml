@@ -1,7 +1,5 @@
-﻿
-@{
-    ViewData["Title"] = "Message";
-}
+﻿@model List<Message>
+
 
 <h1>Meddelanden</h1>
 
@@ -17,19 +15,27 @@
 
                 
                  </tr>
-              
-                    <td> peter </td>
-                    <td>hhhh</td>
-                    <td>Content</td>
-                    <td>
-                        <input type="checkbox" onclick="MarkAsRead(this)" checked='<%= IsRead %>'/>
-                        <script>
-                                function MarkAsRead(checkbox){
-                                    IsRead = checkbox.checked;
-                                }
-                        </script>
+            @{
+                foreach(var item in Model)
+                {
+                    <tr>
+                    <td>@item.SenderName</td>
+                    <td>@item.Title</td>
+                    <td>@item.Content</td>
+                   
+                        <td>
+                     
+                            <input type="checkbox" onclick="MarkAsRead(this)" checked="@item.Seen"/>
 
-                    </td>
+                        </td>
+                    
+                    
+                    </tr>
+
+
+                }
+                
+            }
                     
 
                 
