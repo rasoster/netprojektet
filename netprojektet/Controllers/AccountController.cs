@@ -49,7 +49,7 @@ namespace netprojektet.Controllers
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
-
+                
             }
                 return View(registerViewModel);
             

@@ -9,6 +9,7 @@ namespace netprojektet.Controllers
     public class MessageController : Controller
     {
         private LinkedoutDbContext _DbContext;
+       
 
         public MessageController(LinkedoutDbContext linkedoutDbContext)
         {

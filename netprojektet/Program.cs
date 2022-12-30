@@ -3,7 +3,7 @@ using Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Proxies;
 using DataAccessLayer;
-
+using System.Net.Security;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +15,15 @@ IConfiguration configuration = new ConfigurationBuilder()
 builder.Services.AddDbContext<LinkedoutDbContext>(options => options.UseLazyLoadingProxies().UseSqlServer(configuration.GetConnectionString("LinkedoutDBContext"),b => b.MigrationsAssembly("netprojektet")));
 builder.Services.AddIdentity<Anvandare,IdentityRole>()
     .AddEntityFrameworkStores<LinkedoutDbContext>();
+
+HttpClientHandler clientHandler = new HttpClientHandler();
+clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, sslPolicyErrors) => { return true; };
+
+HttpClient client = new HttpClient(clientHandler);
+client.BaseAddress = new Uri("https://localhost:7014/api/");
+
+builder.Services.AddSingleton<HttpClient>(client);
+
 var app = builder.Build();
 
 
