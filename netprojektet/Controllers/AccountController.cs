@@ -31,15 +31,15 @@ namespace netprojektet.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
-        {
+        { //kontrollerar om alla fält i ViewModel fyllts it
             if(ModelState.IsValid)
             {
                 Anvandare anvandare = new Anvandare();
                 anvandare.UserName = registerViewModel.UserName;
 
-               
+               //skapar användare
                 var result = await userManager.CreateAsync(anvandare,registerViewModel.Password);
-
+               //om lyckat loggas användare in och hänvisas till skapa profil sidan
                 if (result.Succeeded)
                 {
                     await signInManager.SignInAsync(anvandare, isPersistent: true);
@@ -58,7 +58,7 @@ namespace netprojektet.Controllers
        [HttpPost]
        public async Task<IActionResult> LogIn(LoginViewModel loginViewModel)
         {
-            
+            //loggar in användare
             if (ModelState.IsValid)
             {
                 var result = await signInManager.PasswordSignInAsync(loginViewModel.Username, loginViewModel.Password, isPersistent: loginViewModel.RememberMe, lockoutOnFailure: false);
@@ -72,7 +72,7 @@ namespace netprojektet.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> LogOut()
-        {
+        {   //loggar ut användare
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }

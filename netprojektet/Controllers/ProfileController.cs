@@ -14,16 +14,18 @@ namespace netprojektet.Controllers
         {
            linkedoutDbContext = DbContext;
         }
+        //tar in profilID och tar fram den profil som ska visas.
         [HttpGet]
         public IActionResult Profile(int profileID)
         {
             ProfileViewModel profileViewModel = new ProfileViewModel();
-            
+            //om man klickar på "min profil" skickas värdet -1 för att sedan ersättas med rätt värde med hjälp av user.Identity
             if (profileID == -1) 
             { 
                 profileViewModel.profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
                 
             }
+            //annars används profilID parametern
             else
             {
                 profileViewModel.profile = linkedoutDbContext.Profiles.Find(profileID);
@@ -40,11 +42,13 @@ namespace netprojektet.Controllers
             return View(profileViewModel);
 
         }
+        //startar registrera profil formuläret
         [HttpGet]
         public IActionResult RegisterProfile()
         {
             return View(new Profile());
         }
+        //skickar registrera profil formuläret
         [HttpPost]
         public IActionResult RegisterProfile(Profile newProfile)
         {
@@ -57,16 +61,19 @@ namespace netprojektet.Controllers
 
 
         }
+        //startar uppdatera profil formuläret
         [HttpGet]
         public IActionResult UpdateProfile(int profileID)
         {
             Profile profile = linkedoutDbContext.Profiles.Find(profileID);
             return View(profile);
         }
-
+        //Uppdaterar profilen
         [HttpPost]
         public IActionResult UpdateProfile(Profile uppdatedProfile)
         {
+            //Det var problem med foreign key i denna tabell så nedan lösning har implementerats.
+            //kopierar över all info från viewModel till den existerande profilen.
             Profile profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
             profile.FirstName = uppdatedProfile.FirstName;
             profile.LastName = uppdatedProfile.LastName;

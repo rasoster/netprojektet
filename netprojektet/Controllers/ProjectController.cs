@@ -14,10 +14,10 @@ namespace netprojektet.Controllers
             this.linkedoutDbContext = linkedoutDbContext;
         }
 
-
+        //tar fram alla projekt
         public IActionResult Project()
         {
-
+           
             var model = new ProfileProjectViewModel();
 
             model.project = linkedoutDbContext.Projects.ToList();
@@ -26,7 +26,7 @@ namespace netprojektet.Controllers
             return View(model);
 
         }
-
+        //för att gå med i projekt
         public IActionResult GåMed(int projectID)
         {
             ProfileinProject profileinProject = new ProfileinProject();
@@ -44,7 +44,7 @@ namespace netprojektet.Controllers
 
             return RedirectToAction("Project");
         }
-
+        //för att gå ur projekt
         public IActionResult GåUr(int project)
         {
             int profileID = (from p in linkedoutDbContext.Profiles
@@ -61,11 +61,13 @@ namespace netprojektet.Controllers
 
             return RedirectToAction("Project");
         }
+        //startar nytt projekt formuläret
         [HttpGet]
         public IActionResult addProject()
         {
             return View(new Project());
         }
+        //skickar nytt projekt formuläret
         [HttpPost]
         public IActionResult AddProject(Project newProject)
         {
@@ -80,6 +82,7 @@ namespace netprojektet.Controllers
 
 
         }
+        //startar uppdatera projekt formuläret
         [HttpGet]
         public IActionResult UpdateProject(int projectID)
         {
@@ -87,9 +90,10 @@ namespace netprojektet.Controllers
 
             return View(projektToUpdate);
         }
+        //skickar uppdatera projekt formuläret
         [HttpPost]
         public IActionResult UpdateProject(Project updatedProject)
-        {
+        {   //samma som profil. Problem med foreign key så kopierar över information från viewModel till existerande objektet.
             Project theProject = linkedoutDbContext.Projects.FirstOrDefault(p => p.Id == updatedProject.Id);
             theProject.Title = updatedProject.Title;
             theProject.Description = updatedProject.Description;

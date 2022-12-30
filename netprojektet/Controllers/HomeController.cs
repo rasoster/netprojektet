@@ -22,13 +22,13 @@ namespace netprojektet.Controllers
 
         
         public IActionResult Index()
-        {
+        {   
             var model = new ProfileProjectViewModel();
-            
+            //lägger till en lista i viewModel baserat på om profilerna är privata eller inte
             List<Profile> profileListFull = linkedoutDbContext.Profiles.ToList();
             List<Profile> profileListLimited = linkedoutDbContext.Profiles.Where(e => e.Private == false).ToList();
             Project projekt = linkedoutDbContext.Projects.OrderByDescending(e => e.Id).FirstOrDefault();
-            
+            //om användaren är inloggad får hen hela listan, annars en begränsad.
             model.senasteProject = projekt;
             if (User.Identity.IsAuthenticated)
             {
@@ -41,21 +41,24 @@ namespace netprojektet.Controllers
         }
         [HttpPost]
         public IActionResult Search()
-        {
+        {//delar upp alla ord i frågan till en lista.
             string searchQuery = Request.Form["Query"].ToString();
             var searchQuerys = searchQuery.Split(" ");
             List<Profile> results = new List<Profile>();
             List<Profile> profiles = new List<Profile>();
-
+            //om inget skrivet i sökfältet får man hela sökfältet igen.
             if(searchQuery == null)
             {
                 return View();
             }
+            //om frågan innehåller ett ord får man resultat där ordet förekommer i förnamn eller efternamn
             if(searchQuerys.Length == 1) {
                 
                 profiles = linkedoutDbContext.Profiles.Where(p => p.FirstName.Contains(searchQuery) || p.LastName.Contains(searchQuery)).ToList();
             
             }
+            //om frågan innehåller två ord får man resultat där första ordet finns i förnamnet och andra ordet i efternamnet
+            //eller tvärt om att första ordet finns i efternamnet och andra ordet i förnamnet.
             if(searchQuerys.Length == 2)
             {
 
@@ -73,6 +76,7 @@ namespace netprojektet.Controllers
                 }
 
             }
+            //om det är fler är två ord tar den fram resultat där något av orden finns i antingen förnamn eller efternamn
             else
             {
                 foreach (var query in searchQuerys)
@@ -90,6 +94,7 @@ namespace netprojektet.Controllers
                 }
 
             }
+            //dublettkontroll
             foreach (Profile profile in profiles)
             {
                 if (results.Contains(profile))
@@ -113,8 +118,8 @@ namespace netprojektet.Controllers
         }
         public IActionResult Projects()
         {
-            List<Project> projectlist = linkedoutDbContext.Projects.ToList();
-            return View(projectlist);
+            return RedirectToAction("Project", "Project");
+         
         }
     }
 }

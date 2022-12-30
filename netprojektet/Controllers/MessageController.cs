@@ -14,9 +14,10 @@ namespace netprojektet.Controllers
         {
             _DbContext = linkedoutDbContext;
         }
+        //"inkorg" för inloggad användare
         public IActionResult Message()
         {
-            
+            //tar fram användarens profilID och visar meddelanden tillhörande denne.
             int profileid = (from p in _DbContext.Profiles
                            where p.UserName == User.Identity.Name
                            select p.Id).FirstOrDefault();
@@ -25,6 +26,7 @@ namespace netprojektet.Controllers
             return View(messages);
 
         }
+        //Sätter ett meddelande som läst
         public IActionResult MessageSeen (int itemid)
         {
             Message message = _DbContext.Messages.Find(itemid);
@@ -34,7 +36,7 @@ namespace netprojektet.Controllers
             
             return RedirectToAction("Message");
         }
-    
+        //Sätter ett meddelande som oläst
         public IActionResult MessageUnSeen (int itemid) 
         {
             Message message = _DbContext.Messages.Find(itemid);
@@ -44,7 +46,7 @@ namespace netprojektet.Controllers
 
             return RedirectToAction("Message");
         }
-        
+        //startar ett nytt meddelande till en användare
         public IActionResult NewMessage (int profileid) 
         {
             Message message = new Message(); 
@@ -62,7 +64,7 @@ namespace netprojektet.Controllers
             return View(message);
         }
 
-        
+        //skickar meddelandet.
         public IActionResult SendMessage (Message message)
         {
            
