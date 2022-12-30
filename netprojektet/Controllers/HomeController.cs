@@ -22,7 +22,8 @@ namespace netprojektet.Controllers
 
         
         public IActionResult Index()
-        {   
+        {
+            ViewBag.Meddelanden = "Du har " + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + " olästa meddelanden.";
             var model = new ProfileProjectViewModel();
             //lägger till en lista i viewModel baserat på om profilerna är privata eller inte
             List<Profile> profileListFull = linkedoutDbContext.Profiles.ToList();
@@ -39,6 +40,7 @@ namespace netprojektet.Controllers
             }
             return View(model);
         }
+      
         [HttpPost]
         public IActionResult Search()
         {//delar upp alla ord i frågan till en lista.

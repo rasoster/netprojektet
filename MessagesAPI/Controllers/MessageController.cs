@@ -37,11 +37,10 @@ namespace MessagesAPI.Controllers
         [HttpPut("{id}")]
         public void Put([FromBody] Message message) 
         {
-            if(ModelState.IsValid)
-            {
+            
                 linkedoutDbContext.Messages.Update(message);
                 linkedoutDbContext.SaveChanges();
-            }
+            
         }
         [HttpDelete]
         public void Delete(int id) 

@@ -33,8 +33,8 @@
                                     if (item.Seen == false)
 
                                     {
-                                    
-                                        <form asp-action="MessageSeen" asp-route-itemid="@item.Id">
+
+                                    <form asp-action="MessageRead" asp-route-itemid="@item.Id">
 
                                             <button type="submit"> Markera som läst </button>
                                         </form>
@@ -42,9 +42,9 @@
                                     }
                                     else
                                     {
-                                    
 
-                                    <form asp-action="MessageUnSeen" asp-route-itemid="@item.Id">
+
+                                    <form asp-action="MessageRead" asp-route-itemid="@item.Id">
 
                                             <button type="submit"> Markera som oläst </button>
                                         </form>

@@ -18,6 +18,8 @@ namespace netprojektet.Controllers
         [HttpGet]
         public IActionResult Profile(int profileID)
         {
+            ViewBag.Meddelanden = "Du har " + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + " olästa meddelanden.";
+
             ProfileViewModel profileViewModel = new ProfileViewModel();
             //om man klickar på "min profil" skickas värdet -1 för att sedan ersättas med rätt värde med hjälp av user.Identity
             if (profileID == -1) 
@@ -33,9 +35,12 @@ namespace netprojektet.Controllers
             profileViewModel.profileHasEducation = linkedoutDbContext.ProfileHasEducations.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
             profileViewModel.profileHasExperience = linkedoutDbContext.ProfileHasExperiences.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
             profileViewModel.profileinProject = linkedoutDbContext.ProfileinProjects.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
-            profileViewModel.project = linkedoutDbContext.Projects.ToList();
-            profileViewModel.Experience = linkedoutDbContext.Projects.ToList();
-            profileViewModel.Education = linkedoutDbContext.Projects.ToList();
+            
+
+            
+
+
+
 
 
 
@@ -46,6 +51,8 @@ namespace netprojektet.Controllers
         [HttpGet]
         public IActionResult RegisterProfile()
         {
+            ViewBag.Meddelanden = "Du har " + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + " olästa meddelanden.";
+
             return View(new Profile());
         }
         //skickar registrera profil formuläret
@@ -65,6 +72,8 @@ namespace netprojektet.Controllers
         [HttpGet]
         public IActionResult UpdateProfile(int profileID)
         {
+            ViewBag.Meddelanden = "Du har " + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + " olästa meddelanden.";
+
             Profile profile = linkedoutDbContext.Profiles.Find(profileID);
             return View(profile);
         }

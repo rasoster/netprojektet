@@ -17,12 +17,20 @@ namespace netprojektet.Controllers
         //tar fram alla projekt
         public IActionResult Project()
         {
-           
+            ViewBag.Meddelanden = "Du har " + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + " olästa meddelanden.";
+
             var model = new ProfileProjectViewModel();
 
-            model.project = linkedoutDbContext.Projects.ToList();
-            model.profiles = linkedoutDbContext.Profiles.ToList();
             model.profileInProject = linkedoutDbContext.ProfileinProjects.ToList();
+            model.profiles = linkedoutDbContext.Profiles.ToList();
+            if (User.Identity.IsAuthenticated)
+            {
+                model.project = linkedoutDbContext.Projects.ToList();
+            }
+            else
+            {
+                model.project = linkedoutDbContext.Projects.Where(p => p.Creator.Private == false).ToList();
+            }
             return View(model);
 
         }
@@ -65,12 +73,16 @@ namespace netprojektet.Controllers
         [HttpGet]
         public IActionResult addProject()
         {
+            ViewBag.Meddelanden = "Du har " + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + " olästa meddelanden.";
+
             return View(new Project());
         }
         //skickar nytt projekt formuläret
         [HttpPost]
         public IActionResult AddProject(Project newProject)
         {
+            ViewBag.Meddelanden = "Du har " + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + " olästa meddelanden.";
+
             Profile creator = linkedoutDbContext.Profiles.Where(e => e.UserName == User.Identity.Name).First();
 
             newProject.Creator = creator;
@@ -78,6 +90,9 @@ namespace netprojektet.Controllers
             
             linkedoutDbContext.Add(newProject);
             linkedoutDbContext.SaveChanges();
+
+            GåMed(newProject.Id);
+
             return RedirectToAction("Project");
 
 

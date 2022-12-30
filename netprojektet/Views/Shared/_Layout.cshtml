@@ -65,8 +65,17 @@
                                 }
                             }
                         }
-                       
+                        @{
+                            if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-controller="Message" asp-action="Message">@ViewBag.Meddelanden</a>
+                                
+                                
+                            }
+                        }
+                        
                     </ul>
+                    
                 </div>
             </div>
         </nav>
