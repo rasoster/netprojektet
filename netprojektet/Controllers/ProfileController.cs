@@ -62,6 +62,7 @@ namespace netprojektet.Controllers
 
             newProfile.UserName = HttpContext.User.Identity.Name;
             newProfile.Visitors = 0;
+            newProfile.PicUrl = "/Content.Images.DefaultProfilePic.jpg";
             linkedoutDbContext.Add(newProfile);
             linkedoutDbContext.SaveChanges();
             return RedirectToAction("Profile", "Home");

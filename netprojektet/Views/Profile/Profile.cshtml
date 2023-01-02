@@ -5,8 +5,11 @@
         <h1>@Model.profile.FirstName</h1>
         <h1>@Model.profile.LastName</h1>
         <h1>@Model.profile.Email</h1>
-       
-        <img src="/Content/Images/AnmProfile.png" alt="Profile Picture">
+       <div>
+            <img src="@Model.profile.PicUrl" alt="Profile Picture">
+            <button>Uppdatera bild</button>
+       </div>
+        
          if(Model.profile.UserName == User.Identity.Name){
 
         if (@Model.profile.Private == true)
