@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Models;
+using Microsoft.EntityFrameworkCore.Internal;
 
 namespace DataAccessLayer
 { 
@@ -38,6 +39,8 @@ public partial class LinkedoutDbContext : IdentityDbContext<Anvandare>
     public virtual DbSet<Project> Projects { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
+
+    public virtual DbSet<Anvandare> Anvandares { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

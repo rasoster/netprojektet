@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using DataAccessLayer;
 using Models;
+using Castle.Components.DictionaryAdapter.Xml;
 
 namespace netprojektet.Controllers
 {
@@ -28,7 +29,32 @@ namespace netprojektet.Controllers
         {
             return View();
         }
+        [HttpGet]
+        public IActionResult Account()
+        {
+            return View();
+        }
 
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View(new LoginViewModel());
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            Anvandare anvandare = _dbContext.Anvandares.FirstOrDefault(u => u.UserName == User.Identity.Name);
+            var result = await userManager.ChangePasswordAsync(anvandare, model.OldPassword, model.NewPassword);
+            if (result.Succeeded)
+            {
+                ViewBag.sucsess = "Lösenordet har nu bytts";
+            }
+            return RedirectToAction("Account", "Account");
+        }
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         { //kontrollerar om alla fält i ViewModel fyllts it
@@ -86,6 +112,7 @@ namespace netprojektet.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+
         
     }
 }

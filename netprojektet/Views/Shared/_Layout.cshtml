@@ -28,6 +28,7 @@
 		
                        
         <a class="button-goofy" asp-controller="Message" asp-action="Message">@ViewBag.Meddelanden</a>
+            <div> <a class="button-goofy" asp-area="" asp-controller="Account" asp-action="Account">Mitt Konto</a></div>
                                 
 
         @using (Html.BeginForm("LogOut", "Account", FormMethod.Post))
@@ -49,7 +50,7 @@
 
         <a class="button-goofy" asp-area="" asp-controller="Project" asp-action="Project" Method="Get">Projekt</a>
 
-
+            
         <div></div>
 
 
@@ -61,7 +62,8 @@
 
 
                 }
-	
+        
+	    
 	</header>
 
  }
