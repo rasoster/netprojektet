@@ -116,5 +116,18 @@ namespace netprojektet.Controllers
             linkedoutDbContext.SaveChanges();
             return RedirectToAction("Project");
         }
+        public IActionResult TaBort(int id)
+        {
+            List<ProfileinProject> profileinProjects = linkedoutDbContext.ProfileinProjects.Where(p => p.Projectid == id).ToList();
+            foreach(ProfileinProject profile in profileinProjects)
+            {
+                linkedoutDbContext.Remove(profile);
+            }
+
+            Project theProject = linkedoutDbContext.Projects.Find(id);
+            linkedoutDbContext.Remove(theProject);
+            linkedoutDbContext.SaveChanges();
+            return RedirectToAction("Project");
+        }
     }
 }
