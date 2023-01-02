@@ -1,5 +1,6 @@
 ﻿@model Models.ProfileViewModel
-
+@if(Model.profile.Private){
+    if(User.Identity.IsAuthenticated){
 <div>
     @{
         <h1>@Model.profile.FirstName</h1>
@@ -38,7 +39,7 @@
         }
         
         
-        <h1>utbildning</h1>
+        <h1>Utbildning</h1>
         <table class="table">
             @{
                 
@@ -122,6 +123,143 @@
 		<button type="submit"> Skicka meddelande </button>
 	</form>
 
-</div>
+        </div>
+    }
+    else
+    {
+        <h1>Här vare tomt!</h1>
+    }
+}
+else
+{
+    <div>
+        @{
+            <h1>@Model.profile.FirstName</h1>
+            <h1>@Model.profile.LastName</h1>
+            <h1>@Model.profile.Email</h1>
+            <div>
+                <img src="@Model.profile.PicUrl" alt="Profile Picture">
+                @using (Html.BeginForm("UploadPic", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                {
+                    <div class="form-group">
+                        <label asp-for="Image"></label>
+                        <input asp-for="Image" type="file" class="form-control" />
+                        <span asp-validation-for="Image"></span>
+                    </div>
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger">
+                            @TempData["ErrorMessage"]
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                }
+            </div>
+
+            if (Model.profile.UserName == User.Identity.Name)
+            {
+
+                if (@Model.profile.Private == true)
+                {
+                    <h1>Din Profil är privat</h1>
+                }
+                else
+                {
+                    <h1>Din Profil är offentlig</h1>
+                }
+                <a asp-controller="Profile" asp-action="UpdateProfile" asp-route-profileID="@Model.profile.Id">Redigera profil</a>
+            }
+
+
+            <h1>Utbildning</h1>
+            <table class="table">
+                @{
+
+
+                    <tr>
+                        <th>Titel</th>
+                        <th>Beskrivning</th>
+                    </tr>
+                    foreach (var item in Model.profileHasEducation)
+                    {
+
+                        <tr>
+                            <td>@item.Education.Name</td>
+                            <td>@item.Education.Description</td>
+
+                        </tr>
+                    }
+
+                }
+
+
+            </table>
+            <h1>Erfarenhet</h1>
+            <table class="table">
+                @{
+
+
+                    <tr>
+                        <th>Titel</th>
+                        <th>Beskrivning</th>
+                    </tr>
+                    foreach (var item in Model.profileHasExperience)
+                    {
+
+                        <tr>
+                            <td>@item.Experience.Name</td>
+                            <td>@item.Experience.Description</td>
+
+                        </tr>
+                    }
+
+                }
+
+
+            </table>
+            <h1>Projekt</h1>
+            <table class="table">
+                @{
+
+
+                    <tr>
+                        <th>Titel</th>
+                        <th>Beskrivning</th>
+                        <th>Skapare</th>
+                    </tr>
+                    foreach (var item in Model.profileinProject)
+                    {
+
+                        <tr>
+                            <td>@item.Project.Title</td>
+                            <td>@item.Project.Description</td>
+
+                            @if (@item.Project.Creator.UserName == User.Identity.Name)
+                            {
+                                <td> <a asp-controller="Project" asp-action="UpdateProject" asp-route-projectID="@item.Project.Id">Redigera projekt</a> </td>
+                            }
+                            else
+                            {
+                                <td>@item.Project.Creator.FirstName</td>
+                            }
+                        </tr>
+                    }
+
+                }
+
+
+            </table>
+        }
+
+        <form asp-controller="Message" asp-action="NewMessage" asp-route-profileid="@Model.profile.Id">
+
+            <button type="submit"> Skicka meddelande </button>
+        </form>
+
+    </div>
+
+
+
+}
 
 

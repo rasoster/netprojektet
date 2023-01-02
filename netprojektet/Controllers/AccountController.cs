@@ -45,11 +45,13 @@ namespace netprojektet.Controllers
                 myProfile.FirstName = "John";
                 myProfile.LastName = "Dough";
                 myProfile.Private = true;
-                _dbContext.Add(myProfile);
-                _dbContext.SaveChanges();
+             
+                
                //om lyckat loggas användare in och hänvisas till skapa profil sidan
                 if (result.Succeeded)
                 {
+                    _dbContext.Add(myProfile);
+                    _dbContext.SaveChanges();
                     await signInManager.SignInAsync(anvandare, isPersistent: true);
                     return RedirectToAction("RegisterProfile","Profile");
                 }

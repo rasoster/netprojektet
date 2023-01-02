@@ -89,7 +89,6 @@ namespace netprojektet.Controllers
 
 
             message.Reciever = profileid;
-            
             message.Seen = false;
             message.Times = DateTime.Now;
             

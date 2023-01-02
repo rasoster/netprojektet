@@ -51,7 +51,7 @@ namespace netprojektet.Controllers
             //om inget skrivet i sökfältet får man hela sökfältet igen.
             if(searchQuery == null)
             {
-                return View();
+                return RedirectToAction("Index");
             }
             //om frågan innehåller ett ord får man resultat där ordet förekommer i förnamn eller efternamn
             if(searchQuerys.Length == 1) {
@@ -108,7 +108,16 @@ namespace netprojektet.Controllers
                     results.Add(profile);
                 }
             }
-            return View(results);
+            List<Profile> filteredList = new List<Profile>();
+            if (User.Identity.IsAuthenticated)
+            {
+                filteredList = results;
+            }
+            else
+            {
+               filteredList = results.Where(p => p.Private == false).ToList();
+            }
+            return View(filteredList);
         }
 
 
