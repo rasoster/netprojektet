@@ -5,6 +5,7 @@ using Models;
 using DataAccessLayer;
 using System.Web;
 using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Security.Principal;
 
 namespace netprojektet.Controllers
 {
@@ -91,7 +92,6 @@ namespace netprojektet.Controllers
             profile.LastName = uppdatedProfile.LastName;
             profile.Email = uppdatedProfile.Email;
             profile.Private = uppdatedProfile.Private;
-            profile.PicUrl = uppdatedProfile.PicUrl;
             linkedoutDbContext.Profiles.Update(profile);
             linkedoutDbContext.SaveChanges();
             return RedirectToAction("Profile",new {profileID = profile.Id});
@@ -101,6 +101,10 @@ namespace netprojektet.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadPic(ProfileViewModel model)
         {
+            Profile currentProfile = linkedoutDbContext.Profiles.FirstOrDefault(e => e.UserName == User.Identity.Name);
+
+            try
+            { 
            
                 string fileName = Path.GetFileName(model.Image.FileName);
                 string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","Content", "images", fileName);
@@ -109,10 +113,14 @@ namespace netprojektet.Controllers
                     await model.Image.CopyToAsync(fileStream);
                 }
                
-            Profile currentProfile = linkedoutDbContext.Profiles.FirstOrDefault(e => e.UserName == User.Identity.Name);
             SetPicUrl(currentProfile, fileName);
-            
-            
+
+            }
+            catch(Exception ex)
+            {
+                
+            }
+
             return RedirectToAction("Profile", new { profileID = currentProfile.Id });
         }
         public void SetPicUrl(Profile currentProfile,string fileName)
