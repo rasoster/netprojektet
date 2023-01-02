@@ -23,7 +23,7 @@ namespace netprojektet.Controllers
         
         public IActionResult Index()
         {
-            ViewBag.Meddelanden = "Du har " + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + " olästa meddelanden.";
+            ViewBag.Meddelanden = "Inkorg (" + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + ")";
             var model = new ProfileProjectViewModel();
             //lägger till en lista i viewModel baserat på om profilerna är privata eller inte
             List<Profile> profileListFull = linkedoutDbContext.Profiles.ToList();

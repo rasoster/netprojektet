@@ -17,7 +17,7 @@ namespace netprojektet.Controllers
         //tar fram alla projekt
         public IActionResult Project()
         {
-            ViewBag.Meddelanden = "Du har " + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + " olästa meddelanden.";
+            ViewBag.Meddelanden = "Inkorg (" + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + ")";
 
             var model = new ProfileProjectViewModel();
 

@@ -24,7 +24,7 @@ namespace netprojektet.Controllers
         //"inkorg" för inloggad användare
         public async Task<IActionResult> Message()
         {
-            ViewBag.Meddelanden = "Du har " + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + " olästa meddelanden.";
+            ViewBag.Meddelanden = "Inkorg (" + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + ")";
 
             //hämtar Json från API
             HttpResponseMessage response = await httpClient.GetAsync("Message");

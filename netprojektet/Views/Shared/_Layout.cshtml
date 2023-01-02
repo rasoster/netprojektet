@@ -9,78 +9,64 @@
     <link rel="stylesheet" href="~/netprojektet.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css"/>
 </head>
-<body>
-    <header class="text-center">
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                @{
 
-                    if (User.Identity.IsAuthenticated)
-                    {
-                            <a class="navbar-brand" asp-area="" asp-controller="Profile" asp-action="Profile" asp-route-profileID="-1" Method="Get">Min Profil</a> 
-                    }
+@{    
+
+    if(User.Identity.IsAuthenticated)
+    {
+    <header class="headerInloggad">
+
+		<div> <a class="button-goofy" asp-area="" asp-controller="Home" asp-action="Index">Home</a></div>
+                
+        <a class="button-goofy" asp-area="" asp-controller="Profile" asp-action="Profile" asp-route-profileID="-1" Method="Get">Min Profil</a> 
+
+
+		<a class="button-goofy" asp-area="" asp-controller="Project" asp-action="Project" Method="Get">Projekt</a>
+
+
+		<div></div>
+		
+                       
+        <a class="button-goofy" asp-controller="Message" asp-action="Message">@ViewBag.Meddelanden</a>
+                                
+
+        @using (Html.BeginForm("LogOut", "Account", FormMethod.Post))
+		{	
+        <button class="button-goofy" type="submit">Logga Ut</button>
+        }
+
+				
+
+	</header>
+    }
+    else
+    {
+
+    <header class="headerUtloggad">
+
+        <div> <a class="button-goofy" asp-area="" asp-controller="Home" asp-action="Index">Home</a></div>
+  
+
+        <a class="button-goofy" asp-area="" asp-controller="Project" asp-action="Project" Method="Get">Projekt</a>
+
+
+        <div></div>
+
+
+                @using (Html.BeginForm("LogIn", "Account", FormMethod.Get))
+                {
+
+                    <!-- form fields go here -->
+                    <button class="button-goofy" type="submit">Logga in</button>
+
 
                 }
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Project" Method="Get">Projekt</a>
-                        </li>
-                        @if(User.Identity.IsAuthenticated)
-                        {
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Message" asp-action="Message">Inkorg</a>
-                        </li>
-                        }
-                        
-                        @{
+	
+	</header>
 
-                            if (!User.Identity.IsAuthenticated)
-                            {
-                                @using (Html.BeginForm("LogIn", "Account", FormMethod.Get))
-                                {
-
-                                    <!-- form fields go here -->
-                                    <button class="button-goofy" type="submit">Logga in</button>
-
-
-                                }
-                            }
-
-                            else
-                            {
-                                @using (Html.BeginForm("LogOut", "Account", FormMethod.Post))
-                                {
-
-                                    <!-- form fields go here -->
-                                    <button class="button-goofy" type="submit">Logga Ut</button>
-
-
-                                }
-                            }
-                        }
-                        @{
-                            if (User.Identity.IsAuthenticated)
-                            {
-                                <a asp-controller="Message" asp-action="Message">@ViewBag.Meddelanden</a>
-                                
-                                
-                            }
-                        }
-                        
-                    </ul>
-                    
-                </div>
-            </div>
-        </nav>
-    </header>
+ }
+ }
+<body>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
