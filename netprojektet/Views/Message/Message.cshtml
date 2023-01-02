@@ -18,45 +18,89 @@
             @{
                 foreach(var item in Model)
                 {
-                
-                
-               
-                    <tr>
 
-                    <td>@item.SenderName</td>
-                    <td>@item.Title</td>
-                    <td>@item.Content</td>
-                   
-                        <td>
-                            @{
-                                
+
+                    if (item.Seen == true)
+                    {
+                        <tr class="table-success">
+
+                            <td>@item.SenderName</td>
+                            <td>@item.Title</td>
+                            <td>@item.Content</td>
+
+                            <td>
+                                @{
+
                                     if (item.Seen == false)
 
                                     {
 
-                                    <form asp-action="MessageRead" asp-route-itemid="@item.Id">
+                                        <form asp-action="MessageRead" asp-route-itemid="@item.Id">
 
                                             <button type="submit"> Markera som läst </button>
                                         </form>
-                                    
+
                                     }
                                     else
                                     {
 
 
-                                    <form asp-action="MessageRead" asp-route-itemid="@item.Id">
+                                        <form asp-action="MessageRead" asp-route-itemid="@item.Id">
 
                                             <button type="submit"> Markera som oläst </button>
                                         </form>
-                                    
-                                    }
-                                
 
-                            }
-                        </td>
+                                    }
+
+
+                                }
+                            </td>
+
+
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr>
+
+                            <td>@item.SenderName</td>
+                            <td>@item.Title</td>
+                            <td>@item.Content</td>
+
+                            <td>
+                                @{
+
+                                    if (item.Seen == false)
+
+                                    {
+
+                                        <form asp-action="MessageRead" asp-route-itemid="@item.Id">
+
+                                            <button type="submit"> Markera som läst </button>
+                                        </form>
+
+                                    }
+                                    else
+                                    {
+
+
+                                        <form asp-action="MessageRead" asp-route-itemid="@item.Id">
+
+                                            <button type="submit"> Markera som oläst </button>
+                                        </form>
+
+                                    }
+
+
+                                }
+                            </td>
+
+
+                        </tr>
+                    }
                     
-                    
-                    </tr>
+
+                   
 
 
                 }
