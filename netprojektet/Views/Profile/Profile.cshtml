@@ -7,7 +7,15 @@
         <h1>@Model.profile.Email</h1>
        <div>
             <img src="@Model.profile.PicUrl" alt="Profile Picture">
-            <button>Uppdatera bild</button>
+            @using (Html.BeginForm("UploadPic", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+  <div class="form-group">
+    <label asp-for="Image"></label>
+    <input asp-for="Image" type="file" class="form-control" />
+    <span asp-validation-for="Image"></span>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+}
        </div>
         
          if(Model.profile.UserName == User.Identity.Name){

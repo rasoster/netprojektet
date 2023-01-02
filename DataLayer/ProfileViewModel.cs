@@ -1,4 +1,5 @@
-﻿using Models;
+﻿using Microsoft.AspNetCore.Http;
+using Models;
 
 
 namespace Models
@@ -13,6 +14,9 @@ namespace Models
         public List<Project> project { get; set; }
         public List<Project> Education { get; set; }
         public List<Project> Experience { get; set; }
+
+        public IFormFile Image { get; set; }
+      
 
 
     }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    internal class Picture
+    public class Picture
     {
-        public byte[] PicData { get; set; }
+
+        public IFormFile Image { get; set; }
     }
 }

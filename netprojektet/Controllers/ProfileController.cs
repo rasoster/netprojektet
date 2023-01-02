@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Models;
 using DataAccessLayer;
+using System.Web;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace netprojektet.Controllers
 {
@@ -96,5 +98,31 @@ namespace netprojektet.Controllers
             
 
         }
+        [HttpPost]
+        public async Task<IActionResult> UploadPic(ProfileViewModel model)
+        {
+           
+                string fileName = Path.GetFileName(model.Image.FileName);
+                string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","Content", "images", fileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await model.Image.CopyToAsync(fileStream);
+                }
+               
+            Profile currentProfile = linkedoutDbContext.Profiles.FirstOrDefault(e => e.UserName == User.Identity.Name);
+            SetPicUrl(currentProfile, fileName);
+            
+            
+            return RedirectToAction("Profile", new { profileID = currentProfile.Id });
+        }
+        public void SetPicUrl(Profile currentProfile,string fileName)
+        {
+            currentProfile.PicUrl = "/Content/Images/" + fileName;
+            linkedoutDbContext.Profiles.Update(currentProfile);
+            linkedoutDbContext.SaveChanges();
+        }
+
+
+
     }
 }
