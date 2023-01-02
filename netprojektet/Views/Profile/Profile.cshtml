@@ -86,6 +86,7 @@
                         <tr>
                             <th>Titel</th>
                             <th>Beskrivning</th>
+                            <th>Skapare</th>
                         </tr>
                 foreach (var item in Model.profileinProject)
                 {
@@ -94,7 +95,14 @@
                                     <td>@item.Project.Title</td>
                                     <td>@item.Project.Description</td>
 
-                                </tr>
+                                     @if(@item.Project.Creator.UserName == User.Identity.Name)
+                                     {
+                                     <td> <a asp-controller="Project" asp-action="UpdateProject" asp-route-projectID="@item.Project.Id">Redigera projekt</a> </td>
+                                     }else
+                                     {  
+                                     <td>@item.Project.Creator.FirstName</td> 
+                                     }
+                    </tr>
                 }
 
             }
