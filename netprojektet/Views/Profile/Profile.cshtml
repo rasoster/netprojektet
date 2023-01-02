@@ -56,12 +56,15 @@
 
                     </tr>
                 }
-
+                <form asp-controller="Education" asp-action="addEducation" method="get">
+                    <button type="submit">Lägg till utbildning</button>
+                </form>
             }
 
 
         </table>
                     <h1>Erfarenhet</h1>
+
             <table class="table">
             @{
 
@@ -78,8 +81,10 @@
                                     <td>@item.Experience.Description</td>
 
                                 </tr>
-                }
 
+                                 
+                }
+                
             }
 
 

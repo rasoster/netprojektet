@@ -1,0 +1,24 @@
+﻿@model Models.Education
+<form asp-action="AddEducation"  method="post">
+
+    <table class="table table-light">
+        <tr>
+            <td>
+                <label>Titel</label>
+                <input asp-for="Name" type="text" />
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <label>Beskrivning</label>
+                <input asp-for="Description" type="text" />
+            </td>
+        <tr>
+            <td>
+
+                <input type="submit" value="Spara" class="btn-primary" />
+            </td>
+        </tr>
+    </table>
+
+</form>
