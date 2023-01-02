@@ -2,12 +2,7 @@
 <form asp-action="UpdateProject" method="post">
 
     <table class="table table-light">
-       <tr>
-           <td>
-               <label>ID</label>
-               <input asp-for="Id" readonly />
-           </td>
-       </tr>
+       
         <tr>
             <td>
                 <label>Titel</label>
@@ -27,5 +22,6 @@
             </td>
         </tr>
     </table>
+    <input asp-for="Id" hidden />
 
 </form>
