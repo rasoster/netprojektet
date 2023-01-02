@@ -6,6 +6,7 @@ using DataAccessLayer;
 using System.Web;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Security.Principal;
+using Microsoft.AspNetCore.Authorization;
 
 namespace netprojektet.Controllers
 {
@@ -24,12 +25,15 @@ namespace netprojektet.Controllers
             ViewBag.Meddelanden = "Inkorg (" + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + ")";
 
             ProfileViewModel profileViewModel = new ProfileViewModel();
+            if (User.Identity.IsAuthenticated) { 
             //om man klickar på "min profil" skickas värdet -1 för att sedan ersättas med rätt värde med hjälp av user.Identity
             if (profileID == -1) 
             { 
                 profileViewModel.profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
                 
             }
+            
+            
             //annars används profilID parametern
             else
             {
@@ -38,16 +42,17 @@ namespace netprojektet.Controllers
             profileViewModel.profileHasEducation = linkedoutDbContext.ProfileHasEducations.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
             profileViewModel.profileHasExperience = linkedoutDbContext.ProfileHasExperiences.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
             profileViewModel.profileinProject = linkedoutDbContext.ProfileinProjects.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
-            
-
-            
 
 
+      
+           
+                return View(profileViewModel);
+            }
+            else
+            {
+                return RedirectToAction("Index", "Home");
+            }
 
-
-
-
-            return View(profileViewModel);
 
         }
         //startar registrera profil formuläret
