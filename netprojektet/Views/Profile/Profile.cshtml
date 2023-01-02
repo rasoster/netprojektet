@@ -14,6 +14,12 @@
     <input asp-for="Image" type="file" class="form-control" />
     <span asp-validation-for="Image"></span>
   </div>
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <div class="alert alert-danger">
+                        @TempData["ErrorMessage"]
+                    </div>
+                }
   <button type="submit" class="btn btn-primary">Submit</button>
 }
        </div>

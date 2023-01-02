@@ -118,7 +118,7 @@ namespace netprojektet.Controllers
             }
             catch(Exception ex)
             {
-                
+                TempData["ErrorMessage"] = "Vänligen ange en korrekt bild (filformat .png .jpg och .img accepteras)";
             }
 
             return RedirectToAction("Profile", new { profileID = currentProfile.Id });
