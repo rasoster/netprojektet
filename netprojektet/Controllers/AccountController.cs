@@ -39,6 +39,14 @@ namespace netprojektet.Controllers
 
                //skapar användare
                 var result = await userManager.CreateAsync(anvandare,registerViewModel.Password);
+                Profile myProfile = new Profile();
+                myProfile.UserName = registerViewModel.UserName;
+                myProfile.PicUrl = "/Content/Images/DefaultProfilePic.png";
+                myProfile.FirstName = "John";
+                myProfile.LastName = "Dough";
+                myProfile.Private = true;
+                _dbContext.Add(myProfile);
+                _dbContext.SaveChanges();
                //om lyckat loggas användare in och hänvisas till skapa profil sidan
                 if (result.Succeeded)
                 {

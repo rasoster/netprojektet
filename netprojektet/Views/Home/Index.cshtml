@@ -38,13 +38,16 @@
 
         </table>
         <div>
-                <h4>Det senaste tillagda projekt</h4>
+                <h4>Det senaste tillagda projektet</h4>
             @{
                 if (Model.senasteProject == null)
                 {
                     <P>Det finns inga projekt att visa </P>               
                 }
-			    else{<p>@Model.senasteProject.Title</p>}
+			    else{<h5>@Model.senasteProject.Title</h5>
+                    <p>@Model.senasteProject.Description</p>
+                    <h6>Skapat av: @Model.senasteProject.Creator.FirstName @Model.senasteProject.Creator.LastName</h6>
+                }
             
             }
         </div>

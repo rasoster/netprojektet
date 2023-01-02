@@ -28,7 +28,7 @@ namespace netprojektet.Controllers
             //lägger till en lista i viewModel baserat på om profilerna är privata eller inte
             List<Profile> profileListFull = linkedoutDbContext.Profiles.ToList();
             List<Profile> profileListLimited = linkedoutDbContext.Profiles.Where(e => e.Private == false).ToList();
-            Project projekt = linkedoutDbContext.Projects.OrderByDescending(e => e.Id).FirstOrDefault();
+            Project projekt = linkedoutDbContext.Projects.Where(e => e.Creator.Private == false).OrderByDescending(e => e.Id).FirstOrDefault();
             //om användaren är inloggad får hen hela listan, annars en begränsad.
             model.senasteProject = projekt;
             if (User.Identity.IsAuthenticated)

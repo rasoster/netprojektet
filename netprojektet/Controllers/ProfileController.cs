@@ -62,13 +62,16 @@ namespace netprojektet.Controllers
         [HttpPost]
         public IActionResult RegisterProfile(Profile newProfile)
         {
-
-            newProfile.UserName = HttpContext.User.Identity.Name;
-            newProfile.Visitors = 0;
-            newProfile.PicUrl = "/Content.Images.DefaultProfilePic.jpg";
-            linkedoutDbContext.Add(newProfile);
+            Profile theProfile = linkedoutDbContext.Profiles.FirstOrDefault(e => e.UserName == User.Identity.Name);
+            
+            theProfile.Visitors = 0;
+            theProfile.PicUrl = "/Content.Images.DefaultProfilePic.png";
+            theProfile.FirstName = newProfile.FirstName;
+            theProfile.LastName = newProfile.LastName;
+            theProfile.Private = newProfile.Private;
+            linkedoutDbContext.Update(theProfile);
             linkedoutDbContext.SaveChanges();
-            return RedirectToAction("Profile", "Home");
+            return RedirectToAction("Profile",new {profileId = theProfile.Id});
 
 
         }
