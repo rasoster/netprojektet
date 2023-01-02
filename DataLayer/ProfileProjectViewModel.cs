@@ -8,6 +8,9 @@ namespace Models
         public List<Profile> profiles { get; set; }
         public List<ProfileinProject> profileInProject { get; set; }
         public List<Project> project { get; set; }
+
+        public List<ProfileHasEducation> educations { get; set; }
+        public List<ProfileHasExperience> experiences { get; set; }
         public Project senasteProject { get; set; }
 
     }

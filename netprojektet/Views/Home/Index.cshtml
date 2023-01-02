@@ -1,59 +1,87 @@
 ﻿@model ProfileProjectViewModel
 
-
-<header>
-     <form asp-action="Search" method="post">
-                        <input type="text" name="Query" placeholder="Skriv namn här" />
-                        <button type="submit">Sök</button>
-                    </form>
-    
-
-</header>
-
-
-
 <div class="text-center">
     <div>
         <table class="table">
             @{
-                <h2>Profiler i urval</h2>
+            
                 
                 <tr>
-                    <th>Förnamn</th>
-                    <th>Efternamn</th>
+                    <th>Namn</th>
+                    <th>Utbildning</th>
+                    <th>Kompetenser</th>
+                    <th>Projekt</th>
+                   
                 </tr>
                 foreach (var item in Model.profiles)
                 {
+                    string educationString = "";
+                    string experienceString = "";
+                    string projectString = "";
                     <tr>
                         <td>
-                            <a asp-controller="Profile" asp-action="Profile" asp-route-profileID="@item.Id">@item.FirstName</a>
+                            <a asp-controller="Profile" asp-action="Profile" asp-route-profileID="@item.Id">@item.FirstName @item.LastName</a>
                         </td>
-
-                        <td>@item.LastName</td>
                         
+                        @foreach (var education in Model.educations)
+                        {
+                            if(education.Profileid == item.Id)
+                            {
+                                educationString += education.Education.Name;
+                                educationString += ", ";
+
+                            }
+                        }
+                        @foreach (var experience in Model.experiences)
+                        {
+                            if(experience.Profileid == item.Id)
+                            {
+                                experienceString += experience.Experience.Name;
+                                experienceString += ", ";
+
+                            }
+                        }
+                        @foreach (var project in Model.profileInProject)
+                        {
+                            if(project.Profileid == item.Id)
+                            {
+                                projectString += project.Project.Title;
+                                projectString += ", ";
+
+                            }
+                        }
+
+                        <td><p>@educationString</p></td>
+                        <td><p>@experienceString</p></td>
+                        <td><p>@projectString</p></td>
+
                     </tr>
                 }
+
                 
             }
 
         </table>
-        <div>
-                <h4>Det senaste tillagda projektet</h4>
-            @{
-                if (Model.senasteProject == null)
-                {
-                    <P>Det finns inga projekt att visa </P>               
-                }
-			    else{<h5>@Model.senasteProject.Title</h5>
-                    <p>@Model.senasteProject.Description</p>
-                    <h6>Skapat av: @Model.senasteProject.Creator.FirstName @Model.senasteProject.Creator.LastName</h6>
-                }
-            
-            }
-        </div>
-
-        <a asp-controller="Project" asp-action = "Project" >Se alla projekt</a>
-           
-
+        
     </div>
 </div>
+
+<div class="text-center">
+                <h5>Det senaste tillagda projektet</h5>
+    @{
+        if (Model.senasteProject == null)
+        {
+                            <P>Det finns inga projekt att visa </P>               
+        }
+        else
+        {
+                            <h5>@Model.senasteProject.Title</h5>
+                            <p>@Model.senasteProject.Description</p>
+                            <h6>Skapat av: @Model.senasteProject.Creator.FirstName @Model.senasteProject.Creator.LastName</h6>
+        }
+
+    }
+    <a asp-controller="Project" asp-action="Project">Se alla projekt</a>
+        </div>
+
+      

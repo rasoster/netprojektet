@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using DataAccessLayer;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace netprojektet.Controllers
 {
@@ -31,6 +32,9 @@ namespace netprojektet.Controllers
             Project projekt = linkedoutDbContext.Projects.Where(e => e.Creator.Private == false).OrderByDescending(e => e.Id).FirstOrDefault();
             //om användaren är inloggad får hen hela listan, annars en begränsad.
             model.senasteProject = projekt;
+            model.experiences = linkedoutDbContext.ProfileHasExperiences.ToList();
+            model.educations = linkedoutDbContext.ProfileHasEducations.ToList();
+            model.profileInProject = linkedoutDbContext.ProfileinProjects.ToList();
             if (User.Identity.IsAuthenticated)
             {
                 model.profiles = profileListFull;
@@ -117,7 +121,15 @@ namespace netprojektet.Controllers
             {
                filteredList = results.Where(p => p.Private == false).ToList();
             }
-            return View(filteredList);
+            //lägger in allt i en viewModel
+            ProfileProjectViewModel profileProjectViewModel = new ProfileProjectViewModel();
+            profileProjectViewModel.profiles = filteredList;
+            profileProjectViewModel.experiences = linkedoutDbContext.ProfileHasExperiences.ToList();
+            profileProjectViewModel.educations = linkedoutDbContext.ProfileHasEducations.ToList();
+            profileProjectViewModel.profileInProject = linkedoutDbContext.ProfileinProjects.ToList();
+
+
+            return View(profileProjectViewModel);
         }
 
 

@@ -1,35 +1,75 @@
-﻿@model List<Profile>
+﻿@model ProfileProjectViewModel
 @{
-    <form asp-action="Search" method="post">
-    <input type="text" name="Query" placeholder="Skriv namn här"/>
-    <button type="submit">Sök</button>
-    </form>
-    if(Model.Count == 0)
+
+    if(Model.profiles.Count == 0)
     {
         <h1>Inga resultat</h1>
     }
     else{
-    <table class="table">
-        @{
-            <h2>Profiler i urval</h2>
+        <div class="text-center">
+            <div>
+                <table class="table">
+                    @{
 
-            <tr>
-                <th>Förnamn</th>
-                <th>Efternamn</th>
-            </tr>
-            foreach (var item in Model)
-            {
-                <tr>
-                   <td>
-                            <a asp-controller="Profile" asp-action="Profile" asp-route-profileID="@item.Id">@item.FirstName</a>
-                        </td>
-                    <td>@item.LastName</td>
 
-                </tr>
-            }
+                        <tr>
+                            <th>Namn</th>
+                            <th>Utbildning</th>
+                            <th>Kompetenser</th>
+                            <th>Projekt</th>
 
-        }
+                        </tr>
+                        foreach (var item in Model.profiles)
+                        {
+                            string educationString = "";
+                            string experienceString = "";
+                            string projectString = "";
+                            <tr>
+                                <td>
+                                    <a asp-controller="Profile" asp-action="Profile" asp-route-profileID="@item.Id">@item.FirstName @item.LastName</a>
+                                </td>
 
-    </table>
+                                @foreach (var education in Model.educations)
+                                {
+                                    if (education.Profileid == item.Id)
+                                    {
+                                        educationString += education.Education.Name;
+                                        educationString += ", ";
+
+                                    }
+                                }
+                                @foreach (var experience in Model.experiences)
+                                {
+                                    if (experience.Profileid == item.Id)
+                                    {
+                                        experienceString += experience.Experience.Name;
+                                        experienceString += ", ";
+
+                                    }
+                                }
+                                @foreach (var project in Model.profileInProject)
+                                {
+                                    if (project.Profileid == item.Id)
+                                    {
+                                        projectString += project.Project.Title;
+                                        projectString += ", ";
+
+                                    }
+                                }
+
+                                <td><p>@educationString</p></td>
+                                <td><p>@experienceString</p></td>
+                                <td><p>@projectString</p></td>
+
+                            </tr>
+                        }
+
+
+                    }
+
+                </table>
+
+            </div>
+        </div>
     }
 }
