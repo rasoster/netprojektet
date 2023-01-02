@@ -19,11 +19,10 @@ namespace netprojektet.Controllers
         }
         //startar ny utbildning formuläret
         [HttpGet]
-        public IActionResult addEducation(int profileID)
+        public IActionResult addEducation()
         {
             Education education = new Education();
-            //Profile projektToUpdate = linkedoutDbContext.Profiles.Find(profileID);
-
+           
             return View(education);
         }
         //Lägger till ny Utbildning
