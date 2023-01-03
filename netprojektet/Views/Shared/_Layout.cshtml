@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="~/netprojektet.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css"/>
 </head>
+    <!--Koden för Navbaren som finns synlig på alla sidor-->
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container-fluid">
         <a class="navbar-brand" asp-controller="Home" asp-action="Index">LinkedUt</a>
@@ -17,6 +18,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <!--Syns endast när man är inloggad också-->
                 @{
                     if (User.Identity.IsAuthenticated)
                     {
@@ -25,7 +27,7 @@
                         </li>
                     }
                 }
-                
+                <!--Dropdownlistan syns endast om man är inloggad, detta ser vi genom user.identity.isauthenticated-->
                 @{
                     if(User.Identity.IsAuthenticated){
                 <li class="nav-item dropdown">
@@ -39,6 +41,7 @@
                 </li>
                     }
                 }
+                <!--Detta är kod för en logga in knapp om man är utloggad, och en logga ut knapp om man är inloggad-->
                 @{
                     if(!User.Identity.IsAuthenticated){
                         @using (Html.BeginForm("LogIn", "Account", FormMethod.Get))

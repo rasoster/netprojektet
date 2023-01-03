@@ -107,9 +107,13 @@
             }
 
         </table>
-        <form asp-action="addProject" method="get">
-            <button type="submit">Skapa nytt projekt</button>
-        </form>
+        @{
+            if(User.Identity.IsAuthenticated){
+                <form asp-action="addProject" method="get">
+                    <button type="submit">Skapa nytt projekt</button>
+                </form>
+            }
+        }
 
 
     </div>
