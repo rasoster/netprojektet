@@ -75,7 +75,7 @@
                                     <td>
                                         <form asp-action="GåMed" asp-route-projectID="@item.Id">
 
-                                            <button type ="submit"> Gå med i projekt </button>
+                                            <button class="btn btn-success" type="submit"> Gå med i projekt </button>
                                         </form>
                                     </td>
                                 }
@@ -85,7 +85,7 @@
                     
                                         <form asp-action="GåUr" asp-route-project="@inProject.Projectid">
 
-                                            <button type ="submit"> Gå ur projektet </button>
+                                                <button class="btn btn-danger"  type="submit"> Gå ur projektet </button>
                                         </form>
                                         </td>
                                     }
@@ -110,7 +110,7 @@
         @{
             if(User.Identity.IsAuthenticated){
                 <form asp-action="addProject" method="get">
-                    <button type="submit">Skapa nytt projekt</button>
+                    <button class="btn btn-success"type="submit">Skapa nytt projekt</button>
                 </form>
             }
         }

@@ -1,7 +1,7 @@
 ﻿@model List<Message>
 
 
-<h1>Meddelanden</h1>
+<h1 class="text-center">Meddelanden</h1>
 
 <div class="text-center">
     <div>
@@ -37,7 +37,7 @@
 
                                         <form asp-action="MessageRead" asp-route-itemid="@item.Id">
 
-                                            <button type="submit"> Markera som läst </button>
+                                            <button class="btn btn-sm btn-success" type="submit"> Markera som läst </button>
                                         </form>
 
                                     }
@@ -47,7 +47,7 @@
 
                                         <form asp-action="MessageRead" asp-route-itemid="@item.Id">
 
-                                            <button type="submit"> Markera som oläst </button>
+                                            <button class="btn btn-sm" type="submit"> Markera som oläst </button>
                                         </form>
 
                                     }

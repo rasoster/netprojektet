@@ -1,38 +1,23 @@
 ﻿@model EducationViewModel
 
-<form asp-action="AddEducation"  method="post">
-
-    <table class="table table-light">
-        <tr>
-            <td>
-                <label>Titel</label>
-                <input asp-for="education.Name" type="text" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>Beskrivning</label>
-                <input asp-for="education.Description" type="text" />
-            </td>
-        <tr>
-        <tr>
-            <td>
-                <label>Startdatum</label>
-                <input asp-for="profileHasEducation.Startdate" type="date" value="@ViewBag.CurrentDate" />
-                
-            </td>
-        <tr>
-        <tr>
-            <td>
-                <label>Slutdatum</label>
-                <input asp-for="profileHasEducation.Enddate" type="date" /> <p>Inget slutdatum? Lämna denna blank</p>
-            </td>
-        <tr>
-            <td>
-
-                <input type="submit" value="Spara" class="btn-primary" />
-            </td>
-        </tr>
-    </table>
-
+<form asp-action="AddEducation" method="post">
+    <div class="form-group">
+        <label for="formGroupExampleInput">Titel</label>
+        <input asp-for="education.Name" class="form-control" type="text" />
+    </div>
+    <div class="form-group">
+        <label for="formGroupExampleInput">Beskrivning</label>
+        <input asp-for="education.Description" class="form-control" type="text" />
+    </div>
+    <div class="form-group">
+        <label for="formGroupExampleInput">Startdatum</label>
+        <input asp-for="profileHasEducation.Startdate" class="form-control" type="date" />
+    </div>
+    <div class="form-group">
+        <label for="formGroupExampleInput">Slutdatum</label>
+        <input asp-for="profileHasEducation.Enddate" class="form-control" type="date" />
+    </div>
+    <div class="form-group mb-4 mt-1">
+        <input type="submit" value="Spara" class="btn btn-success" />
+    </div>
 </form>
