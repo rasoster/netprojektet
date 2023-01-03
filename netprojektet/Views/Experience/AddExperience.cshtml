@@ -1,18 +1,31 @@
-﻿@model Models.Experience
+﻿@model ExperienceViewModel
 <form asp-action="AddExperience"  method="post">
 
     <table class="table table-light">
         <tr>
             <td>
                 <label>Titel</label>
-                <input asp-for="Name" type="text" />
+                <input asp-for="experience.Name" type="text" />
             </td>
         </tr>
         <tr>
             <td>
                 <label>Beskrivning</label>
-                <input asp-for="Description" type="text" />
+                <input asp-for="experience.Description" type="text" />
             </td>
+        <tr>
+            <td>
+                <label>Startdatum</label>
+                <input asp-for="profileHasExperience.Startdate" type="date" value="@ViewBag.CurrentDate" />
+
+            </td>
+        <tr>
+        <tr>
+            <td>
+                <label>Slutdatum</label>
+                <input asp-for="profileHasExperience.Enddate" type="date" /> <p>Inget slutdatum? Lämna denna blank</p>
+            </td>
+        <tr>
         <tr>
             <td>
 
