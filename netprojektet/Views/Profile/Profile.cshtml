@@ -173,4 +173,179 @@
 	</form>
 
         </div>
+
+<div class="row gutters-sm">
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-column align-items-center text-center">
+                    <img src="@Model.profile.PicUrl" alt="Profile Picture" class="rounded-circle" width="150">
+                    @if(User.Identity.Name == Model.profile.UserName){
+                    <div class="d-flex">
+
+                        @using (Html.BeginForm("UploadPic", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="form-group">
+                                <label asp-for="Image">Byt bild:</label>
+                                <input asp-for="Image" type="file" class="form-control" />
+                                <span asp-validation-for="Image"></span>
+                            </div>
+                            @if (TempData["ErrorMessage"] != null)
+                            {
+                                <div class="alert alert-danger">
+                                    @TempData["ErrorMessage"]
+                                </div>
+                            }
+                            <button type="submit" class="btn btn-info">Ladda upp</button>
+                        }
+
+                    </div>
+                    }
+                    <div class="mt-3">
+                        <h4>@Model.profile.FirstName @Model.profile.LastName</h4>
+                        <p class="text-secondary mb-1">@Model.profile.Email</p>
+                        @{
+                            if (User.Identity.Name == Model.profile.UserName)
+                            {
+                                if (Model.profile.Private)
+                                {
+                                    <p class="text-muted font-size-sm">privat profil</p>
+                                }
+                                else
+                                {
+                                    <p class="text-muted font-size-sm">publik profil</p>
+                                }
+                            }
+              
+                        }
+                        
+                        <form asp-controller="Message" asp-action="NewMessage" asp-route-profileid="@Model.profile.Id">
+                            <button class="btn btn-outline-primary" type="submit"> Skicka meddelande </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    <div class="col-md-8">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Full Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        @Model.profile.FirstName @Model.profile.LastName
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        @Model.profile.Email
+                    </div>
+                </div>
+                <hr>
+                @{
+                @if(User.Identity.Name == Model.profile.UserName){
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Privat profil</h6>
+                    </div>
+                    @if(@Model.profile.Private){
+                            <div class="col-sm-9 text-secondary">
+                            Din profil är privat
+                            </div>
+                    }
+                    else{
+                            <div class="col-sm-9 text-secondary">
+                            Din profil är offentlig
+                            </div>
+                    }
+                    
+                </div>
+               <hr>
+               }
+                }
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <a class="btn btn-info " target="__blank" asp-action="UpdateProfile" asp-route-profileID="@Model.profile.Id">Redigera profil</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row gutters-sm">
+            <div class="col-sm-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="d-flex align-items-center mb-3">Utbildningar</h6>
+                    
+                    @{
+                        foreach(var item in Model.profileHasEducation)
+                        {
+                            string day = "";
+                    if(item.Startdate != null)
+                    {day = item.Startdate.Value.ToShortDateString();
+                        day += " - ";
+                        if (item.Enddate != null)
+                        {day += item.Enddate.Value.ToShortDateString();}
+                        
+                    }
+                        <div class="border-bottom">
+                                <small class="d-flex align-items-center mb-3"><b>@item.Education.Name</b> - @item.Education.Description</small>
+                                <small class="d-flex align-items-center mb-3">@day</small>
+                        </div>
+
+               
+                                
+                          
+                        }
+
+
+                    }
+                    </div>
+                   
+
+                </div>
+            </div>
+            <div class="col-sm-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="d-flex align-items-center mb-3">Erfarenheter</h6>
+
+                        @{
+                            foreach (var item in Model.profileHasExperience)
+                            {
+                                string day = "";
+                                if (item.Startdate != null)
+                                {
+                                    day = item.Startdate.Value.ToShortDateString();
+                                    day += " - ";
+                                    if (item.Enddate != null)
+                                    { day += item.Enddate.Value.ToShortDateString(); }
+
+                                }
+                                <div class="border-bottom">
+                                    <small class="d-flex align-items-center mb-3"><b>@item.Experience.Name</b> - @item.Experience.Description</small>
+                                    <small class="d-flex align-items-center mb-3">@day</small>
+                                </div>
+
+
+
+
+                            }
+
+
+                        }
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
     
