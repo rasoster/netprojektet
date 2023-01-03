@@ -68,6 +68,7 @@ namespace netprojektet.Controllers
                              where p.UserName == User.Identity.Name
                              select p.Id).FirstOrDefault();
 
+            //Tar först bort sambandsrader för vald erfarenhet sedan tas erfarenheten bort i erfarenhetsstabellen om endast en användare har denna utbildning
             if (profilehasexperience.Count() == 1 && profilehasexperience[0].Profileid == profileid)
             {
                 linkedoutDbContext.ProfileHasExperiences.Remove(profilehasexperience[0]);
@@ -78,6 +79,7 @@ namespace netprojektet.Controllers
             {
                 foreach (ProfileHasExperience item in profilehasexperience)
                 {
+                    //Tar bara bort erfarenhet från sambandstabell för aktiv användare 
                     if (item.Profileid == profileid)
                     {
                         linkedoutDbContext.ProfileHasExperiences.Remove(item);
