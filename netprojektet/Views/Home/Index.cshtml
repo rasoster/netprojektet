@@ -13,6 +13,8 @@
                     <th>Projekt</th>
                    
                 </tr>
+                <!--här skapar vi listan på indexsidan som innehåller användares profiler och dess erfarenhet, 
+                utbildning och vilka projekt dem är med i-->
                 foreach (var item in Model.profiles)
                 {
                     string educationString = "";
@@ -73,6 +75,7 @@
         {
                             <P>Det finns inga projekt att visa </P>               
         }
+        <!--Här visar vi upp det senaste tillagda projektet-->
         else
         {
     
