@@ -96,12 +96,13 @@
                <hr>
                }
                 }
-
+                @if (User.Identity.Name == Model.profile.UserName){
                 <div class="row">
                     <div class="col-sm-12">
                         <a class="btn btn-info " target="__blank" asp-action="UpdateProfile" asp-route-profileID="@Model.profile.Id">Redigera profil</a>
                     </div>
                 </div>
+                }
             </div>
         </div>
 
