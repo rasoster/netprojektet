@@ -1,0 +1,32 @@
+﻿@model Experience
+<h3>Är du säker på att du vill ta bort den här erfarenheten?</h3>
+<form asp-controller="Experience" asp-action="RemoveExperience" method="post">
+    <table class="table table-light">
+        <div class="form-group">
+        <tr>
+            <td>
+                <label asp-for="Name"></label>
+                <input asp-for="Name" type="text" readonly />
+            </td>
+        </tr>
+        </div>
+        <div class="form-group">
+        <tr>
+            <td>
+                <label asp-for="Description"></label>
+                <input asp-for="Description" type="text" readonly />
+            </td>
+        </tr>
+        </div>
+
+        <input asp-for="Id" type="text" hidden />
+        <div class="form-group">
+        <tr>
+            <td>
+                <input type="submit" value="Ta bort erfarenhet" class="btn-dark" />
+            </td>
+        </tr>
+        </div>
+
+    </table>
+</form>
