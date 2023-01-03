@@ -54,21 +54,25 @@ namespace netprojektet.Controllers
             Profile profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
             return RedirectToAction("Profile", "Profile" , new { profileID = profile.Id });
         }
+        //startar ta bort utbildning formuläret
         [HttpGet]
         public IActionResult RemoveEducation(int educationID)
         {
             Education education = linkedoutDbContext.Educations.Find(educationID);
             return View(education);
         }
+        //Tar bort utbildning
         [HttpPost]
         public IActionResult RemoveEducation(Education education)
         {
+ 
             List<ProfileHasEducation> profilehaseducation = linkedoutDbContext.ProfileHasEducations.Where(e => e.Educationid == education.Id).ToList();
 
             int profileid = (from p in linkedoutDbContext.Profiles
                             where p.UserName == User.Identity.Name
                             select p.Id).FirstOrDefault();
 
+            //Tar först bort sambandsrader för vald utbildning sedan tas utbildningen bort i utbildningstabellen om endast en användare har denna utbildning
             if (profilehaseducation.Count()==1 && profilehaseducation[0].Profileid==profileid)
             {
                 linkedoutDbContext.ProfileHasEducations.Remove(profilehaseducation[0]);
@@ -78,6 +82,7 @@ namespace netprojektet.Controllers
             {
                 foreach (ProfileHasEducation item in profilehaseducation)
                 {
+                    //Tar bara bort objekt från sambandstabell för aktiv användare 
                     if (item.Profileid == profileid)
                     {
                         linkedoutDbContext.ProfileHasEducations.Remove(item);

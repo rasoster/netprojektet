@@ -17,13 +17,13 @@
                 </tr>
                 foreach (var item in Model.project)
                 {
-
+                    //Skapar en lista av medlemmar i respektive projekt
                     List<ProfileinProject> members = Model.profileInProject.Where(e => e.Projectid == item.Id).ToList();
 
                     string namn ="";
                     foreach(var member in members)
                     {
-                        
+                        //Kontrollerar att användare är inloggad
                         if (User.Identity.IsAuthenticated)
                         {
                             namn += member.Profile.FirstName;
@@ -46,11 +46,12 @@
 
                     }
 
+                    //Tilldelar variabeln värdet av den inloggade användarens ID
                     int userID = (from p in members
                                   where p.Profile.UserName == User.Identity.Name
                                   select p.Profileid).FirstOrDefault();
 
-
+                    //Tilldelar variabeln värdet av ett profileinprojekt objekt ifall användaren är med i projekt
                     var inProject = (from p in Model.profileInProject
                                      where p.Profileid == userID && p.Projectid == item.Id
                                      select p).FirstOrDefault();
@@ -62,6 +63,7 @@
                         <td>@item.Description</td>
 						<td>@namn</td>
                         @{
+                            
                             if(@item.Creator.UserName == User.Identity.Name)
                             {
                                 
@@ -69,6 +71,7 @@
                             else{
                             if(User.Identity.IsAuthenticated)
                             {
+                                //Om användare ej med i projekt visa knapp gå med
                                 if (inProject == null)
 
                                 {
@@ -81,6 +84,7 @@
                                 }
                                 else
                                 {
+                                     
                                      <td>
                     
                                         <form asp-action="GåUr" asp-route-project="@inProject.Projectid">
@@ -96,6 +100,7 @@
                         }
                      
                             @{
+                                //Om användare är skapare kan den välja att redigera projekt
                                 if(@item.Creator.UserName == User.Identity.Name)
                                 {
                                 <td><a asp-action="UpdateProject" asp-route-projectID="@item.Id">Redigera projekt</a> </td>
@@ -108,6 +113,7 @@
 
         </table>
         @{
+            //Om användare är inloggad kan den välja att skapa nytt projekt
             if(User.Identity.IsAuthenticated){
                 <form asp-action="addProject" method="get">
                     <button class="btn btn-success"type="submit">Skapa nytt projekt</button>
