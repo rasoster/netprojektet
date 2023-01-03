@@ -14,26 +14,32 @@ namespace netprojektet.Controllers
     {
         private LinkedoutDbContext linkedoutDbContext;
 
-        public ProfileController (LinkedoutDbContext DbContext)
+        public ProfileController(LinkedoutDbContext DbContext)
         {
-           linkedoutDbContext = DbContext;
+            linkedoutDbContext = DbContext;
         }
         //tar in profilID och tar fram den profil som ska visas.
         [HttpGet]
         public IActionResult Profile(int profileID)
         {
             ViewBag.Meddelanden = "Inkorg (" + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + ")";
-
+            Profile profile = linkedoutDbContext.Profiles.Find(profileID);
             ProfileViewModel profileViewModel = new ProfileViewModel();
-            if (User.Identity.IsAuthenticated) { 
-            //om man klickar på "min profil" skickas värdet -1 för att sedan ersättas med rätt värde med hjälp av user.Identity
-            if (profileID == -1) 
-            { 
-                profileViewModel.profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
-                
+            if (!User.Identity.IsAuthenticated && profile.Private == true)
+            {
+                return RedirectToAction("index", "home");
             }
-            
-            
+
+
+            //om man klickar på "min profil" skickas värdet -1 för att sedan ersättas med rätt värde med hjälp av user.Identity
+            if (profileID == -1 && User.Identity.IsAuthenticated)
+            {
+
+                profileViewModel.profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
+
+            }
+
+
             //annars används profilID parametern
             else
             {
@@ -44,17 +50,15 @@ namespace netprojektet.Controllers
             profileViewModel.profileinProject = linkedoutDbContext.ProfileinProjects.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
 
 
-      
-           
-                return View(profileViewModel);
-            }
-            else
-            {
-                return RedirectToAction("Index", "Home");
-            }
 
 
+            return View(profileViewModel);
         }
+
+
+
+    
+        
         //startar registrera profil formuläret
         [HttpGet]
         public IActionResult RegisterProfile()
