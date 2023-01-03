@@ -59,7 +59,7 @@ namespace netprojektet.Controllers
         [HttpGet]
         public IActionResult RegisterProfile()
         {
-            ViewBag.Meddelanden = "Du har " + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + " olästa meddelanden.";
+            ViewBag.Meddelanden = "Inkorg (" + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + ")";
 
             return View(new Profile());
         }
@@ -84,7 +84,7 @@ namespace netprojektet.Controllers
         [HttpGet]
         public IActionResult UpdateProfile(int profileID)
         {
-            ViewBag.Meddelanden = "Du har " + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + " olästa meddelanden.";
+            ViewBag.Meddelanden = "Inkorg (" + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + ")";
 
             Profile profile = linkedoutDbContext.Profiles.Find(profileID);
             return View(profile);
