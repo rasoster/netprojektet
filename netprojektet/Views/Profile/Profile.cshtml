@@ -67,12 +67,20 @@
                         <td>@item.Education.Name</td>
                         <td>@item.Education.Description</td>
                         <td><p>@day</p></td>
-                        <td><a asp-action="RemoveEducation" asp-controller="Education" asp-route-educationID="@item.Education.Id">Ta bort utbildning</a> </td>
+                        @if (Model.profile.UserName == User.Identity.Name)
+                        { 
+                            <td><a asp-action="RemoveEducation" asp-controller="Education" asp-route-educationID="@item.Education.Id">Ta bort utbildning</a> </td>
+                        }
+                       
                     </tr>
                 }
-                <form asp-controller="Education" asp-action="addEducation" method="get">
+                if (Model.profile.UserName == User.Identity.Name)
+                {   
+                    <form asp-controller="Education" asp-action="addEducation" method="get">
                     <button type="submit">Lägg till utbildning</button>
-                </form>
+                    </form>
+                }
+                
             }
 
 
@@ -105,14 +113,23 @@
                                     <td>@item.Experience.Name</td>
                                     <td>@item.Experience.Description</td>
                                     <td><p>@day</p></td>
-                                    <td><a asp-action="RemoveExperience" asp-controller="Experience" asp-route-experienceID="@item.Experience.Id">Ta bort erfarenhet</a> </td>
+                                    
+                                    @if (Model.profile.UserName == User.Identity.Name) 
+                                    {
+                                     <td><a asp-action="RemoveExperience" asp-controller="Experience" asp-route-experienceID="@item.Experience.Id">Ta bort erfarenhet</a> </td>
+                                    }
+                                    
                                 </tr>
 
                                  
                 }
-                <form asp-controller="Experience" asp-action="addExperience" method="get">
+                if (Model.profile.UserName == User.Identity.Name)
+                {
+                    <form asp-controller="Experience" asp-action="addExperience" method="get">
                     <button type="submit">Lägg till erfarenhet</button>
-                </form>
+                     </form>
+                }
+                
             }
 
 
