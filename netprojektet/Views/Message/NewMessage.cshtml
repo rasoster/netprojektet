@@ -1,55 +1,50 @@
 ﻿@model Message
-<form asp-action="SendMessage">
+<div class="container">
+    <div class="row">
+        <form role="form" id="contact-form" class="contact-form" asp-action="SendMessage">
+            <div class="row">
+                @{
 
-    <table class="table table-light">
-        <tr>
-            <td>
-                <label>Titel</label>
-                <input asp-for="Title" type="text" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>Innehåll</label>
-                <input asp-for="Content" type="text" />
-            </td>
-        
-        
-            @{
-                if(User.Identity.IsAuthenticated)
-                {
-                  <tr> 
-                    <td>
-
-                <label> Avsändare </label>
-                <input asp-for="SenderName" type="text" readonly/>
-                    </td>
-                   </tr> 
+                    if (User.Identity.IsAuthenticated)
+                    {
+                <div class="col-md-6 mb-1">
+                    <div class="form-group">
+                                <input asp-for="SenderName" type="text" class="form-control" name="Titel" autocomplete="off" id="Name" readonly>
+                    </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="col-md-6 mb-1">
+                    <div class="form-group">
+                                <input asp-for="SenderName" type="text" class="form-control" name="Titel" autocomplete="off" id="Name" placeholder="Namn">
+                    </div>
+                        </div> 
+                    
+                    
+                    }
                 }
-                else
-                {
-                <tr>
-            <td>
-
-                <label> Avsändare </label>
-                <input asp-for="SenderName" type="text"/>
-            </td>
-        </tr>
-                }
-        }
-
-        <tr>
-            <td>
-
-                <input type="submit" value="Skicka" class="btn-primary" />
-            </td>
-        </tr>
-    </table>
-
-    <input asp-for="Times" hidden/>
-    <input asp-for="Seen" hidden/>
-    <input asp-for="Reciever" hidden />
-    <input asp-for="RecieverNavigation" hidden />
-
-
-</form>
+            </div>
+            <div class="row">
+                <div class="col-md-6 mb-1">
+                    <div class="form-group">
+                        <input asp-for="Title" type="text" class="form-control" name="Titel" autocomplete="off" id="email" placeholder="Titel">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12 mb-1">
+                    <div class="form-group">
+                        <textarea asp-for="Content" class="form-control textarea" rows="3" name="Message" id="Message" placeholder="Meddelande"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-info pull-right">Skicka</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
