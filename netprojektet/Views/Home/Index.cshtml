@@ -3,6 +3,8 @@
 <div class="text-center">
     <div>
         <table class="table">
+            <!--här skapar vi listan på indexsidan som innehåller användares profiler och dess 
+            erfarenhet, utbildning och vilka projekt dem är med i-->
             @{
             
                 
@@ -13,8 +15,7 @@
                     <th>Projekt</th>
                    
                 </tr>
-                <!--här skapar vi listan på indexsidan som innehåller användares profiler och dess erfarenhet, 
-                utbildning och vilka projekt dem är med i-->
+                
                 foreach (var item in Model.profiles)
                 {
                     string educationString = "";
@@ -67,7 +68,7 @@
         
     </div>
 </div>
-
+<!--Här visar vi upp det senaste tillagda projektet-->
 <div class="text-center">
                
     @{
@@ -75,7 +76,7 @@
         {
                             <P>Det finns inga projekt att visa </P>               
         }
-        <!--Här visar vi upp det senaste tillagda projektet-->
+        
         else
         {
     
