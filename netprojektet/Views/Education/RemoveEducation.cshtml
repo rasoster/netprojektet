@@ -1,0 +1,32 @@
+﻿@model Education
+<h3>Är du säker på att du vill ta bort den här utbildningen?</h3>
+<form asp-controller="Education" asp-action="RemoveEducation" method="post">
+<table class="table table-light">
+    <div class="form-group">
+        <tr>
+            <td>
+                <label asp-for="Name"></label>
+                <input asp-for="Name" type="text" readonly/>
+            </td>
+        </tr>
+    </div>
+    <div class="form-group">
+        <tr>
+                <td>
+                <label asp-for="Description"></label>
+                <input asp-for="Description" type="text" readonly/>
+            </td>
+        </tr>
+    </div>
+      
+        <input asp-for="Id" type="text" hidden />
+         <div class="form-group">
+        <tr>
+             <td>
+                <input type="submit" value="Ta bort utbildning" class="btn-dark" />
+            </td>
+        </tr>
+    </div>
+
+</table>
+</form>

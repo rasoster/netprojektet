@@ -46,14 +46,24 @@
                 <tr>
                     <th>Titel</th>
                     <th>Beskrivning</th>
+                    <th>Datum</th>
                 </tr>
                 foreach (var item in Model.profileHasEducation)
                 {
-                   
+                    string day = "";
+                    if(item.Startdate != null)
+                    {day = item.Startdate.Value.ToShortDateString();
+                        day += " - ";
+                        if (item.Enddate != null)
+                        {day += item.Enddate.Value.ToShortDateString();}
+                        
+                    }
+                    
                     <tr>
                         <td>@item.Education.Name</td>
                         <td>@item.Education.Description</td>
-
+                        <td><p>@day</p></td>
+                        <td><a asp-action="RemoveEducation" asp-controller="Education" asp-route-educationID="@item.Education.Id">Ta bort utbildning</a> </td>
                     </tr>
                 }
                 <form asp-controller="Education" asp-action="addEducation" method="get">
