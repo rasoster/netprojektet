@@ -67,7 +67,7 @@
 </div>
 
 <div class="text-center">
-                <h5>Det senaste tillagda projektet</h5>
+               
     @{
         if (Model.senasteProject == null)
         {
@@ -75,13 +75,20 @@
         }
         else
         {
-                            <h5>@Model.senasteProject.Title</h5>
-                            <p>@Model.senasteProject.Description</p>
-                            <h6>Skapat av: @Model.senasteProject.Creator.FirstName @Model.senasteProject.Creator.LastName</h6>
+    
+
+<div class="card text-center">
+    <div class="card-header">
+        Det senaste tillagda projektet
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">@Model.senasteProject.Title</h5>
+        <p class="card-text">@Model.senasteProject.Description</p>
+        <a asp-action="Project" asp-controller="Project" class="btn btn-primary">Gå till alla projekt</a>
+    </div>
+</div>
+
         }
 
     }
-    <a asp-controller="Project" asp-action="Project">Se alla projekt</a>
-        </div>
-
-      
+</div>
