@@ -46,6 +46,7 @@
                 <tr>
                     <th>Titel</th>
                     <th>Beskrivning</th>
+                    <th>Datum</th>
                 </tr>
                 foreach (var item in Model.profileHasEducation)
                 {
@@ -53,7 +54,8 @@
                     <tr>
                         <td>@item.Education.Name</td>
                         <td>@item.Education.Description</td>
-
+                        <td>@item.Startdate - @item.Enddate</td>
+                        <td><a asp-action="RemoveEducation" asp-controller="Education" asp-route-educationID="@item.Education.Id">Ta bort utbildning</a> </td>
                     </tr>
                 }
                 <form asp-controller="Education" asp-action="addEducation" method="get">
