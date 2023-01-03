@@ -1,176 +1,247 @@
 ﻿@model ProfileViewModel
 
-<div>
-    @{
-        <div><br /></div>
+<div class="row gutters-sm">
+    <div class="col-md-4 mb-3">
+        <div class="card">
+            <div class="card-body">
+                <div class="d-flex flex-column align-items-center text-center">
+                    <img src="@Model.profile.PicUrl" alt="Profile Picture" class="rounded-circle" width="150">
+                    @if(User.Identity.Name == Model.profile.UserName){
+                    <div class="d-flex">
 
-        <div class="d-flex" >
-            <img style="width: 300px; height: 300px;" src="@Model.profile.PicUrl" alt="Profile Picture">
-            
-            @using (Html.BeginForm("UploadPic", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
-            {
-                <div class="form-group">
-                    <label asp-for="Image">Byt bild:</label>
-                    <input asp-for="Image" type="file" class="form-control" />
-                    <span asp-validation-for="Image"></span>
-                </div>
-                @if (TempData["ErrorMessage"] != null)
-                {
-                    <div class="alert alert-danger">
-                        @TempData["ErrorMessage"]
-                    </div>
-                }
-                <button type="submit" class="btn btn-primary">Submit</button>
-            }
-            
-        </div>
-        <div>
-            <h1>@Model.profile.FirstName @Model.profile.LastName</h1>
-            <p>@Model.profile.Email</p>
-        </div>
-        
-       
-        
-         if(Model.profile.UserName == User.Identity.Name){
-
-        
-            <a asp-controller="Profile" asp-action="UpdateProfile" asp-route-profileID="@Model.profile.Id">Redigera profil</a>
-        }
-        
-        
-        <h1>Utbildning</h1>
-        <table class="table">
-            @{
-                
-
-                <tr>
-                    <th>Titel</th>
-                    <th>Beskrivning</th>
-                    <th>Datum</th>
-                </tr>
-                foreach (var item in Model.profileHasEducation)
-                {
-                    
-                    string day = "";
-
-                    if(item.Startdate != null)
-                    {
-                        //Omvandlar DateTime som innehåller tid till endast datum
-                        day = item.Startdate.Value.ToShortDateString();
-                        day += " - ";
-                        if (item.Enddate != null)
-                        {day += item.Enddate.Value.ToShortDateString();}
-                        
-                    }
-                    
-                    <tr>
-                        <td>@item.Education.Name</td>
-                        <td>@item.Education.Description</td>
-                        <td><p>@day</p></td>
-                        @if (Model.profile.UserName == User.Identity.Name)
-                        { 
-                            <td><a asp-action="RemoveEducation" asp-controller="Education" asp-route-educationID="@item.Education.Id">Ta bort utbildning</a> </td>
+                        @using (Html.BeginForm("UploadPic", "Profile", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <div class="form-group">
+                                <label asp-for="Image">Byt bild:</label>
+                                <input asp-for="Image" type="file" class="form-control" />
+                                <span asp-validation-for="Image"></span>
+                            </div>
+                            @if (TempData["ErrorMessage"] != null)
+                            {
+                                <div class="alert alert-danger">
+                                    @TempData["ErrorMessage"]
+                                </div>
+                            }
+                            <button type="submit" class="btn btn-info">Ladda upp</button>
                         }
-                       
-                    </tr>
+
+                    </div>
+                    }
+                    <div class="mt-3">
+                        <h4>@Model.profile.FirstName @Model.profile.LastName</h4>
+                        <p class="text-secondary mb-1">@Model.profile.Email</p>
+                        @{
+                            if (User.Identity.Name == Model.profile.UserName)
+                            {
+                                if (Model.profile.Private)
+                                {
+                                    <p class="text-muted font-size-sm">privat profil</p>
+                                }
+                                else
+                                {
+                                    <p class="text-muted font-size-sm">publik profil</p>
+                                }
+                            }
+              
+                        }
+                        
+                        <form asp-controller="Message" asp-action="NewMessage" asp-route-profileid="@Model.profile.Id">
+                            <button class="btn btn-outline-primary" type="submit"> Skicka meddelande </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    <div class="col-md-7">
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Full Name</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        @Model.profile.FirstName @Model.profile.LastName
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Email</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        @Model.profile.Email
+                    </div>
+                </div>
+                <hr>
+                @{
+                @if(User.Identity.Name == Model.profile.UserName){
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">Privat profil</h6>
+                    </div>
+                    @if(@Model.profile.Private){
+                            <div class="col-sm-9 text-secondary">
+                            Din profil är privat
+                            </div>
+                    }
+                    else{
+                            <div class="col-sm-9 text-secondary">
+                            Din profil är offentlig
+                            </div>
+                    }
+                    
+                </div>
+               <hr>
+               }
                 }
-                if (Model.profile.UserName == User.Identity.Name)
-                {   
-                    <form asp-controller="Education" asp-action="addEducation" method="get">
-                    <button type="submit">Lägg till utbildning</button>
-                    </form>
-                }
-                
-            }
 
+                <div class="row">
+                    <div class="col-sm-12">
+                        <a class="btn btn-info " target="__blank" asp-action="UpdateProfile" asp-route-profileID="@Model.profile.Id">Redigera profil</a>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        </table>
-                    <h1>Erfarenhet</h1>
+        <div class="row gutters-sm">
+            <div class="col-sm-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex flex-row border-bottom">
+                        <h3 class="mb-3 ">Utbildningar   </h3>                
+                        @if (Model.profile.UserName == User.Identity.Name)
+                        {
+                        <form asp-controller="Education" asp-action="addEducation" method="get">
+                                    <button class="btn btn-info btn-sm px-2" type="submit">Ny</button>
+                        </form>
+                        }
+                        </div>
 
-            <table class="table">
-            @{
-
-
-                        <tr>
-                            <th>Titel</th>
-                            <th>Beskrivning</th>
-                            <th>Datum</th>
-                        </tr>
-                foreach (var item in Model.profileHasExperience)
-                {
-                    string day = "";
+                    
+                    @{
+                        foreach(var item in Model.profileHasEducation)
+                        {
+                            string day = "";
                     if(item.Startdate != null)
-                    {
-                        //Omvandlar DateTime som innehåller tid till endast datum
-                        day = item.Startdate.Value.ToShortDateString();
+                    {day = item.Startdate.Value.ToShortDateString();
                         day += " - ";
                         if (item.Enddate != null)
                         {day += item.Enddate.Value.ToShortDateString();}
+
                         
                     }
+                        <div class="border-bottom">
+                                <small class="d-flex align-items-center mb-0"><b>@item.Education.Name</b></small>
+                                <small class="d-flex align-items-center mb-0">@item.Education.Description</small>
 
-                                <tr>
-                                    <td>@item.Experience.Name</td>
-                                    <td>@item.Experience.Description</td>
-                                    <td><p>@day</p></td>
-                                    
-                                    @if (Model.profile.UserName == User.Identity.Name) 
+                                <small class="d-flex align-items-center mb-0">@day</small>
+
+                                    @if (Model.profile.UserName == User.Identity.Name)
                                     {
-                                     <td><a asp-action="RemoveExperience" asp-controller="Experience" asp-route-experienceID="@item.Experience.Id">Ta bort erfarenhet</a> </td>
+                                        <a asp-action="RemoveEducation" asp-controller="Education" asp-route-educationID="@item.Education.Id"><small>Ta bort utbildning</small></a>
                                     }
-                                    
-                                </tr>
+                        </div>
 
-                                 
-                }
-                if (Model.profile.UserName == User.Identity.Name)
-                {
-                    <form asp-controller="Experience" asp-action="addExperience" method="get">
-                    <button type="submit">Lägg till erfarenhet</button>
-                     </form>
-                }
-                
-            }
+               
+                                
+                          
+                        }
 
 
-            </table>
-                        <h1>Projekt</h1>
-            <table class="table">
-            @{
+                    }
+                    </div>
+                   
+
+                </div>
+            </div>
+            <div class="col-sm-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex flex-row border-bottom">
+                        <h3 class="mb-3 ">Erfarenheter   </h3>                
+                        @if (Model.profile.UserName == User.Identity.Name)
+                        {
+                        <form asp-controller="Experience" asp-action="addExperience" method="get">
+                            <button class="btn btn-info btn-sm px-2"type="submit">Ny</button>
+                        </form>
+                        }
+                        </div>
+
+                        @{
+                            foreach (var item in Model.profileHasExperience)
+                            {
+                                string day = "";
+                                if (item.Startdate != null)
+                                {
+                                    day = item.Startdate.Value.ToShortDateString();
+                                    day += " - ";
+                                    if (item.Enddate != null)
+                                    { day += item.Enddate.Value.ToShortDateString(); }
+
+                                }
+                                <div class="border-bottom">
+                                    <small class="d-flex align-items-center mb-0"><b>@item.Experience.Name</b></small>
+                                    <small class="d-flex align-items-center mb-0">@item.Experience.Description</small>
+
+                                    <small class="d-flex align-items-center mb-0">@day</small>
+
+                                    @if (Model.profile.UserName == User.Identity.Name)
+                                    {
+                                        <a asp-action="RemoveExperience" asp-controller="RemoveExperience" asp-route-experienceID="@item.Experience.Id"><small>Ta bort Erfarenhet</small></a>
+                                    }
+
+                                </div>
 
 
-                        <tr>
-                            <th>Titel</th>
-                            <th>Beskrivning</th>
-                            <th>Skapare</th>
-                        </tr>
-                foreach (var item in Model.profileinProject)
-                {
-
-                                <tr>
-                                    <td>@item.Project.Title</td>
-                                    <td>@item.Project.Description</td>
-
-                                     @if(@item.Project.Creator.UserName == User.Identity.Name)
-                                     {
-                                     <td> <a asp-controller="Project" asp-action="UpdateProject" asp-route-projectID="@item.Project.Id">Redigera projekt</a> </td>
-                                     }else
-                                     {  
-                                     <td>@item.Project.Creator.FirstName</td> 
-                                     }
-                    </tr>
-                }
-
-            }
 
 
-            </table>
-	}
-    
-    <form asp-controller="Message" asp-action="NewMessage" asp-route-profileid="@Model.profile.Id">
+                            }
 
-		<button type="submit"> Skicka meddelande </button>
-	</form>
+
+                        }
+                    </div>
+
+
+                </div>
+            </div>
+            <div class="col-sm-12 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex flex-row border-bottom">
+                           
+                            <h3 class="mb-3">Projekt</h3>
+                                <form asp-controller="Project" asp-action="Project" method="get">
+                                <button class="btn btn-info btn-sm" type="submit">Alla</button>
+                                </form>
+                            
+                        </div>
+
+                        @{
+                            foreach (var item in Model.profileinProject)
+                            {
+                                
+                                <div class="border-bottom">
+                                    <small class="d-flex align-items-center mb-0"><b>@item.Project.Title</b></small>
+                                    <small class="d-flex align-items-center mb-0">@item.Project.Description</small>
+                                    <small class="d-flex align-items-center mb-0">Skapat av: @item.Project.Creator.FirstName @item.Project.Creator.LastName</small>
+
+                                </div>
+
+
+
+
+                            }
+
+
+                        }
+                    </div>
+
+
+                </div>
+            </div>
 
         </div>
-    
+    </div>
+</div>

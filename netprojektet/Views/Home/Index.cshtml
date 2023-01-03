@@ -3,6 +3,8 @@
 <div class="text-center">
     <div>
         <table class="table">
+            <!--här skapar vi listan på indexsidan som innehåller användares profiler och dess 
+            erfarenhet, utbildning och vilka projekt dem är med i-->
             @{
             
                 
@@ -13,6 +15,7 @@
                     <th>Projekt</th>
                    
                 </tr>
+                
                 foreach (var item in Model.profiles)
                 {
                     string educationString = "";
@@ -67,12 +70,13 @@
 </div>
 
 <div class="text-center">
-               
+    <!--Här visar vi upp det senaste tillagda projektet-->
     @{
         if (Model.senasteProject == null)
         {
                             <P>Det finns inga projekt att visa </P>               
         }
+        
         else
         {
     
