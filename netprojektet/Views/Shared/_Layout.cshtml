@@ -9,73 +9,54 @@
     <link rel="stylesheet" href="~/netprojektet.styles.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css"/>
 </head>
-
-@{    
-
-    if(User.Identity.IsAuthenticated)
-    {
-    <header class="headerInloggad">
-
-		<div> <a class="button-goofy" asp-area="" asp-controller="Home" asp-action="Index">Home</a></div>
-                
-        <a class="button-goofy" asp-area="" asp-controller="Profile" asp-action="Profile" asp-route-profileID="-1" Method="Get">Min Profil</a> 
-
-
-		<a class="button-goofy" asp-area="" asp-controller="Project" asp-action="Project" Method="Get">Projekt</a>
-
-      
-     <form asp-controller="Home" asp-action="Search" method="post">
-                        <input type="text" name="Query" placeholder="Skriv namn här" />
-                        <button type="submit">Sök</button>
-                    </form>
-    
-
-
-
-		<div></div>
-		
-                       
-        <a class="button-goofy" asp-controller="Message" asp-action="Message">@ViewBag.Meddelanden</a>
-            <div> <a class="button-goofy" asp-area="" asp-controller="Account" asp-action="Account">Mitt Konto</a></div>
-                                
-
-        @using (Html.BeginForm("LogOut", "Account", FormMethod.Post))
-		{	
-        <button class="button-goofy" type="submit">Logga Ut</button>
-        }
-
-				
-
-	</header>
-    }
-    else
-    {
-
-    <header class="headerUtloggad">
-
-        <div> <a class="button-goofy" asp-area="" asp-controller="Home" asp-action="Index">Home</a></div>
-  
-
-        <a class="button-goofy" asp-area="" asp-controller="Project" asp-action="Project" Method="Get">Projekt</a>
-
-            
-        <div></div>
-
-
-                @using (Html.BeginForm("LogIn", "Account", FormMethod.Get))
-                {
-
-                    <!-- form fields go here -->
-                    <button class="button-goofy" type="submit">Logga in</button>
-
-
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <a class="navbar-brand" asp-controller="Home" asp-action="Index">LinkedUt</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" asp-controller="Message" asp-action="Message">@ViewBag.Meddelanden</a>
+                </li>
+                @{
+                    if(User.Identity.IsAuthenticated){
+                <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Profil
+                </a>
+                      <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" asp-controller="Profile" asp-action="Profile" asp-route-profileID="-1">Min Profil</a></li>
+                            <li><a class="dropdown-item" asp-controller="Account" asp-action="Account">Mitt Konto</a></li>
+                      </ul>
+                </li>
+                    }
                 }
-        
-	    
-	</header>
-
- }
- }
+                @{
+                    if(!User.Identity.IsAuthenticated){
+                        @using (Html.BeginForm("LogIn", "Account", FormMethod.Get))
+                        {
+                            <button class="btn btn-primary" type="submit">Logga in</button>
+                        }
+                    }
+                    else
+                    {
+                        @using (Html.BeginForm("LogOut", "Account", FormMethod.Post))
+                        {	
+                        <button class="btn btn-primary" type="submit">Logga Ut</button>
+                        }
+                    }
+                }
+                
+            </ul>
+            <form class="d-flex" asp-controller="Home" asp-action="Search" method="post">
+                <input class="form-control me-2" type="text" name="query" placeholder="Skriv namn här" aria-label="Search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
+    </div>
+</nav>
 <body>
     <div class="container">
         <main role="main" class="pb-3">
