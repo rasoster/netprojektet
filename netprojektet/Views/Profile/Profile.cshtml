@@ -280,10 +280,10 @@
         </div>
 
         <div class="row gutters-sm">
-            <div class="col-sm-6 mb-3">
+            <div class="col-sm-4 mb-3">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="d-flex align-items-center mb-3">Utbildningar</h6>
+                        <h6 class="d-flex align-items-center mb-3 border-bottom">Utbildningar</h6>
                     
                     @{
                         foreach(var item in Model.profileHasEducation)
@@ -297,8 +297,10 @@
                         
                     }
                         <div class="border-bottom">
-                                <small class="d-flex align-items-center mb-3"><b>@item.Education.Name</b> - @item.Education.Description</small>
-                                <small class="d-flex align-items-center mb-3">@day</small>
+                                <small class="d-flex align-items-center mb-0"><b>@item.Education.Name</b></small>
+                                <small class="d-flex align-items-center mb-0">@item.Education.Description</small>
+
+                                <small class="d-flex align-items-center mb-0">@day</small>
                         </div>
 
                
@@ -313,10 +315,10 @@
 
                 </div>
             </div>
-            <div class="col-sm-6 mb-3">
+            <div class="col-sm-4 mb-3">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h6 class="d-flex align-items-center mb-3">Erfarenheter</h6>
+                        <h6 class="d-flex align-items-center mb-3 border-bottom">Erfarenheter</h6>
 
                         @{
                             foreach (var item in Model.profileHasExperience)
@@ -331,8 +333,10 @@
 
                                 }
                                 <div class="border-bottom">
-                                    <small class="d-flex align-items-center mb-3"><b>@item.Experience.Name</b> - @item.Experience.Description</small>
-                                    <small class="d-flex align-items-center mb-3">@day</small>
+                                    <small class="d-flex align-items-center mb-0"><b>@item.Experience.Name</b></small>
+                                    <small class="d-flex align-items-center mb-0">@item.Experience.Description</small>
+
+                                    <small class="d-flex align-items-center mb-0">@day</small>
                                 </div>
 
 
@@ -347,5 +351,34 @@
 
                 </div>
             </div>
+            <div class="col-sm-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h6 class="d-flex align-items-center mb-3 border-bottom">Projekt</h6>
+
+                        @{
+                            foreach (var item in Model.profileinProject)
+                            {
+                                
+                                <div class="border-bottom">
+                                    <small class="d-flex align-items-center mb-0"><b>@item.Project.Title</b></small>
+                                    <small class="d-flex align-items-center mb-0">@item.Project.Description</small>
+                                    <small class="d-flex align-items-center mb-0">Skapat av: @item.Project.Creator.FirstName @item.Project.Creator.LastName</small>
+
+                                </div>
+
+
+
+
+                            }
+
+
+                        }
+                    </div>
+
+
+                </div>
+            </div>
+
         </div>
     
