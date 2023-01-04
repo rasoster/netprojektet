@@ -1,35 +1,4 @@
 ﻿@model Profile
-<form asp-action="RegisterProfile" method="post">
-
-    <table class="table table-light">
-        <tr>
-            <td>
-                <label>Förnamn</label>
-                <input asp-for="FirstName" type="text" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>Efternamn</label>
-                <input asp-for="LastName" type="text" />
-            </td>
-        </tr>
-    
-         <tr>
-            <td>
-                <label>Privat profil?</label>
-                <input type="checkbox" name="Private" value="true" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                
-                <input type="submit" value="Spara" class="btn-primary" />
-            </td>
-        </tr>
-    </table>
-
-</form>
 
 <form asp-action="RegisterProfile" method="post">
     <div class="form-group">
