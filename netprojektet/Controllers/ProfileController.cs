@@ -78,6 +78,7 @@ namespace netprojektet.Controllers
             theProfile.FirstName = newProfile.FirstName;
             theProfile.LastName = newProfile.LastName;
             theProfile.Private = newProfile.Private;
+            theProfile.Email = newProfile.Email;
             linkedoutDbContext.Update(theProfile);
             linkedoutDbContext.SaveChanges();
             return RedirectToAction("Profile",new {profileId = theProfile.Id});
