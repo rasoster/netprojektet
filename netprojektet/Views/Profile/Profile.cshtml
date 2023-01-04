@@ -115,7 +115,7 @@
                         @if (Model.profile.UserName == User.Identity.Name)
                         {
                         <form asp-controller="Education" asp-action="addEducation" method="get">
-                                    <button class="btn btn-info btn-sm px-2" type="submit">Ny</button>
+                                    <button class="btn btn-info btn-sm px-2" type="submit">Lägg till</button>
                         </form>
                         }
                         </div>
@@ -165,7 +165,7 @@
                         @if (Model.profile.UserName == User.Identity.Name)
                         {
                         <form asp-controller="Experience" asp-action="addExperience" method="get">
-                            <button class="btn btn-info btn-sm px-2"type="submit">Ny</button>
+                            <button class="btn btn-info btn-sm px-2"type="submit">Lägg till</button>
                         </form>
                         }
                         </div>
@@ -214,7 +214,7 @@
                            
                             <h3 class="mb-3">Projekt</h3>
                                 <form asp-controller="Project" asp-action="Project" method="get">
-                                <button class="btn btn-info btn-sm" type="submit">Alla</button>
+                                <button class="btn btn-info btn-sm" type="submit">Visa alla</button>
                                 </form>
                             
                         </div>

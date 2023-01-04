@@ -89,8 +89,7 @@ namespace netprojektet.Controllers
 
 
             message.Reciever = profileid;
-            message.Seen = false;
-            message.Times = DateTime.Now;
+            
             
             return View(message);
         }
@@ -98,7 +97,9 @@ namespace netprojektet.Controllers
         //skickar meddelandet.
         public async Task<IActionResult> SendMessage (Message message)
         {
-            
+            message.Seen = false;
+            message.Times = DateTime.Now;
+
             var options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true,

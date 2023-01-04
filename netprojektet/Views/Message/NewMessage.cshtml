@@ -1,7 +1,8 @@
 ﻿@model Message
 <div class="container">
     <div class="row">
-        <form role="form" id="contact-form" class="contact-form" asp-action="SendMessage">
+        <form class="contact-form" asp-action="SendMessage">
+            <input asp-for="Reciever" type="number" hidden />
             <div class="row">
                 @{
 
@@ -9,7 +10,8 @@
                     {
                 <div class="col-md-6 mb-1">
                     <div class="form-group">
-                                <input asp-for="SenderName" type="text" class="form-control" name="Titel" autocomplete="off" id="Name" readonly>
+                                <small>från:</small>
+                                <input asp-for="SenderName" type="text" class="form-control" readonly>
                     </div>
                         </div>
                     }
@@ -17,7 +19,8 @@
                     {
                         <div class="col-md-6 mb-1">
                     <div class="form-group">
-                                <input asp-for="SenderName" type="text" class="form-control" name="Titel" autocomplete="off" id="Name" placeholder="Namn">
+                                <small>från:</small>
+                                <input asp-for="SenderName" type="text" class="form-control" placeholder="Namn">
                     </div>
                         </div> 
                     
@@ -28,7 +31,7 @@
             <div class="row">
                 <div class="col-md-6 mb-1">
                     <div class="form-group">
-                        <input asp-for="Title" type="text" class="form-control" name="Titel" autocomplete="off" id="email" placeholder="Titel">
+                        <input asp-for="Title" type="text" class="form-control" placeholder="Titel">
                     </div>
                 </div>
             </div>
@@ -36,7 +39,8 @@
             <div class="row">
                 <div class="col-md-12 mb-1">
                     <div class="form-group">
-                        <textarea asp-for="Content" class="form-control textarea" rows="3" name="Message" id="Message" placeholder="Meddelande"></textarea>
+                        <input asp-for="Content" type="text" class="form-control" placeholder="Meddelande">
+
                     </div>
                 </div>
             </div>

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using DataAccessLayer;
 using Models;
 using Castle.Components.DictionaryAdapter.Xml;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace netprojektet.Controllers
 {
@@ -51,9 +52,14 @@ namespace netprojektet.Controllers
             var result = await userManager.ChangePasswordAsync(anvandare, model.OldPassword, model.NewPassword);
             if (result.Succeeded)
             {
-                ViewBag.sucsess = "Lösenordet har nu bytts";
+                return RedirectToAction("Account", "Account");
             }
-            return RedirectToAction("Account", "Account");
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+
+            return View(model);
         }
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
