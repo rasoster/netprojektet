@@ -35,10 +35,11 @@ public partial class Profile
 
     public virtual ICollection<ProfileHasExperience> ProfileHasExperiences { get; } = new List<ProfileHasExperience>();
 
+
     public virtual ICollection<Project> ProjectsNavigation { get; } = new List<Project>();
 
 
-    public virtual ICollection<Competence> Competences { get; } = new List<Competence>();
+    public virtual ICollection<ProfileHasCompetence> ProfileHasCompetences { get; } = new List<ProfileHasCompetence>();
 
     public virtual ICollection<Project> Projects { get; } = new List<Project>();
 }
