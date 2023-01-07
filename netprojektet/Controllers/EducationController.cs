@@ -25,31 +25,37 @@ namespace netprojektet.Controllers
         }
         //Lägger till ny Utbildning
         [HttpPost]
-        public IActionResult AddEducation(EducationViewModel newEducation)
+        public IActionResult AddEducation(EducationViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+            Education newEducation = new Education();
+            newEducation.Name = model.Name;
+            newEducation.Description = model.Description;
 
-
-            linkedoutDbContext.Add(newEducation.education);
+            linkedoutDbContext.Add(newEducation);
             linkedoutDbContext.SaveChanges();
             
 
             ProfileHasEducation profileinEducation = new ProfileHasEducation();
-            profileinEducation.Startdate = newEducation.profileHasEducation.Startdate;
-            profileinEducation.Enddate = newEducation.profileHasEducation.Enddate;
+            profileinEducation.Startdate = model.Startdate;
+            profileinEducation.Enddate = model.Enddate;
 
-            profileinEducation.Education = linkedoutDbContext.Educations.Find(newEducation.education.Id);
+            profileinEducation.Education = newEducation;
 
             profileinEducation.Profile = (from p in linkedoutDbContext.Profiles
                                         where p.UserName == User.Identity.Name
                                         select p).FirstOrDefault();
 
-            profileinEducation.Educationid = newEducation.education.Id;
+            profileinEducation.Educationid = newEducation.Id;
             profileinEducation.Profileid = profileinEducation.Profile.Id;
             linkedoutDbContext.ProfileHasEducations.Add(profileinEducation);
             linkedoutDbContext.SaveChanges();
             
-            Profile profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
-            return RedirectToAction("Profile", "Profile" , new { profileID = profile.Id });
+            
+            return RedirectToAction("Profile", "Profile" , new { profileID = profileinEducation.Profileid });
         }
         //startar ta bort utbildning formuläret
         [HttpGet]

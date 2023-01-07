@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Models
 {
-    public class ExperienceViewModel
+    public class CompetenceViewModel
     {
         [Required(ErrorMessage = "Vänligen fyll i titel")]
         [StringLength(100, ErrorMessage = "namn får vara max 100 karaktärer")]
@@ -16,11 +16,9 @@ namespace Models
         [StringLength(100, ErrorMessage = "beskrivning får vara max 200 karaktärer")]
         public string Description { get; set; }
 
-        [Required(ErrorMessage = "Vänligen fyll i startdatum")]
-        [DataType(DataType.Date)]
-        public DateTime? Startdate { get; set; }
 
-        public DateTime? Enddate { get; set; }
+      
+
 
     }
 }

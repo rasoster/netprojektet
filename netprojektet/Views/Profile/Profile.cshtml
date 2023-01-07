@@ -207,7 +207,49 @@
 
                 </div>
             </div>
-            <div class="col-sm-12 mb-3">
+            <div class="col-sm-6 mb-3">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <div class="d-flex flex-row border-bottom">
+                            <h3 class="mb-3 ">Kompetenser   </h3>
+                            @if (Model.profile.UserName == User.Identity.Name)
+                            {
+                                <form asp-controller="Competence" asp-action="addCompetence" method="get">
+                                    <button class="btn btn-info btn-sm px-2" type="submit">Lägg till</button>
+                                </form>
+                            }
+                        </div>
+
+                        @{
+                            foreach (var item in Model.profileHasCompetence)
+                            {
+
+                                <div class="border-bottom">
+                                    <small class="d-flex align-items-center mb-0"><b>@item.Competence.Name</b></small>
+                                    <small class="d-flex align-items-center mb-0">@item.Competence.Description</small>
+
+
+                                    @if (Model.profile.UserName == User.Identity.Name)
+                                    {
+                                        <a asp-action="RemoveCompetence" asp-controller="Competence" asp-route-competenceID="@item.Competence.Id"><small>Ta bort Erfarenhet</small></a>
+                                    }
+
+                                </div>
+
+
+
+
+                            }
+
+
+                        }
+                    </div>
+
+
+                </div>
+            </div>
+
+            <div class="col-sm-6 mb-3">
                 <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex flex-row border-bottom">
