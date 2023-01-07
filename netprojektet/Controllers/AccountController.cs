@@ -76,6 +76,8 @@ namespace netprojektet.Controllers
                 myProfile.PicUrl = "/Content/Images/DefaultProfilePic.png";
                 myProfile.FirstName = "John";
                 myProfile.LastName = "Dough";
+                myProfile.Email = "";
+                myProfile.Visitors = 0;
                 myProfile.Private = true;
              
                 
