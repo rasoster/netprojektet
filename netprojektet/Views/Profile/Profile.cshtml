@@ -190,7 +190,7 @@
 
                                     @if (Model.profile.UserName == User.Identity.Name)
                                     {
-                                        <a asp-action="RemoveExperience" asp-controller="RemoveExperience" asp-route-experienceID="@item.Experience.Id"><small>Ta bort Erfarenhet</small></a>
+                                        <a asp-action="RemoveExperience" asp-controller="Experience" asp-route-experienceID="@item.Experience.Id"><small>Ta bort Erfarenhet</small></a>
                                     }
 
                                 </div>
