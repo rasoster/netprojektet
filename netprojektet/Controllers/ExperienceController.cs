@@ -13,10 +13,7 @@ namespace netprojektet.Controllers
         {
             this.linkedoutDbContext = linkedoutDbContext;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+       
         //startar ny utbildning formuläret
         [HttpGet]
         public IActionResult addExperience()
