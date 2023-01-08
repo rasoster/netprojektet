@@ -23,8 +23,7 @@ public partial class Profile
     public string? PicUrl { get; set; }
 
     public bool Private { get; set; }
-
-    public string GitHubUrl { get; set; }
+    public string GitHubUserName { get; set; }
     
     public string? UserName { get; set; }
 

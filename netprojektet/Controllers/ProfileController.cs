@@ -52,15 +52,7 @@ namespace netprojektet.Controllers
             {
 
                 profileViewModel.profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
-                HttpResponseMessage response = await httpClient.GetAsync($"Profile/{profileViewModel.profile.Id}");
-
-                string data = await response.Content.ReadAsStringAsync();
-                var options = new JsonSerializerOptions
-                {
-                    PropertyNameCaseInsensitive = true,
-                };
-                Profile myProfile = System.Text.Json.JsonSerializer.Deserialize<Profile>(data, options);
-                ViewBag.Visitors = "Du har haft " + myProfile.Visitors + " besökare på din sida";
+                
             }
 
 
@@ -71,8 +63,11 @@ namespace netprojektet.Controllers
             }
 
             httpClient.DefaultRequestHeaders.Add("User-Agent", "rasoster");
-            
-            HttpResponseMessage gitResponse = await httpClient.GetAsync("https://api.github.com/users/karpathy/repos");
+
+
+            string gitPath = "https://api.github.com/users/" + profileViewModel.profile.GitHubUserName + "/repos";
+
+            HttpResponseMessage gitResponse = await httpClient.GetAsync(gitPath);
 
             string gitData = await gitResponse.Content.ReadAsStringAsync();
 
@@ -111,25 +106,19 @@ namespace netprojektet.Controllers
                 }
 
             }
+            HttpResponseMessage response = await httpClient.GetAsync($"Profile/{profileViewModel.profile.Id}");
+
+            string data = await response.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+            Profile myProfile = System.Text.Json.JsonSerializer.Deserialize<Profile>(data, options);
+            ViewBag.Visitors = "Du har haft " + myProfile.Visitors + " besökare på din sida";
 
             return profileViewModel;
 
         }
-        //public async Task<int> getVisitors(int profileID)
-        //{
-        //    HttpResponseMessage response = await httpClient.GetAsync($"Profile/{profileID}");
-
-        //    string data = await response.Content.ReadAsStringAsync();
-        //    var options = new JsonSerializerOptions
-        //    {
-        //        PropertyNameCaseInsensitive = true,
-        //    };
-        //    Profile myProfile = JsonSerializer.Deserialize<Profile>(data, options);
-
-        //    return myProfile.Visitors;
-        //}
-
-
 
 
 

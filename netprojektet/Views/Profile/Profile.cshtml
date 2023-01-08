@@ -53,8 +53,13 @@
                 </div>
             </div>
         </div>
-        <p>@ViewBag.Visitors</p>
-        
+        @{
+            if(User.Identity.Name == Model.profile.UserName)
+            {
+                <p>@ViewBag.Visitors</p>
+            }
+            }
+
         <form asp-action="CreateXml" asp-route-profileid="@Model.profile.Id">
                             <button class="btn btn-outline-primary" type="submit"> exportera </button>
                         </form>
@@ -79,6 +84,15 @@
                     </div>
                     <div class="col-sm-9 text-secondary">
                         @Model.profile.Email
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <h6 class="mb-0">GitHub användarnamn</h6>
+                    </div>
+                    <div class="col-sm-9 text-secondary">
+                        @Model.profile.GitHubUserName
                     </div>
                 </div>
                 <hr>
