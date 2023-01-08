@@ -42,7 +42,7 @@ namespace MessagesAPI.Controllers
                 linkedoutDbContext.SaveChanges();
             
         }
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public void Delete(int id) 
         {
             Message message = linkedoutDbContext.Messages.Find(id);
