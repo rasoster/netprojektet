@@ -5,7 +5,7 @@
 namespace netprojektet.Migrations
 {
     /// <inheritdoc />
-    public partial class test : Migration
+    public partial class datre : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

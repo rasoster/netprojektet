@@ -351,14 +351,17 @@ namespace netprojektet.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -366,7 +369,7 @@ namespace netprojektet.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<bool?>("Private")
+                    b.Property<bool>("Private")
                         .HasColumnType("bit");
 
                     b.Property<string>("UserName")
@@ -381,6 +384,32 @@ namespace netprojektet.Migrations
                         .HasName("PK__Profile__3214EC27AD0E7C31");
 
                     b.ToTable("Profile", (string)null);
+                });
+
+            modelBuilder.Entity("Models.ProfileHasCompetence", b =>
+                {
+                    b.Property<int>("Profileid")
+                        .HasColumnType("int")
+                        .HasColumnName("profileid");
+
+                    b.Property<int>("Competenceid")
+                        .HasColumnType("int")
+                        .HasColumnName("competenceid");
+
+                    b.Property<DateTime?>("Enddate")
+                        .HasColumnType("date")
+                        .HasColumnName("enddate");
+
+                    b.Property<DateTime?>("Startdate")
+                        .HasColumnType("date")
+                        .HasColumnName("startdate");
+
+                    b.HasKey("Profileid", "Competenceid")
+                        .HasName("PK__profile___809453B2A4295BDF");
+
+                    b.HasIndex("Competenceid");
+
+                    b.ToTable("profile_has_competence", (string)null);
                 });
 
             modelBuilder.Entity("Models.ProfileHasEducation", b =>
@@ -467,11 +496,13 @@ namespace netprojektet.Migrations
                         .HasColumnName("CreatorID");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)")
                         .HasColumnName("description");
 
                     b.Property<string>("Title")
+                        .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
@@ -515,22 +546,6 @@ namespace netprojektet.Migrations
                         .HasFilter("[ProfileUserName] IS NOT NULL");
 
                     b.ToTable("users", (string)null);
-                });
-
-            modelBuilder.Entity("ProfileHasCompetence", b =>
-                {
-                    b.Property<int>("Profileid")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Competenceid")
-                        .HasColumnType("int");
-
-                    b.HasKey("Profileid", "Competenceid")
-                        .HasName("PK__profile___809453B2A4295BDF");
-
-                    b.HasIndex("Competenceid");
-
-                    b.ToTable("profile_has_competence", (string)null);
                 });
 
             modelBuilder.Entity("ProfileInProject", b =>
@@ -608,6 +623,25 @@ namespace netprojektet.Migrations
                         .HasConstraintName("fk_message_reciever");
 
                     b.Navigation("RecieverNavigation");
+                });
+
+            modelBuilder.Entity("Models.ProfileHasCompetence", b =>
+                {
+                    b.HasOne("Models.Competence", "Competence")
+                        .WithMany("ProfileHasCompetences")
+                        .HasForeignKey("Competenceid")
+                        .IsRequired()
+                        .HasConstraintName("fk_competence_id");
+
+                    b.HasOne("Models.Profile", "Profile")
+                        .WithMany("ProfileHasCompetences")
+                        .HasForeignKey("Profileid")
+                        .IsRequired()
+                        .HasConstraintName("fk_profilescompetence_id");
+
+                    b.Navigation("Competence");
+
+                    b.Navigation("Profile");
                 });
 
             modelBuilder.Entity("Models.ProfileHasEducation", b =>
@@ -688,21 +722,6 @@ namespace netprojektet.Migrations
                     b.Navigation("Profile");
                 });
 
-            modelBuilder.Entity("ProfileHasCompetence", b =>
-                {
-                    b.HasOne("Models.Competence", null)
-                        .WithMany()
-                        .HasForeignKey("Competenceid")
-                        .IsRequired()
-                        .HasConstraintName("fk_competence_id");
-
-                    b.HasOne("Models.Profile", null)
-                        .WithMany()
-                        .HasForeignKey("Profileid")
-                        .IsRequired()
-                        .HasConstraintName("fk_profilesss_id");
-                });
-
             modelBuilder.Entity("ProfileInProject", b =>
                 {
                     b.HasOne("Models.Profile", null)
@@ -716,6 +735,11 @@ namespace netprojektet.Migrations
                         .HasForeignKey("Projectid")
                         .IsRequired()
                         .HasConstraintName("fk_project_id");
+                });
+
+            modelBuilder.Entity("Models.Competence", b =>
+                {
+                    b.Navigation("ProfileHasCompetences");
                 });
 
             modelBuilder.Entity("Models.Education", b =>
@@ -732,6 +756,8 @@ namespace netprojektet.Migrations
                 {
                     b.Navigation("Messages");
 
+                    b.Navigation("ProfileHasCompetences");
+
                     b.Navigation("ProfileHasEducations");
 
                     b.Navigation("ProfileHasExperiences");
@@ -740,8 +766,7 @@ namespace netprojektet.Migrations
 
                     b.Navigation("ProjectsNavigation");
 
-                    b.Navigation("user")
-                        .IsRequired();
+                    b.Navigation("user");
                 });
 
             modelBuilder.Entity("Models.Project", b =>

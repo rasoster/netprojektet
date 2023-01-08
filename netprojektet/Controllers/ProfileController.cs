@@ -60,6 +60,7 @@ namespace netprojektet.Controllers
             profileViewModel.profileHasEducation = linkedoutDbContext.ProfileHasEducations.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
             profileViewModel.profileHasExperience = linkedoutDbContext.ProfileHasExperiences.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
             profileViewModel.profileinProject = linkedoutDbContext.ProfileinProjects.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
+            profileViewModel.profileHasCompetence = linkedoutDbContext.ProfileHasCompetences.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
 
 
 
@@ -96,9 +97,14 @@ namespace netprojektet.Controllers
         [HttpPost]
         public IActionResult RegisterProfile(Profile newProfile)
         {
+           
+            if (!ModelState.IsValid)
+            {
+                return View(newProfile);
+            }
             Profile theProfile = linkedoutDbContext.Profiles.FirstOrDefault(e => e.UserName == User.Identity.Name);
             
-            theProfile.Visitors = 0;
+            
             theProfile.PicUrl = "/Content.Images.DefaultProfilePic.png";
             theProfile.FirstName = newProfile.FirstName;
             theProfile.LastName = newProfile.LastName;
@@ -106,6 +112,7 @@ namespace netprojektet.Controllers
             theProfile.Email = newProfile.Email;
             linkedoutDbContext.Update(theProfile);
             linkedoutDbContext.SaveChanges();
+
             return RedirectToAction("Profile",new {profileId = theProfile.Id});
 
 
@@ -123,6 +130,10 @@ namespace netprojektet.Controllers
         [HttpPost]
         public IActionResult UpdateProfile(Profile uppdatedProfile)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(uppdatedProfile);
+            }
             //Det var problem med foreign key i denna tabell så nedan lösning har implementerats.
             //kopierar över all info från viewModel till den existerande profilen.
             Profile profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);

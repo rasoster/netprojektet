@@ -30,6 +30,8 @@ public partial class LinkedoutDbContext : IdentityDbContext<Anvandare>
 
     public virtual DbSet<Profile> Profiles { get; set; }
 
+    public virtual DbSet<ProfileHasCompetence> ProfileHasCompetences { get; set; }
+
     public virtual DbSet<ProfileHasEducation> ProfileHasEducations { get; set; }
 
     public virtual DbSet<ProfileHasExperience> ProfileHasExperiences { get; set; }
@@ -128,51 +130,56 @@ public partial class LinkedoutDbContext : IdentityDbContext<Anvandare>
             entity.Property(e => e.UserName).HasMaxLength(450);
 
             entity.HasOne(e => e.user).WithOne(a => a.Profile).HasPrincipalKey<Profile>(a => a.UserName);
-            entity.HasMany(d => d.Competences).WithMany(p => p.Profiles)
-                .UsingEntity<Dictionary<string, object>>(
-                    "ProfileHasCompetence",
-                    r => r.HasOne<Competence>().WithMany()
-                        .HasForeignKey("Competenceid")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("fk_competence_id"),
-                    l => l.HasOne<Profile>().WithMany()
-                        .HasForeignKey("Profileid")
-                        .OnDelete(DeleteBehavior.ClientSetNull)
-                        .HasConstraintName("fk_profilesss_id"),
-                    
-                    j =>
-                    {
-                        j.HasKey("Profileid", "Competenceid").HasName("PK__profile___809453B2A4295BDF");
-                        j.ToTable("profile_has_competence");
-                    });
+            
         });
 
-        modelBuilder.Entity<ProfileHasEducation>(entity =>
+        modelBuilder.Entity<ProfileHasCompetence>(entity =>
         {
-            entity.HasKey(e => new { e.Profileid, e.Educationid }).HasName("PK__profile___60E42F3DC720B0F8");
+            entity.HasKey(e => new { e.Profileid, e.Competenceid }).HasName("PK__profile___809453B2A4295BDF");
 
-            entity.ToTable("profile_has_education");
+            entity.ToTable("profile_has_competence");
 
             entity.Property(e => e.Profileid).HasColumnName("profileid");
-            entity.Property(e => e.Educationid).HasColumnName("educationid");
-            entity.Property(e => e.Enddate)
-                .HasColumnType("date")
-                .HasColumnName("enddate");
-            entity.Property(e => e.Startdate)
-                .HasColumnType("date")
-                .HasColumnName("startdate");
+            entity.Property(e => e.Competenceid).HasColumnName("competenceid");
+            
 
-            entity.HasOne(d => d.Education).WithMany(p => p.ProfileHasEducations)
-                .HasForeignKey(d => d.Educationid)
+            entity.HasOne(d => d.Competence).WithMany(p => p.ProfileHasCompetences)
+                .HasForeignKey(d => d.Competenceid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_education_id");
+                .HasConstraintName("fk_competence_id");
 
-            entity.HasOne(d => d.Profile).WithMany(p => p.ProfileHasEducations)
+            entity.HasOne(d => d.Profile).WithMany(p => p.ProfileHasCompetences)
                 .HasForeignKey(d => d.Profileid)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("fk_profilessss_id");
+                .HasConstraintName("fk_profilescompetence_id");
         });
-        modelBuilder.Entity<ProfileinProject>(entity =>
+            modelBuilder.Entity<ProfileHasEducation>(entity =>
+            {
+                entity.HasKey(e => new { e.Profileid, e.Educationid }).HasName("PK__profile___60E42F3DC720B0F8");
+
+                entity.ToTable("profile_has_education");
+
+                entity.Property(e => e.Profileid).HasColumnName("profileid");
+                entity.Property(e => e.Educationid).HasColumnName("educationid");
+                entity.Property(e => e.Enddate)
+                    .HasColumnType("date")
+                    .HasColumnName("enddate");
+                entity.Property(e => e.Startdate)
+                    .HasColumnType("date")
+                    .HasColumnName("startdate");
+
+                entity.HasOne(d => d.Education).WithMany(p => p.ProfileHasEducations)
+                    .HasForeignKey(d => d.Educationid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_education_id");
+
+                entity.HasOne(d => d.Profile).WithMany(p => p.ProfileHasEducations)
+                    .HasForeignKey(d => d.Profileid)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_profilessss_id");
+            });
+
+            modelBuilder.Entity<ProfileinProject>(entity =>
         {
             entity.HasKey(e => new { e.Profileid, e.Projectid }).HasName("PK__profile_ProjectID");
 

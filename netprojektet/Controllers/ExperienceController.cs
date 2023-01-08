@@ -13,10 +13,7 @@ namespace netprojektet.Controllers
         {
             this.linkedoutDbContext = linkedoutDbContext;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+       
         //startar ny utbildning formuläret
         [HttpGet]
         public IActionResult addExperience()
@@ -28,30 +25,38 @@ namespace netprojektet.Controllers
         }
         //Lägger till ny erfarenhet
         [HttpPost]
-        public IActionResult AddExperience (ExperienceViewModel newExperience)
+        public IActionResult AddExperience (ExperienceViewModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
 
-            linkedoutDbContext.Add(newExperience.experience);
+            Experience newExperience = new Experience();
+            newExperience.Name = model.Name;
+            newExperience.Description = model.Description;
+
+            linkedoutDbContext.Add(newExperience);
             linkedoutDbContext.SaveChanges();
 
             ProfileHasExperience profileinExperience = new ProfileHasExperience();
-            profileinExperience.Startdate = newExperience.profileHasExperience.Startdate;
-            profileinExperience.Enddate = newExperience.profileHasExperience.Enddate;
+            profileinExperience.Startdate = model.Startdate;
+            profileinExperience.Enddate = model.Enddate;
 
-            profileinExperience.Experience = linkedoutDbContext.Experiences.Find(newExperience.experience.Id);
+            profileinExperience.Experience = newExperience;
 
             profileinExperience.Profile = (from p in linkedoutDbContext.Profiles
                                           where p.UserName == User.Identity.Name
                                           select p).FirstOrDefault();
 
-            profileinExperience.Experienceid = newExperience.experience.Id;
+            profileinExperience.Experienceid = newExperience.Id;
             profileinExperience.Profileid = profileinExperience.Profile.Id;
             linkedoutDbContext.ProfileHasExperiences.Add(profileinExperience);
             linkedoutDbContext.SaveChanges();
 
 
-            Profile profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
-            return RedirectToAction("Profile", "Profile", new { profileID = profile.Id });
+            
+            return RedirectToAction("Profile", "Profile", new { profileID = profileinExperience.Profileid });
         }
         [HttpGet]
         public IActionResult RemoveExperience(int experienceID)
