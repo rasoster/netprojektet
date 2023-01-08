@@ -228,13 +228,21 @@ namespace netprojektet.Controllers
         }
         public async Task<IActionResult> CreateXml(int profileid)
         {
-            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Content");
-            ProfileViewModel model = await fillViewModel(profileid);
 
-            XmlSerializer xmlSerializer= new XmlSerializer(typeof(ProfileViewModel));
-            using (StreamWriter writer = new System.IO.StreamWriter(filePath))
+            ProfiletoExport profile = new ProfiletoExport();
+            profile.Name = (from p in linkedoutDbContext.Profiles
+                           where p.Id == profileid
+                           select p.FirstName +" " + p.LastName).First();
+
+            XmlSerializer xmlSerializer= new XmlSerializer(typeof(ProfiletoExport));
+            using (var stream = new MemoryStream())
             {
-                xmlSerializer.Serialize(writer, model);
+                xmlSerializer.Serialize(stream, profile);
+
+                stream.Position = 0;
+                var bytes = stream.ToArray();
+
+                return File(bytes, "application/xml", "profile.xml");
             }
             return RedirectToAction("Profile", new { profileID = profileid });
 
