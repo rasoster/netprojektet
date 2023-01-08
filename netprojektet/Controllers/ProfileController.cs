@@ -60,6 +60,9 @@ namespace netprojektet.Controllers
             else
             {
                 profileViewModel.profile = linkedoutDbContext.Profiles.Find(profileID);
+                profileViewModel.profile.Visitors += 1;
+                linkedoutDbContext.Update(profileViewModel.profile);
+                linkedoutDbContext.SaveChanges();
             }
             //Hämtar github repositories från API
             httpClient.DefaultRequestHeaders.Add("User-Agent", "rasoster");
