@@ -27,17 +27,8 @@ namespace netprojektet.Controllers
             ViewBag.Meddelanden = "Inkorg (" + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + ")";
             var model = new ProfileProjectViewModel();
             //lägger till en lista i viewModel baserat på om profilerna är privata eller inte
-            List<Profile> profileListFull = (from p in linkedoutDbContext.Profiles
-                                            join o in linkedoutDbContext.Anvandares on p.UserName equals o.UserName
-                                            where o.LockoutEnabled == false
-                                            select p).ToList();
-
-            List<Profile> profileListLimited = (from p in linkedoutDbContext.Profiles
-                                                join o in linkedoutDbContext.Anvandares on p.UserName equals o.UserName
-                                                where o.LockoutEnabled == false
-                                                where p.Private == false
-                                                select p).ToList();
-
+            List<Profile> profileListFull = linkedoutDbContext.Profiles.ToList();
+            List<Profile> profileListLimited = linkedoutDbContext.Profiles.Where(e => e.Private == false).ToList();
             Project projekt = linkedoutDbContext.Projects.Where(e => e.Creator.Private == false).OrderByDescending(e => e.Id).FirstOrDefault();
             //om användaren är inloggad får hen hela listan, annars en begränsad.
             model.senasteProject = projekt;
@@ -69,10 +60,7 @@ namespace netprojektet.Controllers
             //om frågan innehåller ett ord får man resultat där ordet förekommer i förnamn eller efternamn
             if(searchQuerys.Length == 1) {
                 
-                profiles = (from p in linkedoutDbContext.Profiles
-                           join o in linkedoutDbContext.Anvandares on p.UserName equals o.UserName
-                           where o.LockoutEnabled == false && p.FirstName.Contains(searchQuery) || p.LastName.Contains(searchQuery)
-                           select p).ToList();
+                profiles = linkedoutDbContext.Profiles.Where(p => p.FirstName.Contains(searchQuery) || p.LastName.Contains(searchQuery)).ToList();
 
             }
             //om frågan innehåller två ord får man resultat där första ordet finns i förnamnet och andra ordet i efternamnet
@@ -83,10 +71,8 @@ namespace netprojektet.Controllers
                 foreach (var query in searchQuerys)
                 {
 
-                    List<Profile> queryResults = (from p in linkedoutDbContext.Profiles
-                                                 join o in linkedoutDbContext.Anvandares on p.UserName equals o.UserName
-                                                 where o.LockoutEnabled == false && p.FirstName.Contains(searchQuerys[0]) && p.LastName.Contains(searchQuerys[1]) || p.LastName.Contains(searchQuerys[0]) && p.FirstName.Contains(searchQuerys[1])
-                                                 select p).ToList();
+                    List<Profile> queryResults = linkedoutDbContext.Profiles.Where(p => p.FirstName.Contains(searchQuerys[0]) && p.LastName.Contains(searchQuerys[1])
+                                                    || p.LastName.Contains(searchQuerys[0]) && p.FirstName.Contains(searchQuerys[1])).ToList();
 
 
                     foreach (Profile queryProfile in queryResults)
@@ -104,11 +90,8 @@ namespace netprojektet.Controllers
                 {
 
 
-                    List<Profile> queryResults = (from p in linkedoutDbContext.Profiles
-                                                  join o in linkedoutDbContext.Anvandares on p.UserName equals o.UserName
-                                                  where o.LockoutEnabled == false && p.FirstName.Contains(query) || p.LastName.Contains(query)
-                                                  select p).ToList();
-
+                    List<Profile> queryResults = linkedoutDbContext.Profiles
+                             .Where(p => p.FirstName.Contains(query) || p.LastName.Contains(query)).ToList();
 
                     foreach (Profile queryProfile in queryResults)
                     {
