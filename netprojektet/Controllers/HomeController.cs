@@ -75,7 +75,7 @@ namespace netprojektet.Controllers
 
                 List<Profile> queryResults = linkedoutDbContext.Profiles.Where(p => p.FirstName.Contains(query) || p.LastName.Contains(query)).ToList();
 
-
+                //Kontrollerar om sökordet finns i någon kompetens
                 List<Profile> profileCompetence = (from p in linkedoutDbContext.ProfileHasCompetences
                                                    where p.Competence.Name.Contains(query)
                                                    select p.Profile).ToList();
@@ -88,7 +88,7 @@ namespace netprojektet.Controllers
                     }
 
                 }
-
+            //rensar ut dubletter
             List<Profile> noDupProfiles = new List<Profile>();
             foreach (Profile profile in profiles)
             {
@@ -101,7 +101,7 @@ namespace netprojektet.Controllers
                     noDupProfiles.Add(profile);
                 }
             }
-
+            //tilldelar profiler baserat på om användaren är inloggad
             List<Profile> filteredList = new List<Profile>();
             if (User.Identity.IsAuthenticated)
             {

@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Models;
-using System.Linq.Expressions;
 using DataAccessLayer;
-using static System.Runtime.InteropServices.JavaScript.JSType;
-using Microsoft.AspNetCore.Http.HttpResults;
+
 
 
 namespace netprojektet.Controllers

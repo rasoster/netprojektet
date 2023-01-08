@@ -1,7 +1,7 @@
 ﻿using DataAccessLayer;
 using Microsoft.AspNetCore.Mvc;
 using Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace netprojektet.Controllers
 {

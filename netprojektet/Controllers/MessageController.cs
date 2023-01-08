@@ -1,11 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using DataAccessLayer;
 using Models;
 using System.Text.Json;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-using System.Text;
+
 
 
 namespace netprojektet.Controllers
@@ -114,7 +111,7 @@ namespace netprojektet.Controllers
             return RedirectToAction ("Index", "Home");
 
         }
-       
+        //Start DeletesMessage view
         public async Task<IActionResult> DeletesMessage(int itemid)
         {
             HttpResponseMessage response = await httpClient.GetAsync($"Message/{itemid}");
@@ -128,7 +125,7 @@ namespace netprojektet.Controllers
 
             return View(message);
         }
-        
+        //tar bort message via API
         public async Task<IActionResult> DeleteMessage(Message message)
         {
             var response = await httpClient.DeleteAsync($"Message/{message.Id}");

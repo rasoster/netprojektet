@@ -61,24 +61,18 @@ namespace netprojektet.Controllers
             {
                 profileViewModel.profile = linkedoutDbContext.Profiles.Find(profileID);
             }
-
+            //Hämtar github repositories från API
             httpClient.DefaultRequestHeaders.Add("User-Agent", "rasoster");
-
-
             string gitPath = "https://api.github.com/users/" + profileViewModel.profile.GitHubUserName + "/repos";
-
             HttpResponseMessage gitResponse = await httpClient.GetAsync(gitPath);
-
             string gitData = await gitResponse.Content.ReadAsStringAsync();
-
-
             profileViewModel.gitHubRepository = JsonConvert.DeserializeObject<List<GitHubRepository>>(gitData);
 
-
+            //Lägger till sambanden i view model
             profileViewModel.profileHasEducation = linkedoutDbContext.ProfileHasEducations.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
             profileViewModel.profileHasExperience = linkedoutDbContext.ProfileHasExperiences.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
-
             profileViewModel.profileinProject = linkedoutDbContext.ProfileinProjects.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
+            profileViewModel.profileHasCompetence = linkedoutDbContext.ProfileHasCompetences.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
 
 
             List<ProfileinProject> profileinProjects = (from p in linkedoutDbContext.ProfileinProjects
@@ -89,7 +83,6 @@ namespace netprojektet.Controllers
                                                  join o in linkedoutDbContext.Anvandares on p.Project.Creator.UserName equals o.UserName
                                                  where o.LockoutEnabled == false
                                                  select p).ToList();
-            profileViewModel.profileHasCompetence = linkedoutDbContext.ProfileHasCompetences.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
 
 
             foreach (ProfileinProject profileinProject in profileViewModel.profileinProject)
@@ -106,6 +99,7 @@ namespace netprojektet.Controllers
                 }
 
             }
+            //Hämtar besökarantal från API
             HttpResponseMessage response = await httpClient.GetAsync($"Profile/{profileViewModel.profile.Id}");
 
             string data = await response.Content.ReadAsStringAsync();
@@ -178,6 +172,7 @@ namespace netprojektet.Controllers
             profile.LastName = uppdatedProfile.LastName;
             profile.Email = uppdatedProfile.Email;
             profile.Private = uppdatedProfile.Private;
+            profile.GitHubUserName = uppdatedProfile.GitHubUserName;
             linkedoutDbContext.Profiles.Update(profile);
             linkedoutDbContext.SaveChanges();
             return RedirectToAction("Profile",new {profileID = profile.Id});
@@ -191,9 +186,10 @@ namespace netprojektet.Controllers
 
             try
             { 
-           
+                //Hämtar filnamn och skapar en filsökväg
                 string fileName = Path.GetFileName(model.Image.FileName);
                 string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot","Content", "images", fileName);
+                //kopierar ner bilden till filsökvägen
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
                     await model.Image.CopyToAsync(fileStream);
@@ -210,14 +206,14 @@ namespace netprojektet.Controllers
             return RedirectToAction("Profile", new { profileID = currentProfile.Id });
         }
         public void SetPicUrl(Profile currentProfile,string fileName)
-        {
+        {   //sätter profilens picurl till bild
             currentProfile.PicUrl = "/Content/Images/" + fileName;
             linkedoutDbContext.Profiles.Update(currentProfile);
             linkedoutDbContext.SaveChanges();
         }
         public async Task<IActionResult> CreateXml(int profileid)
         {
-
+            //Startar ett nytt objekt som innehåller information om profilen.
             ProfiletoExport profile = new ProfiletoExport();
             profile.Name = (from p in linkedoutDbContext.Profiles
                            where p.Id == profileid

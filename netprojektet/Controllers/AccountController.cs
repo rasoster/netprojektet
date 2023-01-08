@@ -2,8 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using DataAccessLayer;
 using Models;
-using Castle.Components.DictionaryAdapter.Xml;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace netprojektet.Controllers
 {
@@ -44,10 +43,12 @@ namespace netprojektet.Controllers
         [HttpPost]
         public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
         {
+           
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
+            //byter lösenordet med ChangePasswordAsync
             Anvandare anvandare = _dbContext.Anvandares.FirstOrDefault(u => u.UserName == User.Identity.Name);
             var result = await userManager.ChangePasswordAsync(anvandare, model.OldPassword, model.NewPassword);
             if (result.Succeeded)
