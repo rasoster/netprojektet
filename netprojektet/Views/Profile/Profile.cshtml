@@ -328,10 +328,17 @@
                                     <small>@item.watchers_count visningar</small>
                                
 
-                                    </div>
-                            
-                            }
+                                </div>
 
+                            }
+                            if (Model.gitHubRepository.Count() == 0)
+                            {
+                                if(Model.profile.UserName == User.Identity.Name){
+                                    <div class="border-bottom">
+                                    <small>@ViewBag.NoRepository</small>
+                                    </div>
+                                }
+                            }
 
                         }
                     </div>

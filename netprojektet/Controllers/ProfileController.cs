@@ -65,11 +65,18 @@ namespace netprojektet.Controllers
                 linkedoutDbContext.SaveChanges();
             }
             //Hämtar github repositories från API
+            try { 
             httpClient.DefaultRequestHeaders.Add("User-Agent", "rasoster");
             string gitPath = "https://api.github.com/users/" + profileViewModel.profile.GitHubUserName + "/repos";
             HttpResponseMessage gitResponse = await httpClient.GetAsync(gitPath);
             string gitData = await gitResponse.Content.ReadAsStringAsync();
             profileViewModel.gitHubRepository = JsonConvert.DeserializeObject<List<GitHubRepository>>(gitData);
+            }
+            catch
+            {
+                profileViewModel.gitHubRepository = new List<GitHubRepository>();
+                ViewBag.NoRepository = "Är du säker på att du skrivit rätt användarnamn på GitHub?";
+            }
 
             //Lägger till sambanden i view model
             profileViewModel.profileHasEducation = linkedoutDbContext.ProfileHasEducations.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
