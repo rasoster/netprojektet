@@ -103,27 +103,27 @@ namespace netprojektet.Controllers
             //loggar in användare
             if (ModelState.IsValid)
             {
-                
-
-
-                var result = await signInManager.PasswordSignInAsync(loginViewModel.Username, loginViewModel.Password, isPersistent: loginViewModel.RememberMe, lockoutOnFailure: false);
-
-                if (result.IsLockedOut)
+               
+                Anvandare user = await userManager.FindByNameAsync(loginViewModel.Username);
+                if(user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Felaktigt användarnamn eller lösenord");
+                    return View(loginViewModel);
+                }
+                if (user.LockoutEnabled)
                 {
                     ModelState.AddModelError(string.Empty, "Denna användare är låst, vänligen kontakta administratör");
                     return View(loginViewModel);
-
                 }
+                var result = await signInManager.PasswordSignInAsync(loginViewModel.Username, loginViewModel.Password, isPersistent: loginViewModel.RememberMe, lockoutOnFailure: false);
+
+          
                 
                 if (result.Succeeded) { 
                 return RedirectToAction("Index", "Home");
 
                 }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "Felaktigt användarnamn eller lösenord");
-                }
-
+            
             }
             return View(loginViewModel);
 
