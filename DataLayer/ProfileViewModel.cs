@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Models;
-
+using System.Xml.Serialization;
 
 namespace Models
 {
@@ -21,6 +21,9 @@ namespace Models
 
         public List<Project> project { get; set; }
 
+        public List<GitHubRepository> gitHubRepository { get; set; }
+
+        [XmlIgnore]
         public IFormFile Image { get; set; }
       
 

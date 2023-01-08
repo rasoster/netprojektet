@@ -22,6 +22,8 @@ clientHandler.ServerCertificateCustomValidationCallback = (sender, cert, chain, 
 HttpClient client = new HttpClient(clientHandler);
 client.BaseAddress = new Uri("https://localhost:7014/api/");
 
+
+
 builder.Services.AddSingleton<HttpClient>(client);
 
 var app = builder.Build();

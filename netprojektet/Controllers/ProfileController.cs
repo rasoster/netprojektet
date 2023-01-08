@@ -9,6 +9,11 @@ using System.Security.Principal;
 using Microsoft.AspNetCore.Authorization;
 using System.Net.Http;
 using System.Text.Json;
+using netprojektet.Migrations;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
+using System.Net;
+using System.Xml.Serialization;
 
 namespace netprojektet.Controllers
 {
@@ -16,11 +21,13 @@ namespace netprojektet.Controllers
     {
         private LinkedoutDbContext linkedoutDbContext;
         private HttpClient httpClient;
+       
 
         public ProfileController(LinkedoutDbContext DbContext, HttpClient httpClient)
         {
             linkedoutDbContext = DbContext;
-            this.httpClient = httpClient;   
+            this.httpClient = httpClient; 
+            
         }
         //tar in profilID och tar fram den profil som ska visas.
         [HttpGet]
@@ -28,12 +35,17 @@ namespace netprojektet.Controllers
         {
             ViewBag.Meddelanden = "Inkorg (" + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + ")";
             Profile profile = linkedoutDbContext.Profiles.Find(profileID);
-            ProfileViewModel profileViewModel = new ProfileViewModel();
             if (!User.Identity.IsAuthenticated && profile.Private == true)
             {
                 return RedirectToAction("index", "home");
             }
 
+            ProfileViewModel profileViewModel = await fillViewModel(profileID);
+            return View(profileViewModel);
+        }
+        public async Task<ProfileViewModel> fillViewModel(int profileID)
+        {
+            ProfileViewModel profileViewModel = new ProfileViewModel();
 
             //om man klickar på "min profil" skickas värdet -1 för att sedan ersättas med rätt värde med hjälp av user.Identity
             if (profileID == -1 && User.Identity.IsAuthenticated)
@@ -47,7 +59,7 @@ namespace netprojektet.Controllers
                 {
                     PropertyNameCaseInsensitive = true,
                 };
-                Profile myProfile = JsonSerializer.Deserialize<Profile>(data, options);
+                Profile myProfile = System.Text.Json.JsonSerializer.Deserialize<Profile>(data, options);
                 ViewBag.Visitors = "Du har haft " + myProfile.Visitors + " besökare på din sida";
             }
 
@@ -57,6 +69,17 @@ namespace netprojektet.Controllers
             {
                 profileViewModel.profile = linkedoutDbContext.Profiles.Find(profileID);
             }
+
+            httpClient.DefaultRequestHeaders.Add("User-Agent", "rasoster");
+            
+            HttpResponseMessage gitResponse = await httpClient.GetAsync("https://api.github.com/users/karpathy/repos");
+
+            string gitData = await gitResponse.Content.ReadAsStringAsync();
+
+
+            profileViewModel.gitHubRepository = JsonConvert.DeserializeObject<List<GitHubRepository>>(gitData);
+
+
             profileViewModel.profileHasEducation = linkedoutDbContext.ProfileHasEducations.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
             profileViewModel.profileHasExperience = linkedoutDbContext.ProfileHasExperiences.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
 
@@ -77,27 +100,20 @@ namespace netprojektet.Controllers
             foreach (ProfileinProject profileinProject in profileViewModel.profileinProject)
             {
                 List<ProfileinProject> result = (from p in linkedoutDbContext.ProfileinProjects
-                                                  where p.Projectid == profileinProject.Projectid && p.Profileid != profileViewModel.profile.Id
-                                                  select p).ToList();
-                if(result.Count() > 0)
+                                                 where p.Projectid == profileinProject.Projectid && p.Profileid != profileViewModel.profile.Id
+                                                 select p).ToList();
+                if (result.Count() > 0)
                 {
                     foreach (ProfileinProject item in result)
                     {
                         profileViewModel.similarProject.Add(item.Profile);
                     }
                 }
-               
+
             }
-                
 
+            return profileViewModel;
 
-
-
-
-
-
-
-            return View(profileViewModel);
         }
         //public async Task<int> getVisitors(int profileID)
         //{
@@ -115,8 +131,8 @@ namespace netprojektet.Controllers
 
 
 
-    
-        
+
+
         //startar registrera profil formuläret
         [HttpGet]
         public IActionResult RegisterProfile()
@@ -209,6 +225,19 @@ namespace netprojektet.Controllers
             currentProfile.PicUrl = "/Content/Images/" + fileName;
             linkedoutDbContext.Profiles.Update(currentProfile);
             linkedoutDbContext.SaveChanges();
+        }
+        public async Task<IActionResult> CreateXml(int profileid)
+        {
+            string filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "Content");
+            ProfileViewModel model = await fillViewModel(profileid);
+
+            XmlSerializer xmlSerializer= new XmlSerializer(typeof(ProfileViewModel));
+            using (StreamWriter writer = new System.IO.StreamWriter(filePath))
+            {
+                xmlSerializer.Serialize(writer, model);
+            }
+            return RedirectToAction("Profile", new { profileID = profileid });
+
         }
 
 
