@@ -59,8 +59,20 @@ namespace netprojektet.Controllers
             }
             profileViewModel.profileHasEducation = linkedoutDbContext.ProfileHasEducations.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
             profileViewModel.profileHasExperience = linkedoutDbContext.ProfileHasExperiences.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
+
             profileViewModel.profileinProject = linkedoutDbContext.ProfileinProjects.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
+
+
+            List<ProfileinProject> profileinProjects = (from p in linkedoutDbContext.ProfileinProjects
+                                                        join o in linkedoutDbContext.Anvandares on p.Profile.UserName equals o.UserName
+                                                        where p.Profileid == profileViewModel.profile.Id
+                                                        select p).ToList();
+            profileViewModel.profileinProject = (from p in profileinProjects
+                                                 join o in linkedoutDbContext.Anvandares on p.Project.Creator.UserName equals o.UserName
+                                                 where o.LockoutEnabled == false
+                                                 select p).ToList();
             profileViewModel.profileHasCompetence = linkedoutDbContext.ProfileHasCompetences.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
+
 
 
 

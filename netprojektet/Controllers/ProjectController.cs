@@ -28,11 +28,17 @@ namespace netprojektet.Controllers
             model.profiles = linkedoutDbContext.Profiles.ToList();
             if (User.Identity.IsAuthenticated)
             {
-                model.project = linkedoutDbContext.Projects.ToList();
+                model.project = (from p in linkedoutDbContext.Projects
+                                join o in linkedoutDbContext.Anvandares on p.Creator.UserName equals o.UserName
+                                where o.LockoutEnabled== false
+                                select p).ToList();
             }
             else
             {
-                model.project = linkedoutDbContext.Projects.Where(p => p.Creator.Private == false).ToList();
+                model.project = (from p in linkedoutDbContext.Projects
+                                 join o in linkedoutDbContext.Anvandares on p.Creator.UserName equals o.UserName
+                                 where o.LockoutEnabled == false && p.Creator.Private == false
+                                 select p).ToList();
             }
             return View(model);
 

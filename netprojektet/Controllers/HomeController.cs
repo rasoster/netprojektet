@@ -27,21 +27,31 @@ namespace netprojektet.Controllers
             ViewBag.Meddelanden = "Inkorg (" + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + ")";
             var model = new ProfileProjectViewModel();
             //lägger till en lista i viewModel baserat på om profilerna är privata eller inte
-            List<Profile> profileListFull = linkedoutDbContext.Profiles.ToList();
-            List<Profile> profileListLimited = linkedoutDbContext.Profiles.Where(e => e.Private == false).ToList();
+            List<Profile> profiles = new List<Profile>();
+            if (User.Identity.IsAuthenticated)
+            {
+                profiles = (from p in linkedoutDbContext.Profiles
+                                          join o in linkedoutDbContext.Anvandares on p.UserName equals o.UserName
+                                          where o.LockoutEnabled == false
+                                          select p).ToList();
+                                         
+
+            }
+            else
+            {
+                profiles = (from p in linkedoutDbContext.Profiles
+                                          join o in linkedoutDbContext.Anvandares on p.UserName equals o.UserName
+                                          where o.LockoutEnabled == false && p.Private == false
+                                          select p).ToList();
+            }
+            model.profiles = profiles;
             Project projekt = linkedoutDbContext.Projects.Where(e => e.Creator.Private == false).OrderByDescending(e => e.Id).FirstOrDefault();
             //om användaren är inloggad får hen hela listan, annars en begränsad.
             model.senasteProject = projekt;
             model.experiences = linkedoutDbContext.ProfileHasExperiences.ToList();
             model.educations = linkedoutDbContext.ProfileHasEducations.ToList();
             model.profileInProject = linkedoutDbContext.ProfileinProjects.ToList();
-            if (User.Identity.IsAuthenticated)
-            {
-                model.profiles = profileListFull;
-            }
-            else { 
-            model.profiles = profileListLimited;
-            }
+
             return View(model);
         }
       
