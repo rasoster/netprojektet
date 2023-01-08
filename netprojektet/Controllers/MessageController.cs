@@ -114,6 +114,14 @@ namespace netprojektet.Controllers
             return RedirectToAction ("Index", "Home");
 
         }
+        public async Task<IActionResult> DeleteMessage(int itemid)
+        {
+            var response = await httpClient.DeleteAsync($"Message/{itemid}");
+          
+            return RedirectToAction("Message");
+         
+
+        }
 
 
 

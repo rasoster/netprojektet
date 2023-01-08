@@ -15,6 +15,7 @@
                         <tr>
                             <th>Namn</th>
                             <th>Utbildning</th>
+                            <th>Erfarenheter</th>
                             <th>Kompetenser</th>
                             <th>Projekt</th>
 
@@ -25,6 +26,7 @@
                             string educationString = "";
                             string experienceString = "";
                             string projectString = "";
+                            string competenceString = "";
                             <tr>
                                 <td>
                                     <a asp-controller="Profile" asp-action="Profile" asp-route-profileID="@item.Id">@item.FirstName @item.LastName</a>
@@ -48,6 +50,15 @@
 
                                     }
                                 }
+                                @foreach (var competence in Model.competences)
+                        {
+                            if (competence.Profileid == item.Id)
+                            {
+                                competenceString += competence.Competence.Name;
+                                competenceString += ", ";
+
+                            }
+                        }
                                 @foreach (var project in Model.profileInProject)
                                 {
                                     if (project.Profileid == item.Id)
@@ -60,6 +71,7 @@
 
                                 <td><p>@educationString</p></td>
                                 <td><p>@experienceString</p></td>
+                                <td><p>@competenceString</p></td>
                                 <td><p>@projectString</p></td>
 
                             </tr>

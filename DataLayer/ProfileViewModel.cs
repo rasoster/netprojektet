@@ -13,6 +13,12 @@ namespace Models
 
         public List<ProfileHasCompetence> profileHasCompetence { get; set; }
 
+        public List<Profile> similarProject { get; set; } = new List<Profile>();
+        public List<Profile> similarEducation { get; set; }
+
+        public List<Profile> similarCompetence { get; set; }
+        public List<Profile> similarExperience { get; set; }
+
         public List<Project> project { get; set; }
 
         public IFormFile Image { get; set; }

@@ -11,6 +11,9 @@ namespace Models
 
         public List<ProfileHasEducation> educations { get; set; }
         public List<ProfileHasExperience> experiences { get; set; }
+
+        public List<ProfileHasCompetence> competences { get; set; }
+
         public Project senasteProject { get; set; }
 
     }

@@ -74,6 +74,26 @@ namespace netprojektet.Controllers
             profileViewModel.profileHasCompetence = linkedoutDbContext.ProfileHasCompetences.Where(e => e.Profileid == profileViewModel.profile.Id).ToList();
 
 
+            foreach (ProfileinProject profileinProject in profileViewModel.profileinProject)
+            {
+                List<ProfileinProject> result = (from p in linkedoutDbContext.ProfileinProjects
+                                                  where p.Projectid == profileinProject.Projectid && p.Profileid != profileViewModel.profile.Id
+                                                  select p).ToList();
+                if(result.Count() > 0)
+                {
+                    foreach (ProfileinProject item in result)
+                    {
+                        profileViewModel.similarProject.Add(item.Profile);
+                    }
+                }
+               
+            }
+                
+
+
+
+
+
 
 
 

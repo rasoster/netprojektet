@@ -12,6 +12,7 @@
                     <th>Rubrik</th>
                     <th>Innehåll</th>
                     <th>Läst</th>
+                    <th></th>
 
                 
                  </tr>
@@ -54,6 +55,14 @@
 
 
                                 }
+                            </td>
+                            <td>
+
+                                <form asp-action="DeleteMessage" asp-route-itemid="@item.Id">
+
+                                    <button class="btn btn-danger" type="submit"> Radera </button>
+                                </form>
+                            
                             </td>
 
 

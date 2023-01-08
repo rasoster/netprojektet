@@ -50,6 +50,7 @@ namespace netprojektet.Controllers
             model.senasteProject = projekt;
             model.experiences = linkedoutDbContext.ProfileHasExperiences.ToList();
             model.educations = linkedoutDbContext.ProfileHasEducations.ToList();
+            model.competences= linkedoutDbContext.ProfileHasCompetences.ToList();
             model.profileInProject = linkedoutDbContext.ProfileinProjects.ToList();
 
             return View(model);
@@ -60,7 +61,6 @@ namespace netprojektet.Controllers
         {//delar upp alla ord i frågan till en lista.
             string searchQuery = Request.Form["Query"].ToString();
             var searchQuerys = searchQuery.Split(" ");
-            List<Profile> results = new List<Profile>();
             List<Profile> profiles = new List<Profile>();
             //om inget skrivet i sökfältet får man hela sökfältet igen.
             if(searchQuery == null)
@@ -68,66 +68,45 @@ namespace netprojektet.Controllers
                 return RedirectToAction("Index");
             }
             //om frågan innehåller ett ord får man resultat där ordet förekommer i förnamn eller efternamn
-            if(searchQuerys.Length == 1) {
+           
+
+                foreach (var query in searchQuerys)
+                {
+
+                List<Profile> queryResults = linkedoutDbContext.Profiles.Where(p => p.FirstName.Contains(query) || p.LastName.Contains(query)).ToList();
+
+
+                List<Profile> profileCompetence = (from p in linkedoutDbContext.ProfileHasCompetences
+                                                   where p.Competence.Name.Contains(query)
+                                                   select p.Profile).ToList();
+
+                List<Profile> results = queryResults.Union(profileCompetence).ToList();
                 
-                profiles = linkedoutDbContext.Profiles.Where(p => p.FirstName.Contains(searchQuery) || p.LastName.Contains(searchQuery)).ToList();
-
-            }
-            //om frågan innehåller två ord får man resultat där första ordet finns i förnamnet och andra ordet i efternamnet
-            //eller tvärt om att första ordet finns i efternamnet och andra ordet i förnamnet.
-            if(searchQuerys.Length == 2)
-            {
-
-                foreach (var query in searchQuerys)
-                {
-
-                    List<Profile> queryResults = linkedoutDbContext.Profiles.Where(p => p.FirstName.Contains(searchQuerys[0]) && p.LastName.Contains(searchQuerys[1])
-                                                    || p.LastName.Contains(searchQuerys[0]) && p.FirstName.Contains(searchQuerys[1])).ToList();
-
-
-                    foreach (Profile queryProfile in queryResults)
+                    foreach (Profile queryProfile in results)
                     {
                         profiles.Add(queryProfile);
                     }
 
                 }
 
-            }
-            //om det är fler är två ord tar den fram resultat där något av orden finns i antingen förnamn eller efternamn
-            else
-            {
-                foreach (var query in searchQuerys)
-                {
-
-
-                    List<Profile> queryResults = linkedoutDbContext.Profiles
-                             .Where(p => p.FirstName.Contains(query) || p.LastName.Contains(query)).ToList();
-
-                    foreach (Profile queryProfile in queryResults)
-                    {
-                        profiles.Add(queryProfile);
-                    }
-
-                }
-
-            }
-            //dublettkontroll
+            List<Profile> noDupProfiles = new List<Profile>();
             foreach (Profile profile in profiles)
             {
-                if (results.Contains(profile))
+                if (noDupProfiles.Contains(profile))
                 {
 
                 }
                 else
                 {
-                    results.Add(profile);
+                    noDupProfiles.Add(profile);
                 }
             }
+
             List<Profile> filteredList = new List<Profile>();
             if (User.Identity.IsAuthenticated)
             {
-                filteredList = (from r in results
-                               join o in linkedoutDbContext.Anvandares on r.UserName equals o.UserName
+                filteredList = (from r in noDupProfiles
+                                join o in linkedoutDbContext.Anvandares on r.UserName equals o.UserName
                                where o.LockoutEnabled == false
                                select r).ToList();
                                
@@ -135,7 +114,7 @@ namespace netprojektet.Controllers
             }
             else
             {
-               filteredList = (from r in results
+               filteredList = (from r in noDupProfiles
                                join o in linkedoutDbContext.Anvandares on r.UserName equals o.UserName
                                where o.LockoutEnabled == false && r.Private == false
                                select r).ToList();
@@ -146,6 +125,7 @@ namespace netprojektet.Controllers
             profileProjectViewModel.profiles = filteredList;
             profileProjectViewModel.experiences = linkedoutDbContext.ProfileHasExperiences.ToList();
             profileProjectViewModel.educations = linkedoutDbContext.ProfileHasEducations.ToList();
+            profileProjectViewModel.competences = linkedoutDbContext.ProfileHasCompetences.ToList();
             profileProjectViewModel.profileInProject = linkedoutDbContext.ProfileinProjects.ToList();
 
 

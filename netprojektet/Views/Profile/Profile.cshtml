@@ -290,3 +290,33 @@
         </div>
     </div>
 </div>
+<h5>Andra personer som jobbat i projekt med @Model.profile.FirstName:</h5>
+<div class="col-sm-12 mb-3">
+    <table class="table">
+      
+        @{
+
+
+            <tr>
+                <th>Namn</th>
+               
+               
+
+            </tr>
+            foreach(var item in Model.similarProject){
+            <tr>
+
+                    <td>
+               
+                    <a asp-controller="Profile" asp-action="Profile" asp-route-profileID="@item.Id">@item.FirstName @item.LastName</a>
+
+                    </td>
+            
+            </tr>
+            }
+
+        }
+
+    </table>
+    
+</div>
