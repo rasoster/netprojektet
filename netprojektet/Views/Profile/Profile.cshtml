@@ -301,10 +301,11 @@
                         </div>
 
                         @{
-                            string github = "https://github.com/";
+                            
                          
                                 foreach(var item in Model.gitHubRepository)
                             {
+                                string github = "https://github.com/";
                                 github += item.full_name;
                                 <div class="border-bottom">
                                     <small class="d-flex align-items-center mb-0">

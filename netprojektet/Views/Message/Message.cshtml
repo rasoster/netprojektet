@@ -56,9 +56,10 @@
 
                                 }
                             </td>
+                            
                             <td>
 
-                                <form asp-action="DeleteMessage" asp-route-itemid="@item.Id">
+                                <form asp-action="DeletesMessage" asp-route-itemid="@item.Id">
 
                                     <button class="btn btn-danger" type="submit"> Radera </button>
                                 </form>
@@ -76,7 +77,7 @@
                             <td>@item.SenderName</td>
                             <td>@item.Title</td>
                             <td>@item.Content</td>
-
+                            
                             <td>
                                 @{
 
@@ -101,19 +102,19 @@
 
                                     }
 
-
-                                }
+                                    }
+                                
                             </td>
                             <td>
 
-                                <form asp-action="DeleteMessage" asp-route-itemid="@item.Id">
+                                <form asp-action="DeletesMessage"  asp-route-itemid="@item.Id">
 
-                                    <button class="btn btn-danger" type="submit"> Radera </button>
+                                    <button class="btn btn-danger"  type="submit"> Radera </button>
                                 </form>
 
                             </td>
-                           
 
+                               
 
                         </tr>
                     }
@@ -127,10 +128,12 @@
                 
                 
             }
+
             
                    
             
     </div>
     
 </div>
+
 

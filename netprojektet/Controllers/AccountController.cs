@@ -125,7 +125,12 @@ namespace netprojektet.Controllers
                 return RedirectToAction("Index", "Home");
 
                 }
-            
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Felaktigt användarnamn eller lösenord");
+
+                }
+
             }
             return View(loginViewModel);
 

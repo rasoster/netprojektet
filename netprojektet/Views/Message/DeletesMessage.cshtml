@@ -1,0 +1,33 @@
+﻿@model Message
+<h2>Är du säker på att ta bort detta meddelande?</h2>
+<div class="container">
+    <div class="row">
+        <form class="contact-form" asp-action="DeleteMessage">
+            <input asp-for="Id" type="number" hidden />
+
+            <div class="row">
+                <div class="col-md-6 mb-1">
+                    <div class="form-group">
+                        <label>Titel</label>
+                        <input asp-for="Title" type="text" class="form-control" readonly>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-12 mb-1">
+                    <div class="form-group">
+                        <label>Meddelande</label>
+                        <input asp-for="Content" type="text" class="form-control"  readonly>
+
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <button type="submit" class="btn btn-danger pull-right">Ta bort</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

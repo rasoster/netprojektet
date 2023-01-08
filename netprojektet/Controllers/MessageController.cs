@@ -114,16 +114,31 @@ namespace netprojektet.Controllers
             return RedirectToAction ("Index", "Home");
 
         }
-        public async Task<IActionResult> DeleteMessage(int itemid)
+       
+        public async Task<IActionResult> DeletesMessage(int itemid)
         {
-            var response = await httpClient.DeleteAsync($"Message/{itemid}");
-          
+            HttpResponseMessage response = await httpClient.GetAsync($"Message/{itemid}");
+
+            string data = await response.Content.ReadAsStringAsync();
+            var options = new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+            };
+            Message message = JsonSerializer.Deserialize<Message>(data,options);
+
+            return View(message);
+        }
+        
+        public async Task<IActionResult> DeleteMessage(Message message)
+        {
+            var response = await httpClient.DeleteAsync($"Message/{message.Id}");
+
             return RedirectToAction("Message");
-         
+
 
         }
 
 
 
-	}
+    }
 }
