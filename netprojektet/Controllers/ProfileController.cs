@@ -7,20 +7,24 @@ using System.Web;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 using System.Security.Principal;
 using Microsoft.AspNetCore.Authorization;
+using System.Net.Http;
+using System.Text.Json;
 
 namespace netprojektet.Controllers
 {
     public class ProfileController : Controller
     {
         private LinkedoutDbContext linkedoutDbContext;
+        private HttpClient httpClient;
 
-        public ProfileController(LinkedoutDbContext DbContext)
+        public ProfileController(LinkedoutDbContext DbContext, HttpClient httpClient)
         {
             linkedoutDbContext = DbContext;
+            this.httpClient = httpClient;   
         }
         //tar in profilID och tar fram den profil som ska visas.
         [HttpGet]
-        public IActionResult Profile(int profileID)
+        public async Task<IActionResult> Profile(int profileID)
         {
             ViewBag.Meddelanden = "Inkorg (" + linkedoutDbContext.Messages.Where(m => m.RecieverNavigation.UserName == User.Identity.Name && m.Seen == false).Count() + ")";
             Profile profile = linkedoutDbContext.Profiles.Find(profileID);
@@ -36,7 +40,15 @@ namespace netprojektet.Controllers
             {
 
                 profileViewModel.profile = linkedoutDbContext.Profiles.FirstOrDefault(p => p.UserName == User.Identity.Name);
+                HttpResponseMessage response = await httpClient.GetAsync($"Profile/{profileViewModel.profile.Id}");
 
+                string data = await response.Content.ReadAsStringAsync();
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true,
+                };
+                Profile myProfile = JsonSerializer.Deserialize<Profile>(data, options);
+                ViewBag.Visitors = "Du har haft " + myProfile.Visitors + " besökare på din sida";
             }
 
 
@@ -54,6 +66,19 @@ namespace netprojektet.Controllers
 
             return View(profileViewModel);
         }
+        //public async Task<int> getVisitors(int profileID)
+        //{
+        //    HttpResponseMessage response = await httpClient.GetAsync($"Profile/{profileID}");
+
+        //    string data = await response.Content.ReadAsStringAsync();
+        //    var options = new JsonSerializerOptions
+        //    {
+        //        PropertyNameCaseInsensitive = true,
+        //    };
+        //    Profile myProfile = JsonSerializer.Deserialize<Profile>(data, options);
+
+        //    return myProfile.Visitors;
+        //}
 
 
 

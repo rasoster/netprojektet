@@ -103,11 +103,27 @@ namespace netprojektet.Controllers
             //loggar in användare
             if (ModelState.IsValid)
             {
+                
+
+
                 var result = await signInManager.PasswordSignInAsync(loginViewModel.Username, loginViewModel.Password, isPersistent: loginViewModel.RememberMe, lockoutOnFailure: false);
+
+                if (result.IsLockedOut)
+                {
+                    ModelState.AddModelError(string.Empty, "Denna användare är låst, vänligen kontakta administratör");
+                    return View(loginViewModel);
+
+                }
                 
                 if (result.Succeeded) { 
                 return RedirectToAction("Index", "Home");
+
                 }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "Felaktigt användarnamn eller lösenord");
+                }
+
             }
             return View(loginViewModel);
 
@@ -116,6 +132,13 @@ namespace netprojektet.Controllers
         public async Task<IActionResult> LogOut()
         {   //loggar ut användare
             await signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
+        public async Task<IActionResult> DeactivateAccount()
+        {
+            var user = await userManager.FindByNameAsync(User.Identity.Name);
+            var result = await userManager.SetLockoutEnabledAsync(user, true);
+            await LogOut();
             return RedirectToAction("Index", "Home");
         }
 

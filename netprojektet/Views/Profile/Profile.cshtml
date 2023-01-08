@@ -44,6 +44,7 @@
                             }
               
                         }
+
                         
                         <form asp-controller="Message" asp-action="NewMessage" asp-route-profileid="@Model.profile.Id">
                             <button class="btn btn-outline-primary" type="submit"> Skicka meddelande </button>
@@ -52,6 +53,7 @@
                 </div>
             </div>
         </div>
+        <p>@ViewBag.Visitors</p>
        
     </div>
     <div class="col-md-7">
